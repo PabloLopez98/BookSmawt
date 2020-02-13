@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">BookSmawt</string>
+    <string name="terms_of_use_a">By continuing, you agree to BookSmawt\'s</string>
+    <string name="terms_of_use_b">Terms of Use</string>
+    <string name="terms_of_use_c">Privacy Policy</string>
+    <string name="login_button_text">Login</string>
+    <string name="login_header">Login to your Account</string>
+    <string name="booksmawt">BOOKSMAWT</string>
+    <string name="or">OR</string>
+    <string name="login_with_twitter">Login with Twitter</string>
+    <string name="login_with_google">Login with Google</string>
+    <string name="register">Create an Account</string>
+</resources>
