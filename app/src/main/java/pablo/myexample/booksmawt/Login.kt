@@ -1,11 +1,11 @@
 package pablo.myexample.booksmawt
 
 
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-
 
 class Login : AppCompatActivity() {
 
@@ -17,5 +17,8 @@ class Login : AppCompatActivity() {
         window.statusBarColor = Color.TRANSPARENT
     }
 
-    fun toRegister(view: View) {}
+    fun toRegister(view: View) {
+        val i = Intent(this, CreateAccount::class.java)
+        startActivity(i)
+    }
 }
