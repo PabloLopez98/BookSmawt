@@ -4,7 +4,10 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#D81B60</color>
 
-    <color name="myMainColor">#0091EA</color>
+<!--    <color name="myMainColor">#0091EA</color>-->
+    <color name="myMainColor">#FF6D00</color>
     <color name="textViewColor">#5A595A</color>
     <color name="fragmentBkColor">#F5F4F4</color>
+<!--    <color name="myLightColor">#009EFF</color>-->
+    <color name="myLightColor">#FF8024</color>
 </resources>

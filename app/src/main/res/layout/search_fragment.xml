@@ -1,8 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/fragmentBkColor"
     tools:context=".search.SearchFragment">
+
+    <LinearLayout
+        android:background="@color/myMainColor"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingStart="12dp"
+        android:paddingTop="18dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="8dp">
+
+        <ImageButton
+            android:src="@drawable/ic_tune_24px"
+            android:background="@drawable/ripple"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            />
+
+        <LinearLayout
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:backgroundTint="@color/myLightColor"
+            android:background="@drawable/rounded_button"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_marginStart="8dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_search_24px"
+                android:backgroundTint="@android:color/white" />
+
+            <EditText
+                android:layout_marginTop="2dp"
+                android:layout_width="match_parent"
+                android:hint="ISBN# or Title"
+                android:textColorHint="@android:color/white"
+                android:layout_height="40dp"
+                android:layout_marginEnd="8dp"
+                android:textColor="@android:color/white"
+                android:backgroundTint="@color/myLightColor"
+                android:maxLines="1"
+                />
+
+        </LinearLayout>
+
+        <ImageView
+            android:src="@drawable/demo_image_face"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            />
+
+    </LinearLayout>
+
+    <HorizontalScrollView
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <LinearLayout
+            android:layout_margin="12dp"
+            android:paddingEnd="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Literature"
+                android:textStyle="bold"
+                android:textColor="@color/textViewColor"
+                android:background="@drawable/edit_text_border"
+                android:layout_marginEnd="4dp"
+                 />
+
+            <TextView
+                android:padding="10dp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Math"
+                android:textColor="@color/textViewColor"
+                android:background="@drawable/edit_text_border"
+                android:layout_marginEnd="4dp"
+                />
+
+            <TextView
+                android:padding="10dp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Science"
+                android:textColor="@color/textViewColor"
+                android:background="@drawable/edit_text_border"
+                android:layout_marginEnd="4dp"
+                />
+
+            <TextView
+                android:padding="10dp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="English"
+                android:textColor="@color/textViewColor"
+                android:background="@drawable/edit_text_border"
+                android:layout_marginEnd="4dp"
+                />
+
+            <TextView
+                android:padding="10dp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Biology"
+                android:textColor="@color/textViewColor"
+                android:background="@drawable/edit_text_border"
+                android:layout_marginEnd="4dp"
+                />
+
+            <TextView
+                android:padding="10dp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Physics"
+                android:textColor="@color/textViewColor"
+                android:background="@drawable/edit_text_border"
+                />
+
+        </LinearLayout>
+
+
+    </HorizontalScrollView>
+
+    </LinearLayout>
+
+
 </FrameLayout>
