@@ -24,10 +24,19 @@
         android:id="@+id/navigation_search"
         android:name="pablo.myexample.booksmawt.search.SearchFragment"
         android:label="search_fragment"
-        tools:layout="@layout/search_fragment" />
+        tools:layout="@layout/search_fragment" >
+        <action
+            android:id="@+id/action_navigation_search_to_searchFilterFragment"
+            app:destination="@id/searchFilterFragment" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_profile"
         android:name="pablo.myexample.booksmawt.profile.ProfileFragment"
         android:label="profile_fragment"
         tools:layout="@layout/profile_fragment" />
+    <fragment
+        android:id="@+id/searchFilterFragment"
+        android:name="pablo.myexample.booksmawt.searchfilter.SearchFilterFragment"
+        android:label="search_filter_fragment"
+        tools:layout="@layout/search_filter_fragment" />
 </navigation>

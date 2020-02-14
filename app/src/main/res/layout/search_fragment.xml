@@ -23,6 +23,7 @@
             android:paddingBottom="8dp">
 
             <ImageButton
+                android:id="@+id/filter_button"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/ripple"
