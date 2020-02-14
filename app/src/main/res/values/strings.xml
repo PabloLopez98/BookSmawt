@@ -10,4 +10,9 @@
     <string name="login_with_twitter">Login with Twitter</string>
     <string name="login_with_google">Login with Google</string>
     <string name="register">Create an Account</string>
+    <string name="and"><![CDATA[&]]></string>
+    <string name="title_activity_base">Base</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>

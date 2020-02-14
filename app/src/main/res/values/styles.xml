@@ -11,4 +11,5 @@
     <style name="CreateAccountTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:statusBarColor">@color/myMainColor</item>
     </style>
+
 </resources>

@@ -6,5 +6,5 @@
 
     <color name="myMainColor">#0091EA</color>
     <color name="textViewColor">#5A595A</color>
-
+    <color name="fragmentBkColor">#F5F4F4</color>
 </resources>

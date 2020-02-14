@@ -30,8 +30,8 @@
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingStart="40dp"
-        android:paddingEnd="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,14 +50,16 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_email_24px" />
+                android:src="@drawable/ic_email_24px"
+                tools:ignore="ContentDescription" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingLeft="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:paddingBottom="10dp">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -91,7 +93,8 @@
                 android:layout_height="46dp"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingLeft="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:paddingBottom="10dp"
                 app:passwordToggleEnabled="true"
                 app:passwordToggleTint="@android:color/black">
@@ -115,7 +118,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="42dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -171,14 +174,13 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
         android:layout_marginTop="16dp"
+        android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
-        android:layout_marginBottom="16dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/textView10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -186,6 +188,7 @@
 
         <Button
             android:id="@+id/button"
+            android:onClick="Login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -212,21 +215,22 @@
         <com.twitter.sdk.android.core.identity.TwitterLoginButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
             android:backgroundTint="#00acee"
             android:text="@string/login_with_twitter" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:onClick="toRegister"
-            android:padding="8dp"
-            android:text="@string/register"
-            android:textColor="@color/myMainColor"
-            android:textStyle="bold" />
-
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="toRegister"
+        android:text="@string/register"
+        android:textColor="@color/myMainColor"
+        app:layout_constraintBottom_toTopOf="@+id/textView10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -251,7 +255,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" &amp; "
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:text="@string/and"
             android:textColor="@color/textViewColor" />
 
         <TextView

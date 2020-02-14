@@ -9,12 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CreateAccount"
-            android:label="Create Account"
+        <activity
             android:screenOrientation="portrait"
+            android:name=".Base"
             android:theme="@style/CreateAccountTheme"
+            android:label="@string/title_activity_base"/>
+        <activity
+            android:name=".CreateAccount"
+            android:label="Create Account"
             android:parentActivityName=".Login"
-            />
+            android:screenOrientation="portrait"
+            android:theme="@style/CreateAccountTheme" />
         <activity
             android:name=".Login"
             android:screenOrientation="portrait"

@@ -21,4 +21,9 @@ class Login : AppCompatActivity() {
         val i = Intent(this, CreateAccount::class.java)
         startActivity(i)
     }
+
+    fun Login(view: View) {
+        val i = Intent(this, Base::class.java)
+        startActivity(i)
+    }
 }
