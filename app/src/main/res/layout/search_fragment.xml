@@ -52,9 +52,10 @@
                     android:layout_height="40dp"
                     android:layout_marginTop="2dp"
                     android:layout_marginEnd="8dp"
+                    android:inputType="text"
                     android:backgroundTint="@color/myLightColor"
                     android:hint="ISBN# or Title"
-                    android:maxLines="1"
+                    android:singleLine="true"
                     android:textColor="@android:color/white"
                     android:textColorHint="@android:color/white" />
 

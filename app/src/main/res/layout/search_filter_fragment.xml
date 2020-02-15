@@ -3,12 +3,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/white"
     tools:context=".searchfilter.SearchFilterFragment">
 
-    <TextView
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/search_filter_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Search Filter Fragment" />
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/white"
+        >
+
+        <ImageButton
+            android:background="@android:color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_back_24px"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textViewColor"
+            android:text="Search Filter"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+/>
+    </androidx.appcompat.widget.Toolbar>
+
 
 </FrameLayout>
