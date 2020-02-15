@@ -10,4 +10,5 @@
     <color name="fragmentBkColor">#F5F4F4</color>
 <!--    <color name="myLightColor">#009EFF</color>-->
     <color name="myLightColor">#FF8024</color>
+    <color name="search_filter_input">#E4E2E2</color>
 </resources>
