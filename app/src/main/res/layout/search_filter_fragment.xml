@@ -26,6 +26,7 @@
 
         <LinearLayout
             android:id="@+id/editText"
+            android:gravity="center"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:layout_width="match_parent"
@@ -45,18 +46,17 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_near_me_24px"/>
 
-        <EditText
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:maxLines="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
-            android:gravity="center"
-            android:text="Los Angeles, CA"
-            android:textStyle="bold"
-            android:textColor="@color/textViewColor"
-           />
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:backgroundTint="@android:color/transparent"
+                android:singleLine="true"
+                android:text="Los Angeles, CA"
+                android:textAlignment="center"
+                android:textColor="@color/textViewColor"
+                android:textStyle="bold" />
 
             <ImageView
                 android:tint="@color/search_filter_input"
@@ -146,8 +146,8 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:background="@drawable/ripple_two"
                 android:src="@drawable/ic_arrow_back_24px"
                 android:contentDescription="@null" />
@@ -155,6 +155,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="20dp"
                 android:layout_gravity="center"
                 android:text="Search Filter"
                 android:textColor="@color/textViewColor"

@@ -12,7 +12,7 @@
         <activity
             android:screenOrientation="portrait"
             android:name=".Base"
-            android:theme="@style/CreateAccountTheme"
+            android:theme="@style/BaseTheme"
             android:label="@string/title_activity_base"/>
         <activity
             android:name=".CreateAccount"
