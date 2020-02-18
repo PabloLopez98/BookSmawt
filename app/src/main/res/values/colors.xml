@@ -11,4 +11,5 @@
 <!--    <color name="myLightColor">#009EFF</color>-->
     <color name="myLightColor">#FF8024</color>
     <color name="search_filter_input">#E4E2E2</color>
+    <color name="myDarkColor">#B84900</color>
 </resources>

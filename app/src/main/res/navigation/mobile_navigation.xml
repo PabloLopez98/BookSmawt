@@ -30,6 +30,11 @@
             app:destination="@id/searchFilterFragment"
             app:enterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_in_right" />
+        <action
+            android:id="@+id/action_navigation_search_to_bookDetails"
+            app:destination="@id/bookDetails"
+            app:enterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_in_right" />
     </fragment>
     <fragment
         android:id="@+id/navigation_profile"
@@ -41,4 +46,9 @@
         android:name="pablo.myexample.booksmawt.searchfilter.SearchFilterFragment"
         android:label="search_filter_fragment"
         tools:layout="@layout/search_filter_fragment" />
+    <fragment
+        android:id="@+id/bookDetails"
+        android:name="pablo.myexample.booksmawt.BookDetails.BookDetails"
+        android:label="book_details_fragment"
+        tools:layout="@layout/book_details_fragment" />
 </navigation>
