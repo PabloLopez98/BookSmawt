@@ -11,8 +11,8 @@ class CreateAccount : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_account)
-        setSupportActionBar(findViewById(R.id.create_account_toolbar))
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        //setSupportActionBar(findViewById(R.id.create_account_toolbar))
+        //supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     fun backToLogin(view: View) {

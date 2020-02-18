@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,9 +7,6 @@
     android:background="@android:color/white"
     tools:context=".searchfilter.SearchFilterFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/textView2"
@@ -26,9 +23,6 @@
 
         <LinearLayout
             android:id="@+id/editText"
-            android:gravity="center"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginStart="24dp"
@@ -36,15 +30,18 @@
             android:layout_marginEnd="24dp"
             android:background="@drawable/rounded_button"
             android:backgroundTint="@color/search_filter_input"
+            android:gravity="center"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" >
+            app:layout_constraintTop_toBottomOf="@+id/textView2">
 
             <ImageView
-                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_near_me_24px"/>
+                android:layout_gravity="center"
+                android:src="@drawable/ic_near_me_24px" />
 
             <EditText
                 android:layout_width="0dp"
@@ -59,11 +56,11 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:tint="@color/search_filter_input"
-                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_back_24px"/>
+                android:layout_gravity="center"
+                android:src="@drawable/ic_arrow_back_24px"
+                android:tint="@color/search_filter_input" />
 
         </LinearLayout>
 
@@ -84,23 +81,23 @@
             android:id="@+id/search_filter_seekbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:corner_radius="10"
-            app:min_value="50"
-            app:max_value="100"
-            app:gap="0"
-            app:bar_color="@color/search_filter_input"
-            app:bar_highlight_color="@color/myMainColor"
-            app:left_thumb_color="@color/myMainColor"
-            app:right_thumb_color="@color/myMainColor"
-            app:left_thumb_color_pressed="@android:color/holo_orange_light"
-            app:right_thumb_color_pressed="@android:color/holo_orange_light"
-            app:data_type="_integer"
             android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="24dp"
+            app:bar_color="@color/search_filter_input"
+            app:bar_highlight_color="@color/myMainColor"
+            app:corner_radius="10"
+            app:data_type="_integer"
+            app:gap="0"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            app:layout_constraintTop_toBottomOf="@+id/textView3"
+            app:left_thumb_color="@color/myMainColor"
+            app:left_thumb_color_pressed="@android:color/holo_orange_light"
+            app:max_value="100"
+            app:min_value="50"
+            app:right_thumb_color="@color/myMainColor"
+            app:right_thumb_color_pressed="@android:color/holo_orange_light" />
 
         <Button
             android:id="@+id/button3"
@@ -139,27 +136,31 @@
             android:id="@+id/search_filter_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/white"
+            android:background="@color/myMainColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:titleTextColor="@color/textViewColor">
 
             <ImageButton
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:background="@drawable/ripple_two"
-                android:src="@drawable/ic_arrow_back_24px"
-                android:contentDescription="@null" />
+                android:layout_gravity="start"
+                android:tint="@android:color/white"
+                android:background="@drawable/ripple"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_arrow_back_24px" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
                 android:layout_gravity="center"
                 android:text="Search Filter"
-                android:textColor="@color/textViewColor"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -169,24 +170,23 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
-            android:textStyle="bold"
-            android:textSize="18sp"
             android:textColor="@color/textViewColor"
+            android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_filter_seekbar" />
 
         <TextView
             android:id="@+id/maximum"
-            android:textSize="18sp"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:textColor="@color/textViewColor"
+            android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_filter_seekbar" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
