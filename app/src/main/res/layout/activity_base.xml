@@ -25,7 +25,7 @@
         app:itemIconTint="@drawable/bottom_nav_icon_color_selector"
         android:layout_height="56dp"
         android:background="@drawable/bottom_navigation_bk"
-        app:elevation="50dp"
+        app:elevation="20dp"
         app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -19,7 +19,13 @@
         android:id="@+id/navigation_messages"
         android:name="pablo.myexample.booksmawt.messages.MessagesFragment"
         android:label="messages_fragment"
-        tools:layout="@layout/messages_fragment" />
+        tools:layout="@layout/messages_fragment" >
+        <action
+            android:id="@+id/action_navigation_messages_to_chatFragment"
+            app:destination="@id/chatFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_in_right" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_search"
         android:name="pablo.myexample.booksmawt.search.SearchFragment"
@@ -48,7 +54,12 @@
         tools:layout="@layout/search_filter_fragment" />
     <fragment
         android:id="@+id/bookDetails"
-        android:name="pablo.myexample.booksmawt.BookDetails.BookDetails"
+        android:name="pablo.myexample.booksmawt.bookdetails.BookDetailsFragment"
         android:label="book_details_fragment"
         tools:layout="@layout/book_details_fragment" />
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="pablo.myexample.booksmawt.chat.ChatFragment"
+        android:label="chat_fragment"
+        tools:layout="@layout/chat_fragment" />
 </navigation>
