@@ -65,6 +65,7 @@
             android:paddingEnd="8dp">
 
             <ImageView
+                android:tint="@android:color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_email_24px"
@@ -111,6 +112,7 @@
             android:paddingEnd="8dp">
 
             <ImageView
+                android:tint="@android:color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_email_24px"
@@ -157,6 +159,7 @@
             android:paddingEnd="8dp">
 
             <ImageView
+                android:tint="@android:color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_lock_24px" />
@@ -205,6 +208,7 @@
             android:paddingEnd="8dp">
 
             <ImageView
+                android:tint="@android:color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_lock_24px" />
@@ -238,6 +242,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_button"
+            android:backgroundTint="@color/myMainColorTwo"
             android:onClick="backToLogin"
             android:text="Create Account"
             android:textAllCaps="false" />
@@ -251,8 +256,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:textStyle="bold"
             android:text="@string/terms_of_use_a"
-            android:textColor="@color/textViewColor"
+            android:textColor="@android:color/black"
             android:textSize="14sp" />
 
         <LinearLayout
@@ -266,7 +272,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/terms_of_use_b"
-                android:textColor="@android:color/black"
+                android:textColor="@color/myMainColorTwo"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -276,13 +282,14 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
                 android:text="@string/and"
-                android:textColor="@color/textViewColor" />
+                android:textStyle="bold"
+                android:textColor="@android:color/black" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/terms_of_use_c"
-                android:textColor="@android:color/black"
+                android:textColor="@color/myMainColorTwo"
                 android:textStyle="bold" />
         </LinearLayout>
 

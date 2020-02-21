@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context=".Login">
 
     <FrameLayout
@@ -19,19 +20,20 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:alpha="0.07"
+            android:alpha="0.15"
             android:background="@drawable/background_image" />
+
     </FrameLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="40dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,6 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_email_24px"
+                android:tint="@android:color/black"
                 tools:ignore="ContentDescription" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -85,7 +88,8 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_lock_24px" />
+                android:src="@drawable/ic_lock_24px"
+                android:tint="@android:color/black" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/etPasswordLayout"
@@ -130,7 +134,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:tint="@android:color/white"
+            android:tint="@color/myMainColor"
             app:srcCompat="@drawable/ic_iconfinder_book_605510"
             tools:layout_editor_absoluteX="142dp"
             tools:layout_editor_absoluteY="302dp" />
@@ -141,15 +145,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="@string/booksmawt"
-            android:textColor="@android:color/white"
+            android:textColor="@color/myMainColor"
             android:textSize="30sp"
+            android:textStyle="bold"
             tools:layout_editor_absoluteX="142dp"
             tools:layout_editor_absoluteY="444dp" />
 
     </LinearLayout>
 
     <TextView
-        android:textStyle="bold"
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
@@ -157,6 +161,7 @@
         android:text="@string/login_header"
         android:textColor="@android:color/black"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -167,8 +172,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/terms_of_use_a"
-        android:textColor="@color/textViewColor"
+        android:textColor="@android:color/black"
         android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -178,8 +184,8 @@
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="40dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="40dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -189,11 +195,12 @@
 
         <Button
             android:id="@+id/button"
-            android:onClick="Login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:background="@drawable/rounded_button"
+            android:backgroundTint="@color/myMainColorTwo"
+            android:onClick="Login"
             android:text="@string/login_button_text"
             android:textAllCaps="false"
             android:textColor="@android:color/white" />
@@ -204,7 +211,8 @@
             android:layout_gravity="center"
             android:layout_marginBottom="8dp"
             android:text="@string/or"
-            android:textColor="@color/textViewColor" />
+            android:textStyle="bold"
+            android:textColor="@android:color/black" />
 
         <com.shobhitpuri.custombuttons.GoogleSignInButton
             android:layout_width="match_parent"
@@ -226,7 +234,8 @@
         android:layout_height="wrap_content"
         android:onClick="toRegister"
         android:text="@string/register"
-        android:textColor="@color/myMainColor"
+        android:textColor="@color/myMainColorTwo"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textView10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -249,7 +258,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/terms_of_use_b"
-            android:textColor="@android:color/black"
+            android:textColor="@color/myMainColorTwo"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -259,13 +268,14 @@
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
             android:text="@string/and"
-            android:textColor="@color/textViewColor" />
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/terms_of_use_c"
-            android:textColor="@android:color/black"
+            android:textColor="@color/myMainColorTwo"
             android:textStyle="bold" />
 
     </LinearLayout>

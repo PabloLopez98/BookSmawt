@@ -22,7 +22,7 @@
                 android:layout_width="150dp"
                 android:layout_height="200dp"
                 android:layout_marginTop="16dp"
-                app:cardBackgroundColor="@color/myMainColor"
+                app:cardBackgroundColor="@color/fragmentBkColor"
                 app:cardCornerRadius="25dp"
                 app:cardPreventCornerOverlap="false"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -43,7 +43,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:text="Images"
-                android:textColor="@color/textViewColor"
+                android:textColor="@android:color/black"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView2" />
@@ -55,7 +55,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="8dp"
                 android:text="Location: Los Angeles, CA"
-                android:textColor="@color/textViewColor"
+                android:textColor="@android:color/black"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/textView17"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -67,7 +67,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="8dp"
                 android:text="Images"
-                android:textColor="@color/textViewColor"
+                android:textColor="@android:color/black"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/editText6"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -91,7 +91,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="8dp"
                 android:text="ISBN#"
-                android:textColor="@color/textViewColor"
+                android:textColor="@android:color/black"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/editText5"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -145,7 +145,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="8dp"
                 android:text="Price"
-                android:textColor="@color/textViewColor"
+                android:textColor="@android:color/black"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/editText4"
                 app:layout_constraintStart_toStartOf="parent" />
