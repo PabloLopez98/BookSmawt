@@ -12,3 +12,7 @@
 /captures
 .externalNativeBuild
 .cxx
+
+
+# Android
+google-services.json

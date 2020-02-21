@@ -4,25 +4,9 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#D81B60</color>
 
-    <color name="myMainColorTwo">#FFAB00</color>
-
-<!--    <color name="myMainColor">#FF6D00</color>-->
-    <color name="myMainColor">#0188C7</color>
-
-<!--    <color name="textViewColor">#5A595A</color>-->
-
-    <color name="textViewColor">#DFDCE3</color>
-
-    <color name="fragmentBkColor">#F5F4F4</color>
-<!--    <color name="myLightColor">#FF8024</color>-->
-
-<!--    <color name="myLightColor">#FF8024</color>-->
-
-    <color name="myLightColor">#00DCFF</color>
+    <color name="myMainColor">#dd2c00</color>
+    <color name="myMainColorTwo">#ff6434</color>
+    <color name="myDarkColor">#a30000</color>
 
     <color name="search_filter_input">#E4E2E2</color>
-<!--    <color name="myDarkColor">#B84900</color>-->
-
-    <color name="myDarkColor">#105E9C</color>
-
 </resources>

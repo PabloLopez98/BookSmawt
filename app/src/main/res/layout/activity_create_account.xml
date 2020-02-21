@@ -256,7 +256,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textStyle="bold"
             android:text="@string/terms_of_use_a"
             android:textColor="@android:color/black"
             android:textSize="14sp" />
@@ -282,7 +281,6 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
                 android:text="@string/and"
-                android:textStyle="bold"
                 android:textColor="@android:color/black" />
 
             <TextView
