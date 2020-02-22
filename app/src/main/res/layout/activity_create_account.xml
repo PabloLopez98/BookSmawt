@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
+    android:id="@+id/create_account_layout"
     android:orientation="vertical"
     tools:context=".CreateAccount">
 
@@ -16,6 +17,8 @@
         android:background="@color/myMainColor">
 
         <ImageButton
+            android:id="@+id/create_account_back_button"
+            android:onClick="backToLogin"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:background="@drawable/ripple"
@@ -81,6 +84,7 @@
                 android:paddingBottom="10dp">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/username_input"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
@@ -128,6 +132,7 @@
                 android:paddingBottom="10dp">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/email_input"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
@@ -177,6 +182,7 @@
                 app:passwordToggleTint="@android:color/black">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/password_input_one"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
@@ -225,6 +231,7 @@
                 app:passwordToggleTint="@android:color/black">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/password_input_two"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
@@ -243,7 +250,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_button"
             android:backgroundTint="@color/myMainColorTwo"
-            android:onClick="backToLogin"
+            android:onClick="checkEmptyFields"
             android:text="Create Account"
             android:textAllCaps="false" />
 
