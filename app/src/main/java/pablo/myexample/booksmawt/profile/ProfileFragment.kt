@@ -8,6 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import pablo.myexample.booksmawt.Login
 
@@ -33,13 +37,22 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
         signOutButton = view.findViewById(R.id.sign_out_button)
         signOutButton.setOnClickListener {
+            GoogleSignIn.getClient(this.context!!, gso).signOut()
             FirebaseAuth.getInstance().signOut()
-            val i = Intent(activity!!, Login::class.java)
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            startActivity(i)
+            Logout()
         }
+    }
+
+    private fun Logout() {
+        val i = Intent(activity!!, Login::class.java)
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(i)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

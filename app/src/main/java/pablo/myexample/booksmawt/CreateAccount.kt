@@ -100,7 +100,7 @@ class CreateAccount : AppCompatActivity() {
     private fun updateDatabase(view: View){
         val profile = Profile(usernameET.text.toString(), "Los Angeles, CA", "empty")
         val id: String = mAuth.currentUser?.uid.toString()
-        val mRef = FirebaseDatabase.getInstance().getReference().child("Users").child(id).child("Profile")
+        val mRef = FirebaseDatabase.getInstance().reference.child("Users").child(id).child("Profile")
         mRef.setValue(profile)
         snackBar("Account Created! Redirecting to Login Screen.")
         Timer().schedule(3000) {
