@@ -66,6 +66,7 @@
                 android:paddingBottom="10dp">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/login_email_input"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
@@ -104,6 +105,7 @@
                 app:passwordToggleTint="@android:color/black">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/login_password_input"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
@@ -199,7 +201,7 @@
             android:layout_marginBottom="8dp"
             android:background="@drawable/rounded_button"
             android:backgroundTint="@color/myMainColorTwo"
-            android:onClick="Login"
+            android:onClick="checkEmptyFields"
             android:text="@string/login_button_text"
             android:textAllCaps="false"
             android:textColor="@android:color/white" />
@@ -214,6 +216,8 @@
             android:textStyle="bold" />
 
         <com.shobhitpuri.custombuttons.GoogleSignInButton
+            android:id="@+id/google_login_button"
+            android:onClick="googleLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
@@ -221,6 +225,8 @@
             app:isDarkTheme="true" />
 
         <com.twitter.sdk.android.core.identity.TwitterLoginButton
+            android:id="@+id/twitter_login_button"
+            android:onClick="twitterLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#00acee"

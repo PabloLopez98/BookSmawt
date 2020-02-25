@@ -136,7 +136,7 @@
             android:layout_marginTop="32dp"
             android:textColor="@android:color/white"
             android:background="@drawable/rounded_button"
-            android:id="@+id/button5"
+            android:id="@+id/sign_out_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Logout" />

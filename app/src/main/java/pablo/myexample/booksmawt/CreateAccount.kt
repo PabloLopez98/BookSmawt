@@ -11,7 +11,10 @@ import android.widget.EditText
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_create_account.*
+import java.util.*
+import kotlin.concurrent.schedule
 
 class CreateAccount : AppCompatActivity() {
 
@@ -20,6 +23,13 @@ class CreateAccount : AppCompatActivity() {
     private lateinit var passwordET: EditText
     private lateinit var confirmPasswordET: EditText
     private lateinit var mAuth: FirebaseAuth
+
+    private fun snackBar(str: String){
+        Snackbar.make(
+            create_account_layout,
+            str,
+            Snackbar.LENGTH_LONG).show()
+    }
 
     fun backToLogin(view: View) {
         val i = Intent(this, Login::class.java)
@@ -43,40 +53,20 @@ class CreateAccount : AppCompatActivity() {
 
     fun checkEmptyFields(view: View) {
         when {
-            TextUtils.isEmpty(usernameET.text.toString()) -> Snackbar.make(
-                create_account_layout,
-                "Username is empty",
-                Snackbar.LENGTH_LONG
-            ).show()
-            TextUtils.isEmpty(emailET.text.toString()) -> Snackbar.make(
-                create_account_layout,
-                "Email is empty",
-                Snackbar.LENGTH_LONG
-            ).show()
-            TextUtils.isEmpty(passwordET.text.toString()) -> Snackbar.make(
-                create_account_layout,
-                "Password is empty",
-                Snackbar.LENGTH_LONG
-            ).show()
-            TextUtils.isEmpty(confirmPasswordET.text.toString()) -> Snackbar.make(
-                create_account_layout,
-                "Confirm Password is empty",
-                Snackbar.LENGTH_LONG
-            ).show()
+            TextUtils.isEmpty(usernameET.text.toString()) -> snackBar("Username is empty")
+            TextUtils.isEmpty(emailET.text.toString()) -> snackBar("Email is empty")
+            TextUtils.isEmpty(passwordET.text.toString()) -> snackBar("Password is empty")
+            TextUtils.isEmpty(confirmPasswordET.text.toString()) -> snackBar("Confirm Password is empty")
             else -> {
                 checkPasswordLength(view)
             }
         }
     }
 
-    fun checkPasswordLength(view: View) {
+    private fun checkPasswordLength(view: View) {
         when {
             passwordET.length() < 6 -> {
-                Snackbar.make(
-                    create_account_layout,
-                    "Password is less than 6 characters",
-                    Snackbar.LENGTH_LONG
-                ).show()
+                snackBar("Password is less than 6 characters")
             }
             else -> {
                 checkPasswordConfirmation(view)
@@ -84,35 +74,37 @@ class CreateAccount : AppCompatActivity() {
         }
     }
 
-    fun checkPasswordConfirmation(view: View) {
+    private fun checkPasswordConfirmation(view: View) {
         when {
             passwordET.text.toString().contentEquals(confirmPasswordET.text.toString()) -> {
                 createAccount(view)
             }
             else -> {
-                Snackbar.make(
-                    create_account_layout,
-                    "Password not confirmed correctly",
-                    Snackbar.LENGTH_LONG
-                ).show()
+                snackBar("Password not confirmed correctly")
             }
         }
     }
 
-    fun createAccount(view: View) {
+    private fun createAccount(view: View) {
         mAuth.createUserWithEmailAndPassword(emailET.text.toString(), passwordET.text.toString())
             .addOnCompleteListener(this) { task ->
                 when {
-                    task.isSuccessful -> true//update profile in database
-                    // val userId = mAuth.currentUser!!.uid
-                    //update user profile information
-                    //val currentUserDb = mDatabaseReference!!.child(userId)
-                    //currentUserDb.child("firstName").setValue(firstName)
-                    //currentUserDb.child("lastName").setValue(lastName)
+                    task.isSuccessful -> updateDatabase(view)
                     else -> {
-                        // If sign in fails, display a message to the user.
+                         snackBar(task.exception.toString())
                     }
                 }
             }
+    }
+
+    private fun updateDatabase(view: View){
+        val profile = Profile(usernameET.text.toString(), "Los Angeles, CA", "empty")
+        val id: String = mAuth.currentUser?.uid.toString()
+        val mRef = FirebaseDatabase.getInstance().getReference().child("Users").child(id).child("Profile")
+        mRef.setValue(profile)
+        snackBar("Account Created! Redirecting to Login Screen.")
+        Timer().schedule(3000) {
+            backToLogin(view)
+        }
     }
 }
