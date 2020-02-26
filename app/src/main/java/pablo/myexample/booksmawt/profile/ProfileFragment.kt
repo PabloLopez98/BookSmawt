@@ -13,6 +13,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.TwitterAuthProvider
+import com.twitter.sdk.android.core.TwitterCore
 import pablo.myexample.booksmawt.Login
 
 import pablo.myexample.booksmawt.R
@@ -60,5 +62,4 @@ class ProfileFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
         // TODO: Use the ViewModel
     }
-
 }

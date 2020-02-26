@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import androidx.annotation.NonNull
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -18,11 +19,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseError
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.OAuthProvider
 import com.google.firebase.database.*
+import com.twitter.sdk.android.core.TwitterConfig
+import com.twitter.sdk.android.core.TwitterSession
 import kotlinx.android.synthetic.main.activity_create_account.*
 import kotlinx.android.synthetic.main.activity_login.*
 import java.util.*
@@ -33,17 +39,38 @@ class Login : AppCompatActivity() {
     private lateinit var emailET: EditText
     private lateinit var passwordET: EditText
     private lateinit var mAuth: FirebaseAuth
-    private lateinit var googleButton: Button
-    private lateinit var twitterButton: Button
+    //Twitter Sign In
+    private lateinit var provider: OAuthProvider
+    //Google Sign In
     private lateinit var gso: GoogleSignInOptions
     private lateinit var googleSignInClient: GoogleSignInClient
     private val RC_LOGIN: Int = 9001
 
+    private fun snackBar(str: String) {
+        Snackbar.make(
+            login_layout,
+            str,
+            Snackbar.LENGTH_LONG
+        ).show()
+    }
+
+    //Twitter sign in button's onClick
+    fun twitterLogin(view: View) {
+        mAuth.startActivityForSignInWithProvider(this, provider).addOnSuccessListener{
+            authResult ->  Log.i("CHECKTHIS", "$authResult")
+        }.addOnFailureListener{
+            exception -> Log.i("CHECKTHIS", exception.localizedMessage)
+        }
+
+    }
+
+    //Google sign in button's onClick
     fun googleLogin(view: View) {
         val signInIntent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_LOGIN)
     }
 
+    //after googleLogin
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_LOGIN) {
@@ -59,6 +86,7 @@ class Login : AppCompatActivity() {
         }
     }
 
+    //after onActivityResult
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
         mAuth.signInWithCredential(credential)
@@ -93,24 +121,19 @@ class Login : AppCompatActivity() {
             }
     }
 
-    fun twitterLogin(view: View) {
-
-    }
-
-    private fun snackBar(str: String) {
-        Snackbar.make(
-            login_layout,
-            str,
-            Snackbar.LENGTH_LONG
-        ).show()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_login)
+        initialize()
     }
 
     private fun initialize() {
         emailET = findViewById(R.id.login_email_input)
         passwordET = findViewById(R.id.login_password_input)
         mAuth = FirebaseAuth.getInstance()
-        googleButton = findViewById(R.id.google_login_button)
-        twitterButton = findViewById(R.id.twitter_login_button)
+        //Twitter Sign In
+        provider = OAuthProvider.newBuilder("twitter.com", mAuth).build()
+        //Google Sign In
         gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
@@ -118,12 +141,7 @@ class Login : AppCompatActivity() {
         googleSignInClient = GoogleSignIn.getClient(this, gso)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-        initialize()
-    }
-
+    //Login Button's onClick
     fun checkEmptyFields(view: View) {
         when {
             TextUtils.isEmpty(emailET.text.toString()) -> snackBar("Email is empty")
@@ -134,6 +152,7 @@ class Login : AppCompatActivity() {
         }
     }
 
+    //after checkEmptyFields
     private fun signInProcess() {
         mAuth.signInWithEmailAndPassword(emailET.text.toString(), passwordET.text.toString())
             .addOnCompleteListener(this) { task ->
@@ -146,14 +165,15 @@ class Login : AppCompatActivity() {
             }
     }
 
-    fun toRegister(view: View) {
-        val i = Intent(this, CreateAccount::class.java)
-        startActivity(i)
-    }
-
+    //after signInProcess
     private fun Login() {
         val i = Intent(this, Base::class.java)
         startActivity(i)
         finish()
+    }
+
+    fun toRegister(view: View) {
+        val i = Intent(this, CreateAccount::class.java)
+        startActivity(i)
     }
 }
