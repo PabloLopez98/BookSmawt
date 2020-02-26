@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:id="@+id/login_layout"
     tools:context=".Login">
 
     <!--<FrameLayout
@@ -218,20 +218,39 @@
 
         <com.shobhitpuri.custombuttons.GoogleSignInButton
             android:id="@+id/google_login_button"
-            android:onClick="googleLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
+            android:onClick="googleLogin"
             android:text="@string/login_with_google"
             app:isDarkTheme="true" />
 
-        <com.twitter.sdk.android.core.identity.TwitterLoginButton
-            android:id="@+id/twitter_login_button"
-            android:onClick="twitterLogin"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#00acee"
-            android:text="@string/login_with_twitter" />
+            android:layout_height="wrap_content">
+
+            <com.twitter.sdk.android.core.identity.TwitterLoginButton
+                android:id="@+id/twitter_login_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#00acee"
+                android:text="@string/login_with_twitter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:background="@android:color/transparent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:onClick="twitterLogin"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 
@@ -241,8 +260,8 @@
         android:onClick="toRegister"
         android:text="@string/register"
         android:textColor="@color/myMainColorTwo"
-        android:textStyle="bold"
         android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textView10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -275,8 +294,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
             android:text="@string/and"
-            android:textColor="@android:color/black"
-            android:textStyle="bold" />
+            android:textColor="@android:color/black" />
 
         <TextView
             android:layout_width="wrap_content"

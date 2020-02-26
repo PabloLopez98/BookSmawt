@@ -29,6 +29,7 @@ import com.google.firebase.auth.OAuthProvider
 import com.google.firebase.database.*
 import com.twitter.sdk.android.core.TwitterConfig
 import com.twitter.sdk.android.core.TwitterSession
+import com.twitter.sdk.android.core.identity.TwitterLoginButton
 import kotlinx.android.synthetic.main.activity_create_account.*
 import kotlinx.android.synthetic.main.activity_login.*
 import java.util.*
@@ -56,12 +57,34 @@ class Login : AppCompatActivity() {
 
     //Twitter sign in button's onClick
     fun twitterLogin(view: View) {
-        mAuth.startActivityForSignInWithProvider(this, provider).addOnSuccessListener{
-            authResult ->  Log.i("CHECKTHIS", "$authResult")
-        }.addOnFailureListener{
-            exception -> Log.i("CHECKTHIS", exception.localizedMessage)
-        }
+        mAuth.startActivityForSignInWithProvider(this, provider)
+            .addOnSuccessListener { authResult ->
+                val name: String = authResult.user?.displayName ?: "No Name"
+                val uid = mAuth.currentUser?.uid.toString()
+                val dbRef = FirebaseDatabase.getInstance().reference.child("Users").child(uid)
+                dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(snapshotError: DatabaseError) {
+                    }
 
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        when {
+                            snapshot.exists() -> {
+                                Login()
+                            }
+                            else -> {
+                                val profile = Profile(name, "Los Angeles, CA", "empty")
+                                dbRef.child("Profile").setValue(profile)
+                                snackBar("Logging In...")
+                                Timer().schedule(2000) {
+                                    Login()
+                                }
+                            }
+                        }
+                    }
+                })
+            }.addOnFailureListener { exception ->
+                snackBar(exception.localizedMessage.toString())
+            }
     }
 
     //Google sign in button's onClick
