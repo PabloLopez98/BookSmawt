@@ -1,5 +1,7 @@
 package pablo.myexample.booksmawt.searchfilter
 
+import android.location.Geocoder
+import android.location.Location
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,6 +15,8 @@ import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
 import kotlinx.android.synthetic.main.activity_base.*
 
 import pablo.myexample.booksmawt.R
+import java.util.*
+import kotlin.collections.ArrayList
 
 class SearchFilterFragment : Fragment() {
 
@@ -33,6 +37,7 @@ class SearchFilterFragment : Fragment() {
             minTv.text = minValue.toString()
             maxTv.text = maxValue.toString()
         }
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
