@@ -12,6 +12,8 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.annotation.NonNull
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.widget.ContentLoadingProgressBar
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -40,6 +42,7 @@ class Login : AppCompatActivity() {
     private lateinit var emailET: EditText
     private lateinit var passwordET: EditText
     private lateinit var mAuth: FirebaseAuth
+    private lateinit var layout: ConstraintLayout
     //Twitter Sign In
     private lateinit var provider: OAuthProvider
     //Google Sign In
@@ -59,16 +62,19 @@ class Login : AppCompatActivity() {
     fun twitterLogin(view: View) {
         mAuth.startActivityForSignInWithProvider(this, provider)
             .addOnSuccessListener { authResult ->
+                layout.visibility = View.VISIBLE
                 val name: String = authResult.user?.displayName ?: "No Name"
                 val uid = mAuth.currentUser?.uid.toString()
                 val dbRef = FirebaseDatabase.getInstance().reference.child("Users").child(uid)
                 dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onCancelled(snapshotError: DatabaseError) {
+                        layout.visibility = View.INVISIBLE
                     }
 
                     override fun onDataChange(snapshot: DataSnapshot) {
                         when {
                             snapshot.exists() -> {
+                                layout.visibility = View.INVISIBLE
                                 Login()
                             }
                             else -> {
@@ -76,6 +82,7 @@ class Login : AppCompatActivity() {
                                 dbRef.child("Profile").setValue(profile)
                                 snackBar("Logging In...")
                                 Timer().schedule(2000) {
+                                    layout.visibility = View.INVISIBLE
                                     Login()
                                 }
                             }
@@ -83,6 +90,7 @@ class Login : AppCompatActivity() {
                     }
                 })
             }.addOnFailureListener { exception ->
+                layout.visibility = View.INVISIBLE
                 snackBar(exception.localizedMessage.toString())
             }
     }
@@ -115,6 +123,8 @@ class Login : AppCompatActivity() {
         mAuth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+                    layout.visibility = View.VISIBLE
+                    //progress circle here
                     val name = acct.displayName ?: "No Name"
                     val uid = mAuth.currentUser?.uid.toString()
                     val dbRef = FirebaseDatabase.getInstance().reference.child("Users").child(uid)
@@ -125,13 +135,14 @@ class Login : AppCompatActivity() {
                         override fun onDataChange(snapshot: DataSnapshot) {
                             when {
                                 snapshot.exists() -> {
+                                    layout.visibility = View.INVISIBLE
                                     Login()
                                 }
                                 else -> {
                                     val profile = Profile(name, "Los Angeles, CA", "empty")
                                     dbRef.child("Profile").setValue(profile)
-                                    snackBar("Logging In...")
                                     Timer().schedule(2000) {
+                                        layout.visibility = View.INVISIBLE
                                         Login()
                                     }
                                 }
@@ -151,6 +162,7 @@ class Login : AppCompatActivity() {
     }
 
     private fun initialize() {
+        layout = findViewById(R.id.progress_circle)
         emailET = findViewById(R.id.login_email_input)
         passwordET = findViewById(R.id.login_password_input)
         mAuth = FirebaseAuth.getInstance()
@@ -177,11 +189,16 @@ class Login : AppCompatActivity() {
 
     //after checkEmptyFields
     private fun signInProcess() {
+        layout.visibility = View.VISIBLE
         mAuth.signInWithEmailAndPassword(emailET.text.toString(), passwordET.text.toString())
             .addOnCompleteListener(this) { task ->
                 when {
-                    task.isSuccessful -> Login()
+                    task.isSuccessful -> {
+                        layout.visibility = View.INVISIBLE
+                        Login()
+                    }
                     else -> {
+                        layout.visibility = View.INVISIBLE
                         snackBar(task.exception.toString())
                     }
                 }
