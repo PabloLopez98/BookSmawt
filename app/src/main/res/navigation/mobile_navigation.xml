@@ -83,5 +83,10 @@
         android:id="@+id/editProfile"
         android:name="pablo.myexample.booksmawt.editprofile.EditProfile"
         android:label="EditProfile" >
+        <action
+            android:id="@+id/action_editProfile_to_navigation_profile"
+            app:destination="@id/navigation_profile"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_in_left" />
     </fragment>
 </navigation>

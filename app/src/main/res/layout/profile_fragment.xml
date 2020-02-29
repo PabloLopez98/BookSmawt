@@ -58,9 +58,10 @@
                 app:cardPreventCornerOverlap="false">
 
                 <ImageView
+                    android:id="@+id/image_view_t"
                     android:layout_width="180dp"
                     android:layout_height="180dp"
-                    android:src="@drawable/demo_image_face" />
+                    android:src="@android:drawable/ic_menu_gallery" />
 
             </androidx.cardview.widget.CardView>
 

@@ -18,6 +18,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.TwitterAuthProvider
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.squareup.picasso.Picasso
 import com.twitter.sdk.android.core.TwitterCore
 import com.twitter.sdk.android.core.TwitterSession
 import kotlinx.android.synthetic.main.activity_base.*
@@ -31,16 +36,17 @@ import kotlin.math.sign
 
 class ProfileFragment : Fragment() {
 
+    private lateinit var url: String
+    private lateinit var userId: String
     private lateinit var binding: ProfileFragmentBinding
-    private lateinit var profile: Profile
     private lateinit var model: Communicator
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        userId = FirebaseAuth.getInstance().currentUser!!.uid
+        loadData()
         model = ViewModelProvider(activity!!).get(Communicator::class.java)
-        profile = Profile("Paul Lopez", "LA", "null")
         binding.apply {
-            profileObj = profile
             editProfileButton.setOnClickListener {
                 toEditProfile()
             }
@@ -60,7 +66,8 @@ class ProfileFragment : Fragment() {
     }
 
     private fun toEditProfile() {
-        model.passProfileObj(profile)
+        val profile = Profile(binding.profileName.text.toString(), binding.profileLocation.text.toString(), url)
+        model.passProfileObj(profile as Profile)
         activity!!.bottom_nav_view.visibility = View.INVISIBLE
         view!!.findNavController().navigate(R.id.action_navigation_profile_to_editProfile)
     }
@@ -78,4 +85,32 @@ class ProfileFragment : Fragment() {
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(i)
     }
+
+    private fun loadData() {
+        val mRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId)
+            .child("Profile")
+        mRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(snapshotError: DatabaseError) {
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                when {
+                    snapshot.exists() -> {
+                        binding.profileObj = snapshot.getValue(Profile::class.java)
+                        val profile: Profile = snapshot.getValue(Profile::class.java)!!
+                        url = profile.url
+                        when {
+                            url.contentEquals("empty") -> {
+                            }
+                            else -> {
+                                Picasso.get().load("http://i.imgur.com/DvpvklR.png")//url
+                                    .into(binding.imageViewT)
+                            }
+                        }
+                    }
+                }
+            }
+        })
+    }
 }
+
