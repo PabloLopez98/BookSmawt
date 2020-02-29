@@ -52,7 +52,13 @@
         android:id="@+id/navigation_profile"
         android:name="pablo.myexample.booksmawt.profile.ProfileFragment"
         android:label="profile_fragment"
-        tools:layout="@layout/profile_fragment" />
+        tools:layout="@layout/profile_fragment" >
+        <action
+            android:id="@+id/action_navigation_profile_to_editProfile"
+            app:destination="@id/editProfile"
+            app:enterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_in_right" />
+    </fragment>
     <fragment
         android:id="@+id/searchFilterFragment"
         android:name="pablo.myexample.booksmawt.searchfilter.SearchFilterFragment"
@@ -73,4 +79,9 @@
         android:name="pablo.myexample.booksmawt.addedbook.AddedBookFragment"
         android:label="added_book_fragment"
         tools:layout="@layout/added_book_fragment" />
+    <fragment
+        android:id="@+id/editProfile"
+        android:name="pablo.myexample.booksmawt.editprofile.EditProfile"
+        android:label="EditProfile" >
+    </fragment>
 </navigation>
