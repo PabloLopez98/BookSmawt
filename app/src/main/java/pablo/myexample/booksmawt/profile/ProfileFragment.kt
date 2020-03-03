@@ -66,7 +66,11 @@ class ProfileFragment : Fragment() {
     }
 
     private fun toEditProfile() {
-        val profile = Profile(binding.profileName.text.toString(), binding.profileLocation.text.toString(), url)
+        val profile = Profile(
+            binding.profileName.text.toString(),
+            binding.profileLocation.text.toString(),
+            url
+        )
         model.passProfileObj(profile as Profile)
         activity!!.bottom_nav_view.visibility = View.INVISIBLE
         view!!.findNavController().navigate(R.id.action_navigation_profile_to_editProfile)
@@ -100,7 +104,8 @@ class ProfileFragment : Fragment() {
                         val profile: Profile = snapshot.getValue(Profile::class.java)!!
                         url = profile.url
                         when {
-                            url.contentEquals("empty") -> {}
+                            url.contentEquals("empty") -> {
+                            }
                             else -> {
                                 Picasso.get().load(url)
                                     .into(binding.imageViewT)
