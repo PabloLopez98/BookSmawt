@@ -100,10 +100,9 @@ class ProfileFragment : Fragment() {
                         val profile: Profile = snapshot.getValue(Profile::class.java)!!
                         url = profile.url
                         when {
-                            url.contentEquals("empty") -> {
-                            }
+                            url.contentEquals("empty") -> {}
                             else -> {
-                                Picasso.get().load("http://i.imgur.com/DvpvklR.png")//url
+                                Picasso.get().load(url)
                                     .into(binding.imageViewT)
                             }
                         }
