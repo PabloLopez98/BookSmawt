@@ -24,11 +24,12 @@ class CreateAccount : AppCompatActivity() {
     private lateinit var confirmPasswordET: EditText
     private lateinit var mAuth: FirebaseAuth
 
-    private fun snackBar(str: String){
+    private fun snackBar(str: String) {
         Snackbar.make(
             create_account_layout,
             str,
-            Snackbar.LENGTH_LONG).show()
+            Snackbar.LENGTH_LONG
+        ).show()
     }
 
     fun backToLogin(view: View) {
@@ -91,16 +92,17 @@ class CreateAccount : AppCompatActivity() {
                 when {
                     task.isSuccessful -> updateDatabase(view)
                     else -> {
-                         snackBar(task.exception.toString())
+                        snackBar(task.exception.toString())
                     }
                 }
             }
     }
 
-    private fun updateDatabase(view: View){
+    private fun updateDatabase(view: View) {
         val profile = Profile(usernameET.text.toString(), "Los Angeles, CA", "empty")
         val id: String = mAuth.currentUser?.uid.toString()
-        val mRef = FirebaseDatabase.getInstance().reference.child("Users").child(id).child("Profile")
+        val mRef =
+            FirebaseDatabase.getInstance().reference.child("Users").child(id).child("Profile")
         mRef.setValue(profile)
         snackBar("Account Created! Redirecting to Login Screen.")
         Timer().schedule(3000) {

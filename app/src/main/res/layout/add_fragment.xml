@@ -8,13 +8,14 @@
     </data>
 
     <ScrollView
-        android:scrollbars="none"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
+        android:scrollbars="none"
         tools:context=".ui.add.AddFragment">
 
         <LinearLayout
+            android:id="@+id/add_fragment_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -49,9 +50,9 @@
                 android:textSize="18sp" />
 
             <View
-                android:background="@color/myMainColor"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+                android:layout_height="1dp"
+                android:background="@color/myMainColor" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -84,6 +85,7 @@
                         app:cardPreventCornerOverlap="false">
 
                         <ImageView
+                            android:id="@+id/image_one"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
 
@@ -99,6 +101,7 @@
                         app:cardPreventCornerOverlap="false">
 
                         <ImageView
+                            android:id="@+id/image_two"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
 
@@ -115,6 +118,7 @@
                         app:cardPreventCornerOverlap="false">
 
                         <ImageView
+                            android:id="@+id/image_three"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
 
@@ -135,22 +139,22 @@
                 android:textSize="18sp" />
 
             <EditText
+                android:id="@+id/details_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
-                android:textColorHint="@android:color/black"
                 android:backgroundTint="@color/myMainColorTwo"
                 android:hint="Condition of the book, etc."
                 android:inputType="textMultiLine"
                 android:maxLines="15"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
-                android:textColor="@android:color/black" />
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/black" />
 
             <TextView
-                android:id="@+id/textView16"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -160,7 +164,8 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/editText5"
+                android:id="@+id/isbn_et"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
@@ -182,7 +187,8 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/editText4"
+                android:id="@+id/price_et"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
@@ -203,6 +209,7 @@
                 android:textSize="18sp" />
 
             <EditText
+                android:id="@+id/title_et"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
@@ -223,6 +230,7 @@
                 android:textSize="18sp" />
 
             <EditText
+                android:id="@+id/author_et"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
@@ -234,7 +242,7 @@
                 android:textColor="@android:color/black" />
 
             <Button
-                android:id="@+id/button8"
+                android:id="@+id/upload_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"

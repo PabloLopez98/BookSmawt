@@ -84,98 +84,48 @@
 
         </LinearLayout>
 
-        <HorizontalScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="12dp"
             android:elevation="4dp"
-            android:scrollbars="none">
+            android:orientation="horizontal"
+            android:paddingEnd="20dp">
 
-            <LinearLayout
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:orientation="horizontal"
-                android:paddingEnd="20dp">
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/edit_text_border"
+                android:backgroundTint="@android:color/white"
+                android:padding="10dp"
+                android:text="Literature"
+                android:textColor="@color/myMainColor"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
-                    android:background="@drawable/edit_text_border"
-                    android:backgroundTint="@android:color/white"
-                    android:padding="10dp"
-                    android:text="Literature"
-                    android:textColor="@color/myMainColor"
-                    android:textStyle="bold" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/edit_text_border"
+                android:backgroundTint="@android:color/white"
+                android:padding="10dp"
+                android:text="$13 - $17"
+                android:textColor="@color/myMainColor"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
-                    android:background="@drawable/edit_text_border"
-                    android:backgroundTint="@android:color/white"
-                    android:padding="10dp"
-                    android:text="Math"
-                    android:textColor="@color/myMainColor"
-                    android:textStyle="bold" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/edit_text_border"
+                android:backgroundTint="@android:color/white"
+                android:padding="10dp"
+                android:text="Los Angeles"
+                android:textColor="@color/myMainColor"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
-                    android:background="@drawable/edit_text_border"
-                    android:backgroundTint="@android:color/white"
-                    android:padding="10dp"
-                    android:text="Science"
-                    android:textColor="@color/myMainColor"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
-                    android:background="@drawable/edit_text_border"
-                    android:backgroundTint="@android:color/white"
-                    android:padding="10dp"
-                    android:text="English"
-                    android:textColor="@color/myMainColor"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
-                    android:background="@drawable/edit_text_border"
-                    android:backgroundTint="@android:color/white"
-                    android:padding="10dp"
-                    android:text="Biology"
-                    android:textColor="@color/myMainColor"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/edit_text_border"
-                    android:backgroundTint="@android:color/white"
-                    android:padding="10dp"
-                    android:text="Physics"
-                    android:textColor="@color/myMainColor"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-
-        </HorizontalScrollView>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:paddingStart="16dp"
-            android:paddingTop="8dp"
-            android:text="Literature | $13 - $17 | Los Angeles, CA"
-            android:textColor="@android:color/black"
-            android:textSize="16dp" />
+        </LinearLayout>
 
     </LinearLayout>
 
