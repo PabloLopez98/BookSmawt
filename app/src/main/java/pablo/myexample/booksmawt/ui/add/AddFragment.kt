@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.webkit.MimeTypeMap
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -21,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.activity_create_account.*
 import kotlinx.android.synthetic.main.add_fragment.*
 import pablo.myexample.booksmawt.Book
@@ -45,6 +47,11 @@ class AddFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        activity!!.bottom_nav_view.visibility = View.VISIBLE
+    }
+
     private fun snackBar(str: String) {
         Snackbar.make(
             add_fragment_layout,
@@ -59,7 +66,7 @@ class AddFragment : Fragment() {
         return mime.getExtensionFromMimeType(contentResolver?.getType(uri))
     }
 
-    private fun uploadToDatabase(ownerObj: Profile, urlList: ArrayList<String>) {
+    private fun uploadToDatabase(ownerObj: Profile) {
         val obj = Book(
             urlList,
             binding.titleEt.text.toString(),
@@ -81,20 +88,19 @@ class AddFragment : Fragment() {
         FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("Cities")
             .child(ownerObj.location).push().setValue(obj)
 
-        //wait a little while showing snackbar, navigate to list when done
+        //wait a little while showing snackbar, navigate to book details fragment(for owner) when done
+        view!!.findNavController().navigate(R.id.action_navigation_add_to_addedBookFragment)
     }
 
+    /*
+    urlList erases outside of this method
+     */
     private fun uploadImagesAndGetUrl() {
-
         arrayOf(imageUriA, imageUriB, imageUriC).forEach { item ->
             when {
                 item != Uri.EMPTY -> {
-                    val endNode
-                            : String =
-                        System.currentTimeMillis().toString() + "." + getExtension(item)
-                    val storageRef =
-                        FirebaseStorage.getInstance().getReference().child("Users").child(userId)
-                            .child(binding.isbnEt.text.toString()).child(endNode)
+                    val endNode: String = System.currentTimeMillis().toString() + "." + getExtension(item)
+                    val storageRef = FirebaseStorage.getInstance().getReference().child("Users").child(userId).child(binding.isbnEt.text.toString()).child(endNode)
                     storageRef.putFile(item).continueWithTask { task ->
                         when {
                             !task.isSuccessful -> {
@@ -105,9 +111,7 @@ class AddFragment : Fragment() {
                     }.addOnCompleteListener { task ->
                         when {
                             task.isSuccessful -> {
-                                val downloadUrl = task.result.toString()
-                                urlList.add(downloadUrl)
-                                fetchProfileOfOwner(urlList)
+                                urlList.add(task.result.toString())
                             }
                             else -> {
                                 snackBar("Upload Failed!. Try again.")
@@ -117,10 +121,10 @@ class AddFragment : Fragment() {
                 }
             }
         }
-
+        fetchProfileOfOwner()
     }
 
-    private fun fetchProfileOfOwner(urlList: ArrayList<String>) {
+    private fun fetchProfileOfOwner() {
         val mRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId)
             .child("Profile")
         mRef.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -131,7 +135,7 @@ class AddFragment : Fragment() {
                 when {
                     snapshot.exists() -> {
                         val obj: Profile = snapshot.getValue(Profile::class.java)!!
-                        uploadToDatabase(obj, urlList)
+                        uploadToDatabase(obj)
                     }
                 }
             }

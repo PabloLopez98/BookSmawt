@@ -9,7 +9,13 @@
         android:id="@+id/navigation_add"
         android:name="pablo.myexample.booksmawt.ui.add.AddFragment"
         android:label="add_fragment"
-        tools:layout="@layout/add_fragment" />
+        tools:layout="@layout/add_fragment" >
+        <action
+            android:id="@+id/action_navigation_add_to_addedBookFragment"
+            app:destination="@id/addedBookFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_in_right" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_list"
         android:name="pablo.myexample.booksmawt.list.ListFragment"
