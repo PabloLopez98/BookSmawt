@@ -71,9 +71,11 @@ class AddFragment : Fragment() {
             ownerObj.name,
             userId
         )
-        FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("Cities")
-            .child(ownerObj.location).child(binding.isbnEt.text.toString())
-            .setValue(obj)
+
+        //upload under 'Cities'
+        FirebaseDatabase.getInstance().getReference().child("Cities").child(ownerObj.location).child(binding.isbnEt.text.toString()).child(userId).setValue(obj)
+        //upload under unique user
+        FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("Cities").child(ownerObj.location).push().setValue(obj)
         //wait a little while showing snackbar, navigate to list when done
     }
 
@@ -171,7 +173,7 @@ class AddFragment : Fragment() {
             TextUtils.isEmpty(binding.detailsEt.text.toString()) -> {
                 snackBar("Details input is empty")
             }
-            TextUtils.isEmpty(binding.isbnEt.text.toString()) -> {
+            (TextUtils.isEmpty(binding.isbnEt.text.toString()) && binding.isbnEt.text.toString().length == 13) -> {
                 snackBar("ISBN# input is empty")
             }
             TextUtils.isEmpty(binding.priceEt.text.toString()) -> {
