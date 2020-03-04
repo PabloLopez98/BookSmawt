@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -58,8 +59,8 @@ class AddFragment : Fragment() {
         return mime.getExtensionFromMimeType(contentResolver?.getType(uri))
     }
 
-    private fun uploadToDatabase(ownerObj: Profile) {
-        val obj: Book = Book(
+    private fun uploadToDatabase(ownerObj: Profile, urlList: ArrayList<String>) {
+        val obj = Book(
             urlList,
             binding.titleEt.text.toString(),
             binding.authorEt.text.toString(),
@@ -73,9 +74,13 @@ class AddFragment : Fragment() {
         )
 
         //upload under 'Cities'
-        FirebaseDatabase.getInstance().getReference().child("Cities").child(ownerObj.location).child(binding.isbnEt.text.toString()).child(userId).setValue(obj)
+        FirebaseDatabase.getInstance().getReference().child("Cities").child(ownerObj.location)
+            .child(binding.isbnEt.text.toString()).child(userId).setValue(obj)
+
         //upload under unique user
-        FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("Cities").child(ownerObj.location).push().setValue(obj)
+        FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("Cities")
+            .child(ownerObj.location).push().setValue(obj)
+
         //wait a little while showing snackbar, navigate to list when done
     }
 
@@ -102,6 +107,7 @@ class AddFragment : Fragment() {
                             task.isSuccessful -> {
                                 val downloadUrl = task.result.toString()
                                 urlList.add(downloadUrl)
+                                fetchProfileOfOwner(urlList)
                             }
                             else -> {
                                 snackBar("Upload Failed!. Try again.")
@@ -112,10 +118,9 @@ class AddFragment : Fragment() {
             }
         }
 
-        fetchProfileOfOwner()
     }
 
-    private fun fetchProfileOfOwner() {
+    private fun fetchProfileOfOwner(urlList: ArrayList<String>) {
         val mRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId)
             .child("Profile")
         mRef.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -126,7 +131,7 @@ class AddFragment : Fragment() {
                 when {
                     snapshot.exists() -> {
                         val obj: Profile = snapshot.getValue(Profile::class.java)!!
-                        uploadToDatabase(obj)
+                        uploadToDatabase(obj, urlList)
                     }
                 }
             }
@@ -173,8 +178,11 @@ class AddFragment : Fragment() {
             TextUtils.isEmpty(binding.detailsEt.text.toString()) -> {
                 snackBar("Details input is empty")
             }
-            (TextUtils.isEmpty(binding.isbnEt.text.toString()) && binding.isbnEt.text.toString().length == 13) -> {
+            TextUtils.isEmpty(binding.isbnEt.text.toString()) -> {
                 snackBar("ISBN# input is empty")
+            }
+            binding.isbnEt.text.toString().length != 13 -> {
+                snackBar("ISBN# must be 13 digits")
             }
             TextUtils.isEmpty(binding.priceEt.text.toString()) -> {
                 snackBar("Price input is empty")
