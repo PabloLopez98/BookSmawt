@@ -49,11 +49,6 @@ class AddFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        activity!!.bottom_nav_view.visibility = View.VISIBLE
-    }
-
     private fun snackBar(str: String) {
         Snackbar.make(
             add_fragment_layout,
@@ -91,6 +86,7 @@ class AddFragment : Fragment() {
             .child(ownerObj.location).child(binding.isbnEt.text.toString()).setValue(obj)
 
         //wait a little while showing snackbar, navigate to book details fragment(for owner) when done
+        activity!!.bottom_nav_view.visibility = View.INVISIBLE
         view!!.findNavController().navigate(R.id.action_navigation_add_to_addedBookFragment)
     }
 
@@ -126,7 +122,9 @@ class AddFragment : Fragment() {
                         }
                     }
                 }
-                else -> {theLength--}
+                else -> {
+                    theLength--
+                }
             }
         }
     }
