@@ -90,6 +90,11 @@
             app:destination="@id/navigation_list"
             app:enterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_in_left" />
+        <action
+            android:id="@+id/action_addedBookFragment_to_editAddedBookFragment"
+            app:destination="@id/editAddedBookFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_in_right" />
     </fragment>
     <fragment
         android:id="@+id/editProfile"
@@ -98,6 +103,17 @@
         <action
             android:id="@+id/action_editProfile_to_navigation_profile"
             app:destination="@id/navigation_profile"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_in_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/editAddedBookFragment"
+        android:name="pablo.myexample.booksmawt.editaddedbook.EditAddedBookFragment"
+        android:label="fragment_edit_added_book"
+        tools:layout="@layout/fragment_edit_added_book" >
+        <action
+            android:id="@+id/action_editAddedBookFragment_to_addedBookFragment"
+            app:destination="@id/addedBookFragment"
             app:enterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_in_left" />
     </fragment>
