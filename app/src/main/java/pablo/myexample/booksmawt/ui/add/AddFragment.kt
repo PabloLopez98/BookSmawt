@@ -1,7 +1,9 @@
 package pablo.myexample.booksmawt.ui.add
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
@@ -86,21 +88,26 @@ class AddFragment : Fragment() {
 
         //upload under unique user
         FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("Cities")
-            .child(ownerObj.location).push().setValue(obj)
+            .child(ownerObj.location).child(binding.isbnEt.text.toString()).setValue(obj)
 
         //wait a little while showing snackbar, navigate to book details fragment(for owner) when done
         view!!.findNavController().navigate(R.id.action_navigation_add_to_addedBookFragment)
     }
 
-    /*
-    urlList erases outside of this method
-     */
-    private fun uploadImagesAndGetUrl() {
+    interface MyCallBack {
+        fun onCallBack(str: String, int: Int)
+    }
+
+    private fun uploadImagesAndGetUrl(cb: MyCallBack) {
+        var theLength = 3//number of imageUri
         arrayOf(imageUriA, imageUriB, imageUriC).forEach { item ->
             when {
                 item != Uri.EMPTY -> {
-                    val endNode: String = System.currentTimeMillis().toString() + "." + getExtension(item)
-                    val storageRef = FirebaseStorage.getInstance().getReference().child("Users").child(userId).child(binding.isbnEt.text.toString()).child(endNode)
+                    val endNode: String =
+                        System.currentTimeMillis().toString() + "." + getExtension(item)
+                    val storageRef =
+                        FirebaseStorage.getInstance().getReference().child("Users").child(userId)
+                            .child(binding.isbnEt.text.toString()).child(endNode)
                     storageRef.putFile(item).continueWithTask { task ->
                         when {
                             !task.isSuccessful -> {
@@ -111,7 +118,7 @@ class AddFragment : Fragment() {
                     }.addOnCompleteListener { task ->
                         when {
                             task.isSuccessful -> {
-                                urlList.add(task.result.toString())
+                                cb.onCallBack(task.result.toString(), theLength)
                             }
                             else -> {
                                 snackBar("Upload Failed!. Try again.")
@@ -119,9 +126,9 @@ class AddFragment : Fragment() {
                         }
                     }
                 }
+                else -> {theLength--}
             }
         }
-        fetchProfileOfOwner()
     }
 
     private fun fetchProfileOfOwner() {
@@ -198,7 +205,17 @@ class AddFragment : Fragment() {
                 snackBar("Author input is empty")
             }
             else -> {
-                uploadImagesAndGetUrl()
+                uploadImagesAndGetUrl(object : MyCallBack {
+                    override fun onCallBack(str: String, int: Int) {
+                        urlList.add(str)
+                        when {
+                            (urlList.size == int) -> {
+                                fetchProfileOfOwner()
+                            }
+                        }
+                    }
+                }
+                )
             }
         }
     }
