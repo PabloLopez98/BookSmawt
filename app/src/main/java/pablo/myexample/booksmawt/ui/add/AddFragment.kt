@@ -81,7 +81,7 @@ class AddFragment : Fragment() {
         )
 
         //upload under 'Cities'
-        FirebaseDatabase.getInstance().getReference().child("Cities").child(ownerObj.location)
+        FirebaseDatabase.getInstance().reference.child("Cities").child(ownerObj.location)
             .child(binding.isbnEt.text.toString()).child(userId).setValue(obj)
 
         //upload under unique user
