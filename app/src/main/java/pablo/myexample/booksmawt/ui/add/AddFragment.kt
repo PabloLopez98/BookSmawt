@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import android.webkit.MimeTypeMap
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -28,6 +29,7 @@ import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.activity_create_account.*
 import kotlinx.android.synthetic.main.add_fragment.*
 import pablo.myexample.booksmawt.Book
+import pablo.myexample.booksmawt.Communicator
 import pablo.myexample.booksmawt.Profile
 
 import pablo.myexample.booksmawt.R
@@ -35,6 +37,7 @@ import pablo.myexample.booksmawt.databinding.AddFragmentBinding
 
 class AddFragment : Fragment() {
 
+    private lateinit var model: Communicator
     private lateinit var imageUriA: Uri
     private lateinit var imageUriB: Uri
     private lateinit var imageUriC: Uri
@@ -86,6 +89,11 @@ class AddFragment : Fragment() {
             .child(ownerObj.location).child(binding.isbnEt.text.toString()).setValue(obj)
 
         //wait a little while showing snackbar, navigate to book details fragment(for owner) when done
+        model.passBookObj(obj)
+        toAddedBook()
+    }
+
+    private fun toAddedBook(){
         activity!!.bottom_nav_view.visibility = View.INVISIBLE
         view!!.findNavController().navigate(R.id.action_navigation_add_to_addedBookFragment)
     }
@@ -158,6 +166,7 @@ class AddFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        model = ViewModelProvider(activity!!).get(Communicator::class.java)
         userId = FirebaseAuth.getInstance().currentUser!!.uid
         urlList = ArrayList()
         imageUriA = Uri.EMPTY
