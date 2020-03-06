@@ -103,12 +103,14 @@ class AddFragment : Fragment() {
     }
 
     private fun uploadImagesAndGetUrl(cb: MyCallBack) {
+        var i = 0
         var theLength = 3//number of imageUri
         arrayOf(imageUriA, imageUriB, imageUriC).forEach { item ->
             when {
                 item != Uri.EMPTY -> {
+                    i++
                     val endNode: String =
-                        System.currentTimeMillis().toString() + "." + getExtension(item)
+                        i.toString() + "." + getExtension(item)
                     val storageRef =
                         FirebaseStorage.getInstance().getReference().child("Users").child(userId)
                             .child(binding.isbnEt.text.toString()).child(endNode)

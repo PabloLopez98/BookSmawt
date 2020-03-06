@@ -36,10 +36,7 @@ import pablo.myexample.booksmawt.databinding.FragmentEditAddedBookBinding
 
 class EditAddedBookFragment : Fragment() {
 
-    /*
-    delete old info and place new one inside under Cities and Users
-     */
-
+    private lateinit var oldBookObj: Book
     private lateinit var obj: Book
     private lateinit var userId: String
     private lateinit var urlList: ArrayList<String>
@@ -94,6 +91,7 @@ class EditAddedBookFragment : Fragment() {
         urlList = ArrayList()
         model = ViewModelProvider(activity!!).get(Communicator::class.java)
         model.bookObj.observe(activity!!, Observer<Book> { o ->
+            oldBookObj = o
             binding.bookObj = o
             for ((index, value) in binding.bookObj!!.urlList.withIndex()) {
                 when (index) {
@@ -143,12 +141,14 @@ class EditAddedBookFragment : Fragment() {
     }
 
     private fun uploadImagesAndGetUrl(cb: MyCallBack) {
+        var i = 0
         var theLength = 3//number of imageUri
         arrayOf(imageUriA, imageUriB, imageUriC).forEach { item ->
             when {
                 item != Uri.EMPTY -> {
+                    i++
                     val endNode: String =
-                        System.currentTimeMillis().toString() + "." + getExtension(item)
+                        i.toString() + "." + getExtension(item)
                     val storageRef =
                         FirebaseStorage.getInstance().getReference().child("Users").child(userId)
                             .child(binding.isbnEdit.text.toString()).child(endNode)
@@ -245,6 +245,21 @@ class EditAddedBookFragment : Fragment() {
             ownerObj.name,
             userId
         )
+
+        //remove old inside storage
+        val len = binding.bookObj!!.urlList.size + 1
+        for (i in 1 until len) {
+            var endNode = "$i.jpg"
+            FirebaseStorage.getInstance().reference.child("Users").child(userId).child(binding.bookObj!!.isbn).child(endNode).delete()
+        }
+
+        //remove old under 'Cities'
+        FirebaseDatabase.getInstance().reference.child("Cities").child(oldBookObj.location)
+            .child(oldBookObj.isbn).child(userId).removeValue()
+
+        //remove old under 'Users'
+        FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Cities")
+            .child(oldBookObj.location).child(oldBookObj.isbn).removeValue()
 
         //upload under 'Cities'
         FirebaseDatabase.getInstance().reference.child("Cities").child(ownerObj.location)

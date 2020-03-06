@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import com.synnapps.carouselview.CarouselView
 import com.synnapps.carouselview.ImageClickListener
@@ -104,6 +105,11 @@ class AddedBookFragment : Fragment() {
     }
 
     private fun deleteBook() {
+        val len = binding.bookObj!!.urlList.size + 1
+        for (i in 1 until len) {
+            var endNode = "$i.jpg"
+            FirebaseStorage.getInstance().reference.child("Users").child(userId).child(binding.bookObj!!.isbn).child(endNode).delete()
+        }
         FirebaseDatabase.getInstance().reference.child("Cities").child(binding.bookObj!!.location).child(binding.bookObj!!.isbn).child(userId).removeValue()
         FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Cities").child(binding.bookObj!!.location).child(binding.bookObj!!.isbn).removeValue()
         toListFragment()
