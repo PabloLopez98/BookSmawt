@@ -7,6 +7,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.webkit.MimeTypeMap
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -120,7 +122,7 @@ class EditAddedBookFragment : Fragment() {
             imageC.setOnClickListener {
                 selectImage(PICK_IMAGE_REQUEST_C)
             }
-            binding.backArrow.setOnClickListener {
+            backArrow.setOnClickListener {
                 view!!.findNavController()
                     .navigate(R.id.action_editAddedBookFragment_to_addedBookFragment)
             }
@@ -140,6 +142,13 @@ class EditAddedBookFragment : Fragment() {
         return mime.getExtensionFromMimeType(contentResolver?.getType(uri))
     }
 
+    /*
+        entering with 3 images, click 2 new ones, i exit with two
+        Reason: I'm storing new imageUri only
+        Solution: combine new imageUri and old urls that haven't been clicked
+        check if unclicked imageviewUri == Uri.EMPTY and imageview.getdrawable() != null
+        upload new ones first, then upload same old ones that were not clicked on
+    */
     private fun uploadImagesAndGetUrl(cb: MyCallBack) {
         var i = 0
         var theLength = 3//number of imageUri
@@ -147,10 +156,9 @@ class EditAddedBookFragment : Fragment() {
             when {
                 item != Uri.EMPTY -> {
                     i++
-                    val endNode: String =
-                        i.toString() + "." + getExtension(item)
+                    val endNode: String = i.toString() + "." + getExtension(item)
                     val storageRef =
-                        FirebaseStorage.getInstance().getReference().child("Users").child(userId)
+                        FirebaseStorage.getInstance().reference.child("Users").child(userId)
                             .child(binding.isbnEdit.text.toString()).child(endNode)
                     storageRef.putFile(item).continueWithTask { task ->
                         when {
@@ -199,7 +207,7 @@ class EditAddedBookFragment : Fragment() {
                 snackBar("Author input is empty")
             }
             else -> {
-                uploadImagesAndGetUrl(object : EditAddedBookFragment.MyCallBack {
+                uploadImagesAndGetUrl(object : MyCallBack {
                     override fun onCallBack(str: String, int: Int) {
                         urlList.add(str)
                         when {
@@ -215,7 +223,7 @@ class EditAddedBookFragment : Fragment() {
     }
 
     private fun fetchProfileOfOwner() {
-        val mRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId)
+        val mRef = FirebaseDatabase.getInstance().reference.child("Users").child(userId)
             .child("Profile")
         mRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(snapshotError: DatabaseError) {
@@ -246,11 +254,14 @@ class EditAddedBookFragment : Fragment() {
             userId
         )
 
-        //remove old inside storage
-        val len = binding.bookObj!!.urlList.size + 1
-        for (i in 1 until len) {
-            var endNode = "$i.jpg"
-            FirebaseStorage.getInstance().reference.child("Users").child(userId).child(binding.bookObj!!.isbn).child(endNode).delete()
+        //if same isbn, then images have been overwritten with new ones, if not then this method deletes the old isbn images
+        if (oldBookObj.isbn != binding.isbnEdit.text.toString()) {
+            val len = oldBookObj.urlList.size + 1
+            for (i in 1 until len) {
+                var endNode = "$i.jpg"
+                FirebaseStorage.getInstance().reference.child("Users").child(userId)
+                    .child(binding.bookObj!!.isbn).child(endNode).delete()
+            }
         }
 
         //remove old under 'Cities'
@@ -266,7 +277,7 @@ class EditAddedBookFragment : Fragment() {
             .child(binding.isbnEdit.text.toString()).child(userId).setValue(obj)
 
         //upload under unique user
-        FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("Cities")
+        FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Cities")
             .child(ownerObj.location).child(binding.isbnEdit.text.toString()).setValue(obj)
 
         //wait a little while showing snackbar, navigate to book details fragment(for owner) when done
@@ -275,7 +286,6 @@ class EditAddedBookFragment : Fragment() {
     }
 
     private fun backToAddedBookFragment() {
-        model.passBookObj(obj)
         view!!.findNavController().navigate(R.id.action_editAddedBookFragment_to_addedBookFragment)
     }
 
