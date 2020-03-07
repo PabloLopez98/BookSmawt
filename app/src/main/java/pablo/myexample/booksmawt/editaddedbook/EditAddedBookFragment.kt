@@ -132,57 +132,10 @@ class EditAddedBookFragment : Fragment() {
         }
     }
 
-    interface MyCallBack {
-        fun onCallBack(str: String, int: Int)
-    }
-
     private fun getExtension(uri: Uri): String {
         val contentResolver = context?.contentResolver
         val mime = MimeTypeMap.getSingleton()
         return mime.getExtensionFromMimeType(contentResolver?.getType(uri))
-    }
-
-    /*
-        entering with 3 images, click 2 new ones, i exit with two
-        Reason: I'm storing new imageUri only
-        Solution: combine new imageUri and old urls that haven't been clicked
-        check if unclicked imageviewUri == Uri.EMPTY and imageview.getdrawable() != null
-        upload new ones first, then upload same old ones that were not clicked on
-    */
-    private fun uploadImagesAndGetUrl(cb: MyCallBack) {
-        var i = 0
-        var theLength = 3//number of imageUri
-        arrayOf(imageUriA, imageUriB, imageUriC).forEach { item ->
-            when {
-                item != Uri.EMPTY -> {
-                    i++
-                    val endNode: String = i.toString() + "." + getExtension(item)
-                    val storageRef =
-                        FirebaseStorage.getInstance().reference.child("Users").child(userId)
-                            .child(binding.isbnEdit.text.toString()).child(endNode)
-                    storageRef.putFile(item).continueWithTask { task ->
-                        when {
-                            !task.isSuccessful -> {
-                                snackBar("Upload Failed!. Try again.")
-                            }
-                        }
-                        storageRef.downloadUrl
-                    }.addOnCompleteListener { task ->
-                        when {
-                            task.isSuccessful -> {
-                                cb.onCallBack(task.result.toString(), theLength)
-                            }
-                            else -> {
-                                snackBar("Upload Failed!. Try again.")
-                            }
-                        }
-                    }
-                }
-                else -> {
-                    theLength--
-                }
-            }
-        }
     }
 
     private fun checkIfAnyInputIsEmpty() {
@@ -208,18 +161,24 @@ class EditAddedBookFragment : Fragment() {
             }
             else -> {
                 uploadImagesAndGetUrl(object : MyCallBack {
-                    override fun onCallBack(str: String, int: Int) {
-                        urlList.add(str)
-                        when {
-                            (urlList.size == int) -> {
-                                fetchProfileOfOwner()
-                            }
-                        }
+                    override fun onCallBack(str: String) {
+                        //urlList.add(str)
+                        //fetchProfileOfOwner()
                     }
                 }
                 )
             }
         }
+    }
+
+    interface MyCallBack {
+        fun onCallBack(str: String)
+    }
+
+    private fun uploadImagesAndGetUrl(callback: MyCallBack) {
+        /*
+
+         */
     }
 
     private fun fetchProfileOfOwner() {
