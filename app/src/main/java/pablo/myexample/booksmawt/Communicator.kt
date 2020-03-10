@@ -9,11 +9,17 @@ class Communicator : ViewModel() {
 
     var bookObj = MutableLiveData<Book>()
 
+    var filterObj = MutableLiveData<Filter>()
+
     fun passProfileObj(obj: Profile) {
         profileObj.value = obj
     }
 
     fun passBookObj(obj: Book) {
         bookObj.value = obj
+    }
+
+    fun passFilterObj(obj: Filter){
+        filterObj.value = obj
     }
 }

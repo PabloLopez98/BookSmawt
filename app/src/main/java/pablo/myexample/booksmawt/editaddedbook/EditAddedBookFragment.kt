@@ -110,8 +110,7 @@ class EditAddedBookFragment : Fragment() {
                 selectImage(PICK_IMAGE_REQUEST_C)
             }
             backArrow.setOnClickListener {
-                view!!.findNavController()
-                    .navigate(R.id.action_editAddedBookFragment_to_addedBookFragment)
+                view!!.findNavController().navigate(R.id.action_editAddedBookFragment_to_addedBookFragment)
             }
             updateButton.setOnClickListener {
                 checkIfAnyInputIsEmpty()

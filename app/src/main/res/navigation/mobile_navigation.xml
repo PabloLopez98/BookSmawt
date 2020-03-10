@@ -69,7 +69,13 @@
         android:id="@+id/searchFilterFragment"
         android:name="pablo.myexample.booksmawt.searchfilter.SearchFilterFragment"
         android:label="search_filter_fragment"
-        tools:layout="@layout/search_filter_fragment" />
+        tools:layout="@layout/search_filter_fragment" >
+        <action
+            android:id="@+id/action_searchFilterFragment_to_navigation_search"
+            app:destination="@id/navigation_search"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_in_left" />
+    </fragment>
     <fragment
         android:id="@+id/bookDetails"
         android:name="pablo.myexample.booksmawt.bookdetails.BookDetailsFragment"

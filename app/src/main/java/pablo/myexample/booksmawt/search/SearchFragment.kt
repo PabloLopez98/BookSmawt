@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -24,14 +26,15 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_base.*
-import pablo.myexample.booksmawt.Book
-import pablo.myexample.booksmawt.Communicator
-import pablo.myexample.booksmawt.Profile
-import pablo.myexample.booksmawt.R
+import pablo.myexample.booksmawt.*
 import pablo.myexample.booksmawt.databinding.SearchFragmentBinding
 
 class SearchFragment : Fragment() {
 
+    private lateinit var min: String
+    private lateinit var max: String
+    private lateinit var loc: String
+    private lateinit var orderBy: String
     private lateinit var model: Communicator
     private lateinit var bookList: ArrayList<Book>
     private lateinit var recyclerviewAdapter: SearchFragmentAdapter
@@ -47,11 +50,14 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         model = ViewModelProvider(activity!!).get(Communicator::class.java)
+
         binding.filterButton.setOnClickListener {
             activity!!.bottom_nav_view.visibility = View.INVISIBLE
             view.findNavController().navigate(R.id.action_navigation_search_to_searchFilterFragment)
         }
+
         val options = arrayListOf("Most Expensive", "Least Expensive")
         val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, options)
         binding.spinner.adapter = adapter
@@ -63,11 +69,12 @@ class SearchFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                Toast.makeText(context, options[position], Toast.LENGTH_SHORT).show()
+                orderBy = options[position]
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
+
         binding.searchEt.setOnEditorActionListener { v, actionId, event ->
             when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH -> {
@@ -79,32 +86,46 @@ class SearchFragment : Fragment() {
                 }
             }
         }
+
+        setUpFilter()
         loadProfileImage()
         setupRecyclerview()
     }
 
+    private fun setUpFilter() {
+        model.filterObj.observe(activity!!, Observer<Filter> { o ->
+            min = o.min
+            max = o.max
+            loc = o.location
+            binding.locationTv.text = loc
+            binding.priceRange.text = "$$min - $$max"
+        })
+    }
+
     private fun loadProfileImage() {
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
-        FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Profile").addListenerForSingleValueEvent(object :
-            ValueEventListener {
-            override fun onCancelled(snapshotError: DatabaseError) {
-            }
+        FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Profile")
+            .addListenerForSingleValueEvent(object :
+                ValueEventListener {
+                override fun onCancelled(snapshotError: DatabaseError) {
+                }
 
-            override fun onDataChange(snapshot: DataSnapshot) {
-                when {
-                    snapshot.exists() -> {
-                        val profileObj = snapshot.getValue(Profile::class.java)
-                        when {
-                            profileObj!!.url.contentEquals("empty") -> {
-                            }
-                            else -> {
-                                Picasso.get().load(profileObj.url).into(binding.profileImageView)
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    when {
+                        snapshot.exists() -> {
+                            val profileObj = snapshot.getValue(Profile::class.java)
+                            when {
+                                profileObj!!.url.contentEquals("empty") -> {
+                                }
+                                else -> {
+                                    Picasso.get().load(profileObj.url)
+                                        .into(binding.profileImageView)
+                                }
                             }
                         }
                     }
                 }
-            }
-        })
+            })
     }
 
     private fun setupRecyclerview() {
@@ -115,8 +136,15 @@ class SearchFragment : Fragment() {
         recyclerView.adapter = recyclerviewAdapter
     }
 
-    private fun searchForBook() {
-        //FirebaseDatabase.getInstance().reference.child("Cities").child("")
+    private fun checkVariables() {
+        when{
+            binding.locationTv.text == "City N/A" -> {Toast.makeText(context, "No search filter", Toast.LENGTH_LONG).show()}
+            else -> {searchBook()}
+        }
+    }
+
+    private fun searchBook(){
+        Toast.makeText(context, "Searching...", Toast.LENGTH_LONG).show()
     }
 
     private fun checkISBN() {
@@ -129,7 +157,7 @@ class SearchFragment : Fragment() {
             }
             else -> {
                 hideKeyboard()
-                searchForBook()
+                checkVariables()
             }
         }
     }
