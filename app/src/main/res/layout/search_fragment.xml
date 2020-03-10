@@ -85,6 +85,7 @@
                     app:cardPreventCornerOverlap="false">
 
                     <ImageView
+                        android:id="@+id/profile_image_view"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:src="@drawable/demo_image_face" />

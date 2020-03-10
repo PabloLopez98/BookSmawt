@@ -1,6 +1,5 @@
 package pablo.myexample.booksmawt.search
 
-
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
@@ -18,12 +17,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_base.*
 import pablo.myexample.booksmawt.Book
 import pablo.myexample.booksmawt.Communicator
+import pablo.myexample.booksmawt.Profile
 import pablo.myexample.booksmawt.R
 import pablo.myexample.booksmawt.databinding.SearchFragmentBinding
-
 
 class SearchFragment : Fragment() {
 
@@ -52,7 +57,15 @@ class SearchFragment : Fragment() {
         binding.spinner.adapter = adapter
         binding.spinner.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) { Toast.makeText(context, options[position], Toast.LENGTH_SHORT).show() }
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                Toast.makeText(context, options[position], Toast.LENGTH_SHORT).show()
+            }
+
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
         binding.searchEt.setOnEditorActionListener { v, actionId, event ->
@@ -66,17 +79,44 @@ class SearchFragment : Fragment() {
                 }
             }
         }
-        //
+        loadProfileImage()
+        setupRecyclerview()
+    }
+
+    private fun loadProfileImage() {
+        val userId = FirebaseAuth.getInstance().currentUser!!.uid
+        FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Profile").addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onCancelled(snapshotError: DatabaseError) {
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                when {
+                    snapshot.exists() -> {
+                        val profileObj = snapshot.getValue(Profile::class.java)
+                        when {
+                            profileObj!!.url.contentEquals("empty") -> {
+                            }
+                            else -> {
+                                Picasso.get().load(profileObj.url).into(binding.profileImageView)
+                            }
+                        }
+                    }
+                }
+            }
+        })
+    }
+
+    private fun setupRecyclerview() {
         bookList = ArrayList()
         val recyclerView = binding.recyclerView
         recyclerView.layoutManager = GridLayoutManager(context, 2)
         recyclerviewAdapter = SearchFragmentAdapter(bookList, { book -> bookItemClicked(book) })
         recyclerView.adapter = recyclerviewAdapter
-        //
     }
 
     private fun searchForBook() {
-        //FirebaseDatabase.getInstance().reference.child("Cities").child()
+        //FirebaseDatabase.getInstance().reference.child("Cities").child("")
     }
 
     private fun checkISBN() {
