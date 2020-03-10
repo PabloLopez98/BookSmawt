@@ -95,19 +95,6 @@ class EditAddedBookFragment : Fragment() {
         model.bookObj.observe(activity!!, Observer<Book> { o ->
             oldBookObj = o
             binding.bookObj = o
-            for ((index, value) in binding.bookObj!!.urlList.withIndex()) {
-                when (index) {
-                    0 -> {
-                        Picasso.get().load(value).into(binding.imageA)
-                    }
-                    1 -> {
-                        Picasso.get().load(value).into(binding.imageB)
-                    }
-                    2 -> {
-                        Picasso.get().load(value).into(binding.imageC)
-                    }
-                }
-            }
         })
         imageUriA = Uri.EMPTY
         imageUriB = Uri.EMPTY
@@ -140,7 +127,9 @@ class EditAddedBookFragment : Fragment() {
 
     private fun checkIfAnyInputIsEmpty() {
         when {
-            //images will never be empty
+            (binding.imageA.drawable == null && binding.imageB.drawable == null && binding.imageC.drawable == null) -> {
+                snackBar("Need at least one image")
+            }
             TextUtils.isEmpty(binding.detailEdit.text.toString()) -> {
                 snackBar("Details input is empty")
             }
@@ -161,9 +150,13 @@ class EditAddedBookFragment : Fragment() {
             }
             else -> {
                 uploadImagesAndGetUrl(object : MyCallBack {
-                    override fun onCallBack(str: String) {
-                        //urlList.add(str)
-                        //fetchProfileOfOwner()
+                    override fun onCallBack(str: String, int: Int) {
+                        urlList.add(str)
+                        when {
+                            (urlList.size == int) -> {
+                                fetchProfileOfOwner()
+                            }
+                        }
                     }
                 }
                 )
@@ -172,13 +165,44 @@ class EditAddedBookFragment : Fragment() {
     }
 
     interface MyCallBack {
-        fun onCallBack(str: String)
+        fun onCallBack(str: String, num: Int)
     }
 
-    private fun uploadImagesAndGetUrl(callback: MyCallBack) {
-        /*
-
-         */
+    private fun uploadImagesAndGetUrl(cb: MyCallBack) {
+        var i = 0
+        var theLength = 3//number of imageUri
+        arrayOf(imageUriA, imageUriB, imageUriC).forEach { item ->
+            when {
+                item != Uri.EMPTY -> {
+                    i++
+                    val endNode: String =
+                        i.toString() + "." + getExtension(item)
+                    val storageRef =
+                        FirebaseStorage.getInstance().getReference().child("Users").child(userId)
+                            .child(binding.isbnEdit.text.toString()).child(endNode)
+                    storageRef.putFile(item).continueWithTask { task ->
+                        when {
+                            !task.isSuccessful -> {
+                                snackBar("Upload Failed!. Try again.")
+                            }
+                        }
+                        storageRef.downloadUrl
+                    }.addOnCompleteListener { task ->
+                        when {
+                            task.isSuccessful -> {
+                                cb.onCallBack(task.result.toString(), theLength)
+                            }
+                            else -> {
+                                snackBar("Upload Failed!. Try again.")
+                            }
+                        }
+                    }
+                }
+                else -> {
+                    theLength--
+                }
+            }
+        }
     }
 
     private fun fetchProfileOfOwner() {
@@ -213,14 +237,12 @@ class EditAddedBookFragment : Fragment() {
             userId
         )
 
-        //if same isbn, then images have been overwritten with new ones, if not then this method deletes the old isbn images
-        if (oldBookObj.isbn != binding.isbnEdit.text.toString()) {
-            val len = oldBookObj.urlList.size + 1
-            for (i in 1 until len) {
-                var endNode = "$i.jpg"
-                FirebaseStorage.getInstance().reference.child("Users").child(userId)
-                    .child(binding.bookObj!!.isbn).child(endNode).delete()
-            }
+        //either way we always delete old posting
+        val len = oldBookObj.urlList.size + 1
+        for (i in 1 until len) {
+            var endNode = "$i.jpg"
+            FirebaseStorage.getInstance().reference.child("Users").child(userId)
+                .child(oldBookObj.isbn).child(endNode).delete()
         }
 
         //remove old under 'Cities'
