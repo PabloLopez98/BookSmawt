@@ -132,7 +132,7 @@ class SearchFragment : Fragment() {
         bookList = ArrayList()
         val recyclerView = binding.recyclerView
         recyclerView.layoutManager = GridLayoutManager(context, 2)
-        recyclerviewAdapter = SearchFragmentAdapter(bookList, { book -> bookItemClicked(book) })
+        recyclerviewAdapter = SearchFragmentAdapter(bookList, { book -> bookItemClicked(book)})
         recyclerView.adapter = recyclerviewAdapter
     }
 
@@ -148,7 +148,27 @@ class SearchFragment : Fragment() {
     }
 
     private fun searchBook() {
-        Toast.makeText(context, "Searching...", Toast.LENGTH_LONG).show()
+        val isbn: String = binding.searchEt.text.toString()
+        FirebaseDatabase.getInstance().reference.child("Cities").child(loc).child(isbn)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(snapshotError: DatabaseError) {
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    when {
+                        snapshot.exists() -> {
+                            snapshot.children.forEach {
+                                val bookObj: Book = it.getValue(Book::class.java)!!
+                                val price = bookObj.price.toInt()
+                                when {
+                                    (price >= min.toInt()) && (price <= max.toInt()) -> bookList.add(bookObj)
+                                }
+                                recyclerviewAdapter.notifyDataSetChanged()
+                            }
+                        }
+                    }
+                }
+            })
     }
 
     private fun checkISBN() {

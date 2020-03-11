@@ -271,8 +271,7 @@ class EditProfile : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.edit_profile_fragment, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.edit_profile_fragment, container, false)
         return binding.root
     }
 
