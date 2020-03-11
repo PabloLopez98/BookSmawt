@@ -28,6 +28,8 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_base.*
 import pablo.myexample.booksmawt.*
 import pablo.myexample.booksmawt.databinding.SearchFragmentBinding
+import java.util.*
+import kotlin.collections.ArrayList
 
 class SearchFragment : Fragment() {
 
@@ -70,6 +72,7 @@ class SearchFragment : Fragment() {
                 id: Long
             ) {
                 orderBy = options[position]
+                orderBookList()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
@@ -132,7 +135,7 @@ class SearchFragment : Fragment() {
         bookList = ArrayList()
         val recyclerView = binding.recyclerView
         recyclerView.layoutManager = GridLayoutManager(context, 2)
-        recyclerviewAdapter = SearchFragmentAdapter(bookList, { book -> bookItemClicked(book)})
+        recyclerviewAdapter = SearchFragmentAdapter(bookList, { book -> bookItemClicked(book) })
         recyclerView.adapter = recyclerviewAdapter
     }
 
@@ -148,6 +151,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun searchBook() {
+        bookList.clear()
         val isbn: String = binding.searchEt.text.toString()
         FirebaseDatabase.getInstance().reference.child("Cities").child(loc).child(isbn)
             .addListenerForSingleValueEvent(object : ValueEventListener {
@@ -161,14 +165,24 @@ class SearchFragment : Fragment() {
                                 val bookObj: Book = it.getValue(Book::class.java)!!
                                 val price = bookObj.price.toInt()
                                 when {
-                                    (price >= min.toInt()) && (price <= max.toInt()) -> bookList.add(bookObj)
+                                    (price >= min.toInt()) && (price <= max.toInt()) -> bookList.add(
+                                        bookObj
+                                    )
                                 }
-                                recyclerviewAdapter.notifyDataSetChanged()
                             }
+                            orderBookList()
                         }
                     }
                 }
             })
+    }
+
+    private fun orderBookList() {
+        when {
+            orderBy == "Most Expensive" -> bookList.reverse()
+            else -> bookList.sort()
+        }
+        recyclerviewAdapter.notifyDataSetChanged()
     }
 
     private fun checkISBN() {

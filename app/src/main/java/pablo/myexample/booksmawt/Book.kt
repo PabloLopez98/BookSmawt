@@ -11,6 +11,11 @@ data class Book(
     var urlOfOwner: String,
     var nameOfOwner: String,
     var idOfOwner: String
-) {
+) : Comparable<Book> {
     constructor() : this(ArrayList(), "", "", "", "", "", "", "", "", "")
+
+    override fun compareTo(other: Book): Int {
+        var cT : Int = other.price.toInt()
+        return price.toInt() - cT
+    }
 }
