@@ -137,13 +137,17 @@ class SearchFragment : Fragment() {
     }
 
     private fun checkVariables() {
-        when{
-            binding.locationTv.text == "City N/A" -> {Toast.makeText(context, "No search filter", Toast.LENGTH_LONG).show()}
-            else -> {searchBook()}
+        when {
+            binding.locationTv.text == "City N/A" -> {
+                Toast.makeText(context, "No search filter", Toast.LENGTH_LONG).show()
+            }
+            else -> {
+                searchBook()
+            }
         }
     }
 
-    private fun searchBook(){
+    private fun searchBook() {
         Toast.makeText(context, "Searching...", Toast.LENGTH_LONG).show()
     }
 

@@ -93,7 +93,7 @@ class AddFragment : Fragment() {
         toAddedBook()
     }
 
-    private fun toAddedBook(){
+    private fun toAddedBook() {
         activity!!.bottom_nav_view.visibility = View.INVISIBLE
         view!!.findNavController().navigate(R.id.action_navigation_add_to_addedBookFragment)
     }
