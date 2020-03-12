@@ -11,6 +11,8 @@ class Communicator : ViewModel() {
 
     var filterObj = MutableLiveData<Filter>()
 
+    var buyerObj = MutableLiveData<ChatProfile>()
+
     fun passProfileObj(obj: Profile) {
         profileObj.value = obj
     }
@@ -21,5 +23,9 @@ class Communicator : ViewModel() {
 
     fun passFilterObj(obj: Filter){
         filterObj.value = obj
+    }
+
+    fun passBuyerObj(obj: ChatProfile){
+        buyerObj.value = obj
     }
 }

@@ -23,6 +23,9 @@ import pablo.myexample.booksmawt.*
 import pablo.myexample.booksmawt.databinding.ChatFragmentBinding
 import pablo.myexample.booksmawt.list.ListFragmentAdapter
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 
 class ChatFragment : Fragment() {
@@ -31,6 +34,9 @@ class ChatFragment : Fragment() {
     private lateinit var adapter: ChatFragmentAdapter
     private val userId: String = FirebaseAuth.getInstance().currentUser!!.uid
     private lateinit var profileObj: Profile
+    private lateinit var sellerObj: ChatProfile
+    private lateinit var buyerObj: ChatProfile
+    private lateinit var bookObj: Book
     private lateinit var binding: ChatFragmentBinding
     private lateinit var model: Communicator
 
@@ -52,10 +58,11 @@ class ChatFragment : Fragment() {
         model = ViewModelProvider(activity!!).get(Communicator::class.java)
         model.bookObj.observe(activity!!, Observer<Book> { o ->
             binding.bookObj = o
+            bookObj = o
             Picasso.get().load(o.urlList[0]).into(binding.chatFragImage)
         })
 
-        getProfileData()
+        getData()
         setUpRecyclerView()
 
         binding.chatFragSend.setOnClickListener {
@@ -63,9 +70,8 @@ class ChatFragment : Fragment() {
         }
     }
 
-    private fun getProfileData() {
-        val userId = FirebaseAuth.getInstance().currentUser!!.uid
-        FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Profile")
+    private fun getData() {
+        /*FirebaseDatabase.getInstance().reference.child("Chats").child(chatId)
             .addListenerForSingleValueEvent(object :
                 ValueEventListener {
                 override fun onCancelled(snapshotError: DatabaseError) {
@@ -74,11 +80,15 @@ class ChatFragment : Fragment() {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     when {
                         snapshot.exists() -> {
-                            profileObj = snapshot.getValue(Profile::class.java)!!
+
+                            //profileObj = snapshot.getValue(Profile::class.java)!!
+                        }
+                        else -> {
+
                         }
                     }
                 }
-            })
+            })*/
     }
 
     private fun setUpRecyclerView() {
@@ -87,10 +97,6 @@ class ChatFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         adapter = ChatFragmentAdapter(messageObjList)
         recyclerView.adapter = adapter
-    }
-
-    private fun loadConversation() {
-
     }
 
     private fun checkInput() {
@@ -105,10 +111,12 @@ class ChatFragment : Fragment() {
     }
 
     private fun sendMessage() {
-        val message =
-            Message(userId, profileObj.url, profileObj.name, "theDate", "This is the message!")
+       /* val date = LocalDateTime.now()
+            .format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG, FormatStyle.SHORT))
+        val msg = binding.chatFragInput.text.toString()
+        val message = Message(userId, profileObj.url, profileObj.name, date, msg)
         messageObjList.add(message)
-        adapter.notifyDataSetChanged()
+        adapter.notifyDataSetChanged()*/
     }
 
     override fun onDestroyView() {

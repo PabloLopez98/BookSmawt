@@ -13,6 +13,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 
 import com.synnapps.carouselview.CarouselView
@@ -20,15 +24,15 @@ import com.synnapps.carouselview.ImageClickListener
 import com.synnapps.carouselview.ImageListener
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.book_details_fragment.*
-import pablo.myexample.booksmawt.Book
-import pablo.myexample.booksmawt.Communicator
-import pablo.myexample.booksmawt.Profile
+import pablo.myexample.booksmawt.*
+import pablo.myexample.booksmawt.chat.ChatFragment
 
-import pablo.myexample.booksmawt.R
 import pablo.myexample.booksmawt.databinding.BookDetailsFragmentBinding
 
 class BookDetailsFragment : Fragment() {
 
+    private lateinit var buyer: ChatProfile
+    private lateinit var profile: Profile
     private lateinit var book: Book
     private lateinit var userId: String
     private lateinit var binding: BookDetailsFragmentBinding
@@ -52,6 +56,8 @@ class BookDetailsFragment : Fragment() {
             binding.bookObj = o
             book = o
         })
+
+        getProfile()
 
         binding.apply {
             val images = book.urlList
@@ -86,15 +92,54 @@ class BookDetailsFragment : Fragment() {
                         toEditBookUpload()
                     }
                     else -> {
-                        toChatFragment()
+                        createChatStructure()
                     }
                 }
             }
         }
     }
 
-    private fun toChatFragment(){
-        model.passBookObj(book)
+    private fun getProfile() {
+        val mRef = FirebaseDatabase.getInstance().reference.child("Users").child(userId)
+            .child("Profile")
+        mRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(snapshotError: DatabaseError) {
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                when {
+                    snapshot.exists() -> {
+                        profile = snapshot.getValue(Profile::class.java)!!
+                    }
+                }
+            }
+        })
+    }
+
+    private fun createChatStructure() {
+        //chat room id and base reference
+        val chatId = System.currentTimeMillis().toString()
+        val chatRef = FirebaseDatabase.getInstance().reference.child("Chats").child(chatId)
+        //ChatProfile Objects
+        val owner = ChatProfile(chatId, book.nameOfOwner, book.urlOfOwner, book.idOfOwner)
+        buyer = ChatProfile(chatId, profile.name, profile.url, userId)
+        //Under Users
+        val lastMessageObjRef =
+            FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Chats")
+                .child(chatId)
+        val lastMessageObj = LastMessage(chatId, book.urlOfOwner, book.nameOfOwner, "N/A", "N/A")
+        lastMessageObjRef.setValue(lastMessageObj)
+        //Under Chats
+        chatRef.child("Owner").setValue(owner)
+        chatRef.child("Buyer").setValue(buyer)
+        chatRef.child("Book").setValue(book)
+        chatRef.child("Messages").push().setValue(lastMessageObj)
+        //then go to chat frag
+        toChatFragment()
+    }
+
+    private fun toChatFragment() {
+        model.passBuyerObj(buyer)
         view!!.findNavController().navigate(R.id.action_bookDetails_to_chatFragment)
     }
 
