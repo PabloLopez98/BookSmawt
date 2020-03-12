@@ -26,6 +26,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
+            android:id="@+id/chat_frag_arrow"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_gravity="start"
@@ -35,6 +36,7 @@
             android:tint="@android:color/white" />
 
         <TextView
+            android:id="@+id/chat_frag_other_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -44,6 +46,7 @@
             android:textStyle="bold" />
 
         <ImageButton
+            android:id="@+id/chat_frag_delete"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_gravity="end"
@@ -56,7 +59,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/chat_frag_input"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -72,12 +75,12 @@
         android:text="Hello james"
         android:textColor="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button6"
+        app:layout_constraintEnd_toStartOf="@+id/chat_frag_send"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/button6" />
+        app:layout_constraintTop_toTopOf="@+id/chat_frag_send" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/chat_frag_send"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
         android:layout_marginEnd="16dp"
@@ -90,28 +93,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!--    <androidx.recyclerview.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/editText3"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/chat_frag_input"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout7"
-        tools:listitem="@layout/chat_item" />-->
-
-    <include
-        android:id="@+id/include3"
-        layout="@layout/chat_item"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout7" />
+        tools:listitem="@layout/chat_item" />
 
     <LinearLayout
         android:id="@+id/linearLayout7"
@@ -124,6 +117,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar3">
 
         <TextView
+            android:id="@+id/chat_frag_title"
             android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -135,6 +129,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/chat_frag_isbn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="16dp"

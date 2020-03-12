@@ -110,7 +110,8 @@ class EditAddedBookFragment : Fragment() {
                 selectImage(PICK_IMAGE_REQUEST_C)
             }
             backArrow.setOnClickListener {
-                view!!.findNavController().navigate(R.id.action_editAddedBookFragment_to_addedBookFragment)
+                view!!.findNavController()
+                    .navigate(R.id.action_editAddedBookFragment_to_addedBookFragment)
             }
             updateButton.setOnClickListener {
                 checkIfAnyInputIsEmpty()
@@ -174,8 +175,7 @@ class EditAddedBookFragment : Fragment() {
             when {
                 item != Uri.EMPTY -> {
                     i++
-                    val endNode: String =
-                        i.toString() + "." + getExtension(item)
+                    val endNode: String = i.toString() + "." + getExtension(item)
                     val storageRef =
                         FirebaseStorage.getInstance().getReference().child("Users").child(userId)
                             .child(binding.isbnEdit.text.toString()).child(endNode)

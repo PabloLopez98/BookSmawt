@@ -80,7 +80,23 @@
         android:id="@+id/bookDetails"
         android:name="pablo.myexample.booksmawt.bookdetails.BookDetailsFragment"
         android:label="book_details_fragment"
-        tools:layout="@layout/book_details_fragment" />
+        tools:layout="@layout/book_details_fragment" >
+        <action
+            android:id="@+id/action_bookDetails_to_navigation_search"
+            app:destination="@id/navigation_search"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_in_left" />
+        <action
+            android:id="@+id/action_bookDetails_to_editAddedBookFragment"
+            app:destination="@id/editAddedBookFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_in_right" />
+        <action
+            android:id="@+id/action_bookDetails_to_chatFragment"
+            app:destination="@id/chatFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_in_right" />
+    </fragment>
     <fragment
         android:id="@+id/chatFragment"
         android:name="pablo.myexample.booksmawt.chat.ChatFragment"

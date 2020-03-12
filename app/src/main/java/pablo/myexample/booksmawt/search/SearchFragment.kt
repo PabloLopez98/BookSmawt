@@ -1,10 +1,8 @@
 package pablo.myexample.booksmawt.search
 
 import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -67,7 +65,7 @@ class SearchFragment : Fragment() {
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
-                view: View,
+                view: View?,
                 position: Int,
                 id: Long
             ) {
@@ -78,7 +76,7 @@ class SearchFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
-        binding.searchEt.setOnEditorActionListener { v, actionId, event ->
+        binding.searchEt.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH -> {
                     checkISBN()
