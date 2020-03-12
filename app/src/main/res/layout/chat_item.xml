@@ -41,7 +41,7 @@
             app:cardCornerRadius="25dp">
 
             <ImageView
-                android:id="@+id/book_details_image"
+                android:id="@+id/messageImage"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/demo_image_face" />

@@ -9,6 +9,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -16,13 +18,18 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_base.*
+import kotlinx.android.synthetic.main.chat_fragment.*
 import pablo.myexample.booksmawt.*
 import pablo.myexample.booksmawt.databinding.ChatFragmentBinding
+import pablo.myexample.booksmawt.list.ListFragmentAdapter
 import java.text.SimpleDateFormat
 
 
 class ChatFragment : Fragment() {
 
+    private lateinit var messageObjList: ArrayList<Message>
+    private lateinit var adapter: ChatFragmentAdapter
+    private val userId: String = FirebaseAuth.getInstance().currentUser!!.uid
     private lateinit var profileObj: Profile
     private lateinit var binding: ChatFragmentBinding
     private lateinit var model: Communicator
@@ -49,6 +56,7 @@ class ChatFragment : Fragment() {
         })
 
         getProfileData()
+        setUpRecyclerView()
 
         binding.chatFragSend.setOnClickListener {
             checkInput()
@@ -73,15 +81,34 @@ class ChatFragment : Fragment() {
             })
     }
 
-    private fun checkInput(){
-        when{
-            binding.chatFragInput.text.isBlank() -> Toast.makeText(context, "Input is empty", Toast.LENGTH_SHORT).show()
+    private fun setUpRecyclerView() {
+        messageObjList = ArrayList()
+        val recyclerView = binding.recyclerView
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        adapter = ChatFragmentAdapter(messageObjList)
+        recyclerView.adapter = adapter
+    }
+
+    private fun loadConversation() {
+
+    }
+
+    private fun checkInput() {
+        when {
+            binding.chatFragInput.text.isBlank() -> Toast.makeText(
+                context,
+                "Input is empty",
+                Toast.LENGTH_SHORT
+            ).show()
             else -> sendMessage()
         }
     }
 
     private fun sendMessage() {
-        //val message = Message(profileObj.name, "", "")
+        val message =
+            Message(userId, profileObj.url, profileObj.name, "theDate", "This is the message!")
+        messageObjList.add(message)
+        adapter.notifyDataSetChanged()
     }
 
     override fun onDestroyView() {
