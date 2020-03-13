@@ -101,7 +101,13 @@
         android:id="@+id/chatFragment"
         android:name="pablo.myexample.booksmawt.chat.ChatFragment"
         android:label="chat_fragment"
-        tools:layout="@layout/chat_fragment" />
+        tools:layout="@layout/chat_fragment" >
+        <action
+            android:id="@+id/action_chatFragment_to_navigation_messages"
+            app:destination="@id/navigation_messages"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_in_left" />
+    </fragment>
     <fragment
         android:id="@+id/addedBookFragment"
         android:name="pablo.myexample.booksmawt.addedbook.AddedBookFragment"

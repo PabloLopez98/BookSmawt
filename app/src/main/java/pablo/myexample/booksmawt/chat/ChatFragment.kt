@@ -1,6 +1,7 @@
 package pablo.myexample.booksmawt.chat
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -27,16 +29,24 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
+/*
+TODO
+-display messages list, and update as database updates
+-send button, update database on opposite end
+-update recyclerview with database updates
+-delete option
+-click book, send to preview
+ */
 
 class ChatFragment : Fragment() {
 
-    private lateinit var messageObjList: ArrayList<Message>
+    private lateinit var thisUserObject: ChatProfile
+    private lateinit var messagesList: ArrayList<LastMessage>
+    private val baseRef = FirebaseDatabase.getInstance().reference.child("Chats")
+    private lateinit var owner: ChatProfile
+    private lateinit var buyer: ChatProfile
     private lateinit var adapter: ChatFragmentAdapter
     private val userId: String = FirebaseAuth.getInstance().currentUser!!.uid
-    private lateinit var profileObj: Profile
-    private lateinit var sellerObj: ChatProfile
-    private lateinit var buyerObj: ChatProfile
-    private lateinit var bookObj: Book
     private lateinit var binding: ChatFragmentBinding
     private lateinit var model: Communicator
 
@@ -54,48 +64,95 @@ class ChatFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        messagesList = ArrayList()
         model = ViewModelProvider(activity!!).get(Communicator::class.java)
-        model.bookObj.observe(activity!!, Observer<Book> { o ->
-            binding.bookObj = o
-            bookObj = o
-            Picasso.get().load(o.urlList[0]).into(binding.chatFragImage)
+        model.lastMessageObj.observe(activity!!, Observer<LastMessage> { o ->
+            getData(o.chatId)
         })
-
-        getData()
-        setUpRecyclerView()
 
         binding.chatFragSend.setOnClickListener {
             checkInput()
         }
+        binding.chatFragBackArrow.setOnClickListener {
+            toMessagesFragment()
+        }
     }
 
-    private fun getData() {
-        /*FirebaseDatabase.getInstance().reference.child("Chats").child(chatId)
-            .addListenerForSingleValueEvent(object :
-                ValueEventListener {
+    private fun toMessagesFragment() {
+        activity!!.bottom_nav_view.visibility = View.VISIBLE
+        view!!.findNavController().navigate(R.id.action_chatFragment_to_navigation_messages)
+    }
+
+    private fun getData(chatId: String) {
+        baseRef.child(chatId).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(snapshotError: DatabaseError) {
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) = when {
+                snapshot.exists() -> {
+                    snapshot.children.forEach {
+                        when (it.key) {
+                            "Book" -> {
+                                val bookObj = it.getValue(Book::class.java)
+                                binding.bookObj = bookObj
+                                Picasso.get().load(bookObj!!.urlList[0])
+                                    .into(binding.chatFragImage)
+                            }
+                            "Buyer" -> {
+                                buyer = it.getValue(ChatProfile::class.java)!!
+                            }
+                            "Owner" -> {
+                                owner = it.getValue(ChatProfile::class.java)!!
+                            }
+                        }
+                    }
+                    displayNameOnTop()
+                }
+                else -> {/* NOTHING */
+                }
+            }
+        })
+    }
+
+    private fun displayNameOnTop() {
+        when (userId) {
+            buyer.id -> {
+                binding.chatFragOtherName.text = owner.name
+                thisUserObject = owner
+            }
+            else -> {
+                binding.chatFragOtherName.text = buyer.name
+                thisUserObject = buyer
+            }
+        }
+        getMessages()
+    }
+
+    private fun getMessages() {
+        baseRef.child(buyer.chatId).child("Messages")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(snapshotError: DatabaseError) {
                 }
 
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    when {
-                        snapshot.exists() -> {
-
-                            //profileObj = snapshot.getValue(Profile::class.java)!!
+                override fun onDataChange(snapshot: DataSnapshot) = when {
+                    snapshot.exists() -> {
+                        snapshot.children.forEach {
+                            val msg = it.getValue(LastMessage::class.java)!!
+                            messagesList.add(msg)
                         }
-                        else -> {
-
-                        }
+                        setUpRecyclerView()
+                    }
+                    else -> {/* NOTHING */
                     }
                 }
-            })*/
+            })
     }
 
     private fun setUpRecyclerView() {
-        messageObjList = ArrayList()
+        messagesList.removeAt(0)
         val recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = ChatFragmentAdapter(messageObjList)
+        adapter = ChatFragmentAdapter(messagesList)
         recyclerView.adapter = adapter
     }
 
@@ -111,16 +168,27 @@ class ChatFragment : Fragment() {
     }
 
     private fun sendMessage() {
-       /* val date = LocalDateTime.now()
+        val date = LocalDateTime.now()
             .format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG, FormatStyle.SHORT))
         val msg = binding.chatFragInput.text.toString()
-        val message = Message(userId, profileObj.url, profileObj.name, date, msg)
-        messageObjList.add(message)
-        adapter.notifyDataSetChanged()*/
+        val message = LastMessage(
+            userId,
+            thisUserObject.chatId,
+            thisUserObject.url,
+            thisUserObject.name,
+            date,
+            msg
+        )
+        messagesList.add(message)
+        adapter.notifyDataSetChanged()
+        //update database
+        baseRef.child(thisUserObject.chatId).child("Messages").push().setValue(message)
+        FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Chats").child(thisUserObject.chatId).setValue(message)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         activity!!.bottom_nav_view.visibility = View.VISIBLE
     }
+
 }

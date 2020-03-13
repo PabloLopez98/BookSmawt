@@ -31,7 +31,7 @@ import pablo.myexample.booksmawt.databinding.BookDetailsFragmentBinding
 
 class BookDetailsFragment : Fragment() {
 
-    private lateinit var buyer: ChatProfile
+    private lateinit var lastMessageObj: LastMessage
     private lateinit var profile: Profile
     private lateinit var book: Book
     private lateinit var userId: String
@@ -122,12 +122,12 @@ class BookDetailsFragment : Fragment() {
         val chatRef = FirebaseDatabase.getInstance().reference.child("Chats").child(chatId)
         //ChatProfile Objects
         val owner = ChatProfile(chatId, book.nameOfOwner, book.urlOfOwner, book.idOfOwner)
-        buyer = ChatProfile(chatId, profile.name, profile.url, userId)
+        val buyer = ChatProfile(chatId, profile.name, profile.url, userId)
         //Under Users
         val lastMessageObjRef =
             FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Chats")
                 .child(chatId)
-        val lastMessageObj = LastMessage(chatId, book.urlOfOwner, book.nameOfOwner, "N/A", "N/A")
+        lastMessageObj = LastMessage(userId, chatId, book.urlOfOwner, book.nameOfOwner, "N/A", "N/A")
         lastMessageObjRef.setValue(lastMessageObj)
         //Under Chats
         chatRef.child("Owner").setValue(owner)
@@ -139,7 +139,7 @@ class BookDetailsFragment : Fragment() {
     }
 
     private fun toChatFragment() {
-        model.passBuyerObj(buyer)
+        model.passLastMessageObj(lastMessageObj)
         view!!.findNavController().navigate(R.id.action_bookDetails_to_chatFragment)
     }
 

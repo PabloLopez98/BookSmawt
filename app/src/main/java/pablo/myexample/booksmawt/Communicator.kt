@@ -11,7 +11,7 @@ class Communicator : ViewModel() {
 
     var filterObj = MutableLiveData<Filter>()
 
-    var buyerObj = MutableLiveData<ChatProfile>()
+    var lastMessageObj = MutableLiveData<LastMessage>()
 
     fun passProfileObj(obj: Profile) {
         profileObj.value = obj
@@ -25,7 +25,7 @@ class Communicator : ViewModel() {
         filterObj.value = obj
     }
 
-    fun passBuyerObj(obj: ChatProfile){
-        buyerObj.value = obj
+    fun passLastMessageObj(obj: LastMessage){
+        lastMessageObj.value = obj
     }
 }
