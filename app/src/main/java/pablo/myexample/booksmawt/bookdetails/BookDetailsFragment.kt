@@ -124,11 +124,10 @@ class BookDetailsFragment : Fragment() {
         val owner = ChatProfile(chatId, book.nameOfOwner, book.urlOfOwner, book.idOfOwner)
         val buyer = ChatProfile(chatId, profile.name, profile.url, userId)
         //Under Users
-        val lastMessageObjRef =
-            FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Chats")
-                .child(chatId)
+        val lastMessageObjRef = FirebaseDatabase.getInstance().reference.child("Users")
         lastMessageObj = LastMessage(userId, chatId, book.urlOfOwner, book.nameOfOwner, "N/A", "N/A")
-        lastMessageObjRef.setValue(lastMessageObj)
+        lastMessageObjRef.child(owner.id).child("Chats").child(lastMessageObj.chatId).setValue(lastMessageObj)
+        lastMessageObjRef.child(buyer.id).child("Chats").child(lastMessageObj.chatId).setValue(lastMessageObj)
         //Under Chats
         chatRef.child("Owner").setValue(owner)
         chatRef.child("Buyer").setValue(buyer)

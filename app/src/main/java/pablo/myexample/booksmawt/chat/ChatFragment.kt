@@ -183,7 +183,9 @@ class ChatFragment : Fragment() {
         adapter.notifyDataSetChanged()
         //update database
         baseRef.child(thisUserObject.chatId).child("Messages").push().setValue(message)
-        FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Chats").child(thisUserObject.chatId).setValue(message)
+        val baseRefJr = FirebaseDatabase.getInstance().reference.child("Users")
+        baseRefJr.child(owner.id).child("Chats").child(thisUserObject.chatId).setValue(message)
+        baseRefJr.child(buyer.id).child("Chats").child(thisUserObject.chatId).setValue(message)
     }
 
     override fun onDestroyView() {
