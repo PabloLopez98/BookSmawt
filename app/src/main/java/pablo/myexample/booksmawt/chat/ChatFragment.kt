@@ -14,14 +14,12 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.chat_fragment.*
 import pablo.myexample.booksmawt.*
+import pablo.myexample.booksmawt.R
 import pablo.myexample.booksmawt.databinding.ChatFragmentBinding
 import pablo.myexample.booksmawt.list.ListFragmentAdapter
 import java.text.SimpleDateFormat
@@ -125,31 +123,40 @@ class ChatFragment : Fragment() {
                 thisUserObject = buyer
             }
         }
+        setUpRecyclerView()
         getMessages()
     }
 
     private fun getMessages() {
-        baseRef.child(buyer.chatId).child("Messages")
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onCancelled(snapshotError: DatabaseError) {
+        baseRef.child(buyer.chatId).child("Messages").addChildEventListener(object : ChildEventListener {
+                override fun onCancelled(p0: DatabaseError) {
                 }
 
-                override fun onDataChange(snapshot: DataSnapshot) = when {
-                    snapshot.exists() -> {
-                        snapshot.children.forEach {
-                            val msg = it.getValue(LastMessage::class.java)!!
-                            messagesList.add(msg)
-                        }
-                        setUpRecyclerView()
-                    }
-                    else -> {/* NOTHING */
-                    }
+                override fun onChildMoved(p0: DataSnapshot, p1: String?) {
                 }
+
+                override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                }
+
+                override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                    when {
+                        p0.exists() -> {
+                            when {
+                                p0.getValue(LastMessage::class.java)!!.date != "N/A" -> messagesList.add(p0.getValue(LastMessage::class.java)!!)
+                            }
+                        }
+                        else -> {}
+                    }
+                    adapter.notifyDataSetChanged()
+                }
+
+                override fun onChildRemoved(p0: DataSnapshot) {
+                }
+
             })
     }
 
     private fun setUpRecyclerView() {
-        messagesList.removeAt(0)
         val recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         adapter = ChatFragmentAdapter(messagesList)
@@ -179,8 +186,6 @@ class ChatFragment : Fragment() {
             date,
             msg
         )
-        messagesList.add(message)
-        adapter.notifyDataSetChanged()
         //update database
         baseRef.child(thisUserObject.chatId).child("Messages").push().setValue(message)
         val baseRefJr = FirebaseDatabase.getInstance().reference.child("Users")

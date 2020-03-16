@@ -123,16 +123,22 @@ class BookDetailsFragment : Fragment() {
         //ChatProfile Objects
         val owner = ChatProfile(chatId, book.nameOfOwner, book.urlOfOwner, book.idOfOwner)
         val buyer = ChatProfile(chatId, profile.name, profile.url, userId)
-        //Under Users
-        val lastMessageObjRef = FirebaseDatabase.getInstance().reference.child("Users")
-        lastMessageObj = LastMessage(userId, chatId, book.urlOfOwner, book.nameOfOwner, "N/A", "N/A")
-        lastMessageObjRef.child(owner.id).child("Chats").child(lastMessageObj.chatId).setValue(lastMessageObj)
-        lastMessageObjRef.child(buyer.id).child("Chats").child(lastMessageObj.chatId).setValue(lastMessageObj)
-        //Under Chats
-        chatRef.child("Owner").setValue(owner)
-        chatRef.child("Buyer").setValue(buyer)
-        chatRef.child("Book").setValue(book)
-        chatRef.child("Messages").push().setValue(lastMessageObj)
+        try {//Under Users
+            val lastMessageObjRef = FirebaseDatabase.getInstance().reference.child("Users")
+            lastMessageObj =
+                LastMessage(userId, chatId, book.urlOfOwner, book.nameOfOwner, "N/A", "N/A")
+            lastMessageObjRef.child(owner.id).child("Chats").child(lastMessageObj.chatId)
+                .setValue(lastMessageObj)
+            lastMessageObjRef.child(buyer.id).child("Chats").child(lastMessageObj.chatId)
+                .setValue(lastMessageObj)
+            //Under Chats
+            chatRef.child("Owner").setValue(owner)
+            chatRef.child("Buyer").setValue(buyer)
+            chatRef.child("Book").setValue(book)
+            chatRef.child("Messages").push().setValue(lastMessageObj)
+        } catch (e: Exception) {
+            //do nothing
+        }
         //then go to chat frag
         toChatFragment()
     }
@@ -154,5 +160,4 @@ class BookDetailsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
     }
-
 }

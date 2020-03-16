@@ -45,6 +45,7 @@ class MessagesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         model = ViewModelProvider(activity!!).get(Communicator::class.java)
         lastMessagesList = ArrayList()
+        setUpRecyclerView()
         getLastMessages()
     }
 
@@ -73,8 +74,8 @@ class MessagesFragment : Fragment() {
                                     lastMessagesList.add(obj)
                                 }
                             }
+                            adapter.notifyDataSetChanged()
                         }
-                        setUpRecyclerView()
                     }
                 }
             }
