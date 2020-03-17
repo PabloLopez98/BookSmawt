@@ -5,10 +5,10 @@
     android:id="@+id/login_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@android:color/black"
     tools:context=".Login">
 
-    <FrameLayout
+  <!--  <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,7 +24,7 @@
             android:alpha=".1"
             android:background="@drawable/background_image" />
 
-    </FrameLayout>
+    </FrameLayout>-->
 
     <LinearLayout
         android:id="@+id/linearLayout4"
@@ -134,10 +134,10 @@
 
         <ImageView
             android:id="@+id/imageView"
+            android:tint="@android:color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:tint="@color/myMainColor"
             app:srcCompat="@drawable/ic_iconfinder_book_605510"
             tools:layout_editor_absoluteX="142dp"
             tools:layout_editor_absoluteY="302dp" />
@@ -148,7 +148,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="@string/booksmawt"
-            android:textColor="@color/myMainColor"
+            android:textColor="@color/myMainColorTwo"
             android:textSize="30sp"
             android:textStyle="bold"
             tools:layout_editor_absoluteX="142dp"
@@ -162,7 +162,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:text="@string/login_header"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -175,7 +175,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/terms_of_use_a"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
@@ -213,7 +213,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="8dp"
             android:text="@string/or"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:textStyle="bold" />
 
         <com.shobhitpuri.custombuttons.GoogleSignInButton
@@ -294,7 +294,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
             android:text="@string/and"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/white" />
 
         <TextView
             android:layout_width="wrap_content"

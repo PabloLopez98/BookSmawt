@@ -1,5 +1,6 @@
 package pablo.myexample.booksmawt.chat
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -70,6 +71,29 @@ class ChatFragment : Fragment() {
         binding.linearLayout7.setOnClickListener{
            toPreviewFragment()
         }
+        binding.chatFragDelete.setOnClickListener {
+            deleteDialog()
+        }
+    }
+
+    private fun deleteDialog(){
+        val dialogBuilder = AlertDialog.Builder(activity!!)
+        dialogBuilder.setMessage("Are you sure you want to delete this conversation")
+            .setPositiveButton("Yes", {dialog, id -> deleteConversation()})
+            .setNegativeButton("No", {dialog, id -> dialog.dismiss()})
+        val alert = dialogBuilder.create()
+        alert.setTitle("Warning")
+        alert.show()
+    }
+
+    /*
+    Does not take care of deleting chat under 'Chats'
+    Will have to deal with that later.
+    For now focus on push notifications.
+     */
+    private fun deleteConversation(){
+        FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Chats").child(owner.chatId).removeValue()
+        toMessagesFragment()
     }
 
     private fun toPreviewFragment(){
@@ -194,5 +218,4 @@ class ChatFragment : Fragment() {
         baseRefJr.child(owner.id).child("Chats").child(thisUserObject.chatId).setValue(message)
         baseRefJr.child(buyer.id).child("Chats").child(thisUserObject.chatId).setValue(message)
     }
-
 }
