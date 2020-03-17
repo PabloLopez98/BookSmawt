@@ -27,17 +27,9 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
-/*
-TODO
--display messages list, and update as database updates
--send button, update database on opposite end
--update recyclerview with database updates
--delete option
--click book, send to preview
- */
-
 class ChatFragment : Fragment() {
 
+    private lateinit var lastMsg: LastMessage
     private lateinit var thisUserObject: ChatProfile
     private lateinit var messagesList: ArrayList<LastMessage>
     private val baseRef = FirebaseDatabase.getInstance().reference.child("Chats")
@@ -65,6 +57,7 @@ class ChatFragment : Fragment() {
         messagesList = ArrayList()
         model = ViewModelProvider(activity!!).get(Communicator::class.java)
         model.lastMessageObj.observe(activity!!, Observer<LastMessage> { o ->
+            lastMsg = o
             getData(o.chatId)
         })
 
@@ -74,6 +67,16 @@ class ChatFragment : Fragment() {
         binding.chatFragBackArrow.setOnClickListener {
             toMessagesFragment()
         }
+        binding.linearLayout7.setOnClickListener{
+           toPreviewFragment()
+        }
+    }
+
+    private fun toPreviewFragment(){
+        model.passBookObj(binding.bookObj!!)
+        model.passLastMessageObj(lastMsg)
+        activity!!.bottom_nav_view.visibility = View.INVISIBLE
+        view!!.findNavController().navigate(R.id.action_chatFragment_to_previewFragment)
     }
 
     private fun toMessagesFragment() {
@@ -190,11 +193,6 @@ class ChatFragment : Fragment() {
         val baseRefJr = FirebaseDatabase.getInstance().reference.child("Users")
         baseRefJr.child(owner.id).child("Chats").child(thisUserObject.chatId).setValue(message)
         baseRefJr.child(buyer.id).child("Chats").child(thisUserObject.chatId).setValue(message)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        activity!!.bottom_nav_view.visibility = View.VISIBLE
     }
 
 }

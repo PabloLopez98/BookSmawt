@@ -107,6 +107,11 @@
             app:destination="@id/navigation_messages"
             app:enterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_in_left" />
+        <action
+            android:id="@+id/action_chatFragment_to_previewFragment"
+            app:destination="@id/previewFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_in_left" />
     </fragment>
     <fragment
         android:id="@+id/addedBookFragment"
@@ -142,6 +147,16 @@
         <action
             android:id="@+id/action_editAddedBookFragment_to_addedBookFragment"
             app:destination="@id/addedBookFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_in_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/previewFragment"
+        android:name="pablo.myexample.booksmawt.preview.PreviewFragment"
+        android:label="PreviewFragment" >
+        <action
+            android:id="@+id/action_previewFragment_to_chatFragment"
+            app:destination="@id/chatFragment"
             app:enterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_in_left" />
     </fragment>
