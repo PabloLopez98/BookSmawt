@@ -175,8 +175,7 @@ class ChatFragment : Fragment() {
     }
 
     private fun sendMessage() {
-        val date = LocalDateTime.now()
-            .format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG, FormatStyle.SHORT))
+        val date = LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG, FormatStyle.SHORT))
         val msg = binding.chatFragInput.text.toString()
         val message = LastMessage(
             userId,

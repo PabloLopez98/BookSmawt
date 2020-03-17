@@ -29,6 +29,7 @@ import java.lang.Exception
 
 class MessagesFragment : Fragment() {
 
+    private lateinit var lastMessagesChatIdList: ArrayList<String>
     private lateinit var model: Communicator
     private lateinit var adapter: MessagesFragmentAdapter
     private lateinit var lastMessagesList: ArrayList<LastMessage>
@@ -44,6 +45,7 @@ class MessagesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         model = ViewModelProvider(activity!!).get(Communicator::class.java)
+        lastMessagesChatIdList = ArrayList()
         lastMessagesList = ArrayList()
         setUpRecyclerView()
         getLastMessages()
@@ -54,35 +56,34 @@ class MessagesFragment : Fragment() {
     }
 
     private fun getLastMessages() {
-        FirebaseDatabase.getInstance().reference.child("Users").child(userId).addChildEventListener(object : ChildEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-            }
+        FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Chats")
+            .addChildEventListener(object : ChildEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                }
 
-            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
-            }
+                override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+                }
 
-            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-            }
+                override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                    val chatId = p0.key.toString()
+                    val position: Int = lastMessagesChatIdList.indexOf(chatId)
+                    lastMessagesList[position] = p0.getValue(LastMessage::class.java)!!
+                    adapter.notifyItemChanged(position)
+                }
 
-            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                when {
-                    p0.exists() -> {
-                        p0.children.forEach {
-                            when {
-                                p0.key.toString() == "Chats" -> {
-                                    val obj = it.getValue(LastMessage::class.java)!!
-                                    lastMessagesList.add(obj)
-                                }
-                            }
-                            adapter.notifyDataSetChanged()
+                override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                    when {
+                        p0.exists() -> {
+                            lastMessagesList.add(p0.getValue(LastMessage::class.java)!!)
+                            lastMessagesChatIdList.add(p0.key.toString())
                         }
                     }
+                    adapter.notifyDataSetChanged()
                 }
-            }
 
-            override fun onChildRemoved(p0: DataSnapshot) {
-            }
-        })
+                override fun onChildRemoved(p0: DataSnapshot) {
+                }
+            })
     }
 
     private fun setUpRecyclerView() {
