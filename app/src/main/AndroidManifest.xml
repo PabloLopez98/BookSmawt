@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="pablo.myexample.booksmawt">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
@@ -13,10 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:screenOrientation="fullSensor"
             android:name=".Base"
-            android:theme="@style/BaseTheme"
-            android:label="@string/title_activity_base"/>
+            android:label="@string/title_activity_base"
+            android:screenOrientation="fullSensor"
+            android:theme="@style/BaseTheme" />
         <activity
             android:name=".CreateAccount"
             android:label="Create Account"
@@ -38,7 +38,10 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".Service">
+        <service
+            android:name=".Service"
+            android:enabled="false"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
