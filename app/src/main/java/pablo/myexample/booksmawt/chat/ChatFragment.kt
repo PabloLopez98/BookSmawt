@@ -34,9 +34,11 @@ import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import kotlin.properties.Delegates
 
 class ChatFragment : Fragment() {
 
+    private var onePersonLeft: Boolean = false
     private lateinit var lastMsg: LastMessage
     private lateinit var thisUserObject: ChatProfile
     private lateinit var messagesList: ArrayList<LastMessage>
@@ -93,14 +95,15 @@ class ChatFragment : Fragment() {
         alert.show()
     }
 
-    /*
-    Does not take care of deleting chat under 'Chats'
-    Will have to deal with that later.
-    For now focus on push notifications.
-     */
     private fun deleteConversation() {
-        FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Chats")
-            .child(owner.chatId).removeValue()
+        val baseRef = FirebaseDatabase.getInstance().reference
+        if (onePersonLeft) {//if last person, delete last msg node, and conversation permanently
+            baseRef.child("Chats").child(owner.chatId).removeValue()
+            baseRef.child("Users").child(userId).child("Chats").child(owner.chatId).removeValue()
+        } else {//two people left, then delete last msg node, and tell database there is one person left
+            baseRef.child("Chats").child(owner.chatId).child("OnePersonLeft").setValue("true")
+            baseRef.child("Users").child(userId).child("Chats").child(owner.chatId).removeValue()
+        }
         toMessagesFragment()
     }
 
@@ -136,6 +139,9 @@ class ChatFragment : Fragment() {
                             }
                             "Owner" -> {
                                 owner = it.getValue(ChatProfile::class.java)!!
+                            }
+                            "OnePersonLeft" -> {
+                                onePersonLeft = true
                             }
                         }
                     }
@@ -225,18 +231,45 @@ class ChatFragment : Fragment() {
             date,
             msg
         )
+
         //update database
         baseRef.child(thisUserObject.chatId).child("Messages").push().setValue(message)
         val baseRefJr = FirebaseDatabase.getInstance().reference.child("Users")
-        baseRefJr.child(owner.id).child("Chats").child(thisUserObject.chatId).setValue(message)
-        baseRefJr.child(buyer.id).child("Chats").child(thisUserObject.chatId).setValue(message)
-        //send push notification
-        when (userId) {
-            owner.id -> {
-                SendPush().sendFCMPush(context!!, buyer.id, binding.chatFragInput.text.toString(), owner.name)
+
+        //send push notification if there are two people in conversation
+        if (onePersonLeft == false) {
+            when (userId) {
+                owner.id -> {
+                    SendPush().sendFCMPush(
+                        context!!,
+                        buyer.id,
+                        binding.chatFragInput.text.toString(),
+                        owner.name
+                    )
+                }
+                else -> {
+                    SendPush().sendFCMPush(
+                        context!!,
+                        owner.id,
+                        binding.chatFragInput.text.toString(),
+                        buyer.name
+                    )
+                }
             }
-            else -> {
-                SendPush().sendFCMPush(context!!, owner.id, binding.chatFragInput.text.toString(), buyer.name)
+            baseRefJr.child(owner.id).child("Chats").child(thisUserObject.chatId)
+                .setValue(message)
+            baseRefJr.child(buyer.id).child("Chats").child(thisUserObject.chatId)
+                .setValue(message)
+        } else {
+            when (userId) {
+                owner.id -> {
+                    baseRefJr.child(owner.id).child("Chats").child(thisUserObject.chatId)
+                        .setValue(message)
+                }
+                else -> {
+                    baseRefJr.child(buyer.id).child("Chats").child(thisUserObject.chatId)
+                        .setValue(message)
+                }
             }
         }
     }
