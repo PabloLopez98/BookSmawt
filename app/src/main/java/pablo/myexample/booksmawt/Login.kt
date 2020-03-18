@@ -207,6 +207,8 @@ class Login : AppCompatActivity() {
 
     //after signInProcess
     private fun Login() {
+        startService(Intent(this, Service::class.java))
+        //transition
         val i = Intent(this, Base::class.java)
         startActivity(i)
         finish()

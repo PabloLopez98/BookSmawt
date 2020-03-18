@@ -26,11 +26,8 @@ import com.squareup.picasso.Picasso
 import com.twitter.sdk.android.core.TwitterCore
 import com.twitter.sdk.android.core.TwitterSession
 import kotlinx.android.synthetic.main.activity_base.*
-import pablo.myexample.booksmawt.Communicator
-import pablo.myexample.booksmawt.Login
-import pablo.myexample.booksmawt.Profile
+import pablo.myexample.booksmawt.*
 
-import pablo.myexample.booksmawt.R
 import pablo.myexample.booksmawt.databinding.ProfileFragmentBinding
 import kotlin.math.sign
 
@@ -77,6 +74,9 @@ class ProfileFragment : Fragment() {
     }
 
     private fun Logout() {
+        //ondestroy service method is called after calling stopservice
+        val intent = Intent(activity!!, Service::class.java)
+        activity!!.stopService(intent)
         //clear token
         FirebaseDatabase.getInstance().reference.child("Users")
             .child(FirebaseAuth.getInstance().currentUser!!.uid).child("Token")
