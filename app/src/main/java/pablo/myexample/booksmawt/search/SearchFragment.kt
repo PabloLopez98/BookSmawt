@@ -22,6 +22,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.iid.FirebaseInstanceId
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_base.*
 import pablo.myexample.booksmawt.*
@@ -91,6 +92,15 @@ class SearchFragment : Fragment() {
         setUpFilter()
         loadProfileImage()
         setupRecyclerview()
+        setUpUserToken()
+    }
+
+    private fun setUpUserToken() {
+        FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener {
+            FirebaseDatabase.getInstance().reference.child("Users")
+                .child(FirebaseAuth.getInstance().currentUser!!.uid).child("Token")
+                .setValue(it.token)
+        }
     }
 
     private fun setUpFilter() {

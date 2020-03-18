@@ -1,12 +1,19 @@
 package pablo.myexample.booksmawt.chat
 
 import android.app.AlertDialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -68,19 +75,19 @@ class ChatFragment : Fragment() {
         binding.chatFragBackArrow.setOnClickListener {
             toMessagesFragment()
         }
-        binding.linearLayout7.setOnClickListener{
-           toPreviewFragment()
+        binding.linearLayout7.setOnClickListener {
+            toPreviewFragment()
         }
         binding.chatFragDelete.setOnClickListener {
             deleteDialog()
         }
     }
 
-    private fun deleteDialog(){
+    private fun deleteDialog() {
         val dialogBuilder = AlertDialog.Builder(activity!!)
         dialogBuilder.setMessage("Are you sure you want to delete this conversation")
-            .setPositiveButton("Yes", {dialog, id -> deleteConversation()})
-            .setNegativeButton("No", {dialog, id -> dialog.dismiss()})
+            .setPositiveButton("Yes", { dialog, id -> deleteConversation() })
+            .setNegativeButton("No", { dialog, id -> dialog.dismiss() })
         val alert = dialogBuilder.create()
         alert.setTitle("Warning")
         alert.show()
@@ -91,12 +98,13 @@ class ChatFragment : Fragment() {
     Will have to deal with that later.
     For now focus on push notifications.
      */
-    private fun deleteConversation(){
-        FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Chats").child(owner.chatId).removeValue()
+    private fun deleteConversation() {
+        FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Chats")
+            .child(owner.chatId).removeValue()
         toMessagesFragment()
     }
 
-    private fun toPreviewFragment(){
+    private fun toPreviewFragment() {
         model.passBookObj(binding.bookObj!!)
         model.passLastMessageObj(lastMsg)
         activity!!.bottom_nav_view.visibility = View.INVISIBLE
@@ -155,7 +163,8 @@ class ChatFragment : Fragment() {
     }
 
     private fun getMessages() {
-        baseRef.child(buyer.chatId).child("Messages").addChildEventListener(object : ChildEventListener {
+        baseRef.child(buyer.chatId).child("Messages")
+            .addChildEventListener(object : ChildEventListener {
                 override fun onCancelled(p0: DatabaseError) {
                 }
 
@@ -169,10 +178,13 @@ class ChatFragment : Fragment() {
                     when {
                         p0.exists() -> {
                             when {
-                                p0.getValue(LastMessage::class.java)!!.date != "N/A" -> messagesList.add(p0.getValue(LastMessage::class.java)!!)
+                                p0.getValue(LastMessage::class.java)!!.date != "N/A" -> messagesList.add(
+                                    p0.getValue(LastMessage::class.java)!!
+                                )
                             }
                         }
-                        else -> {}
+                        else -> {
+                        }
                     }
                     adapter.notifyDataSetChanged()
                 }
@@ -202,7 +214,8 @@ class ChatFragment : Fragment() {
     }
 
     private fun sendMessage() {
-        val date = LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG, FormatStyle.SHORT))
+        val date = LocalDateTime.now()
+            .format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG, FormatStyle.SHORT))
         val msg = binding.chatFragInput.text.toString()
         val message = LastMessage(
             userId,
@@ -217,5 +230,14 @@ class ChatFragment : Fragment() {
         val baseRefJr = FirebaseDatabase.getInstance().reference.child("Users")
         baseRefJr.child(owner.id).child("Chats").child(thisUserObject.chatId).setValue(message)
         baseRefJr.child(buyer.id).child("Chats").child(thisUserObject.chatId).setValue(message)
+        //send push notification
+        when (userId) {
+            owner.id -> {
+                SendPush().sendFCMPush(context!!, buyer.id, binding.chatFragInput.text.toString(), owner.name)
+            }
+            else -> {
+                SendPush().sendFCMPush(context!!, owner.id, binding.chatFragInput.text.toString(), buyer.name)
+            }
+        }
     }
 }

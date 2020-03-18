@@ -16,6 +16,9 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+    <!-- Notifications -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="channel_name">BookSmawt Channel</string>
+    <string name="channel_description">BookSmawt Main Notification Channel</string>
+    <string name="CHANNEL_ID">BookSmat Channel</string>
 </resources>

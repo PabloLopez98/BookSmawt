@@ -77,6 +77,10 @@ class ProfileFragment : Fragment() {
     }
 
     private fun Logout() {
+        //clear token
+        FirebaseDatabase.getInstance().reference.child("Users")
+            .child(FirebaseAuth.getInstance().currentUser!!.uid).child("Token")
+            .setValue("N/A")
         //logout of firebase, etc.
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
