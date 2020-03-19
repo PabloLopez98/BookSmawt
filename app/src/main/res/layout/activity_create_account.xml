@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
     android:id="@+id/create_account_layout"
+    android:background="@android:color/white"
     android:orientation="vertical"
     tools:context=".CreateAccount">
 
@@ -14,7 +14,7 @@
         android:elevation="4dp"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/myMainColor">
+        android:background="@color/myRed">
 
         <ImageButton
             android:id="@+id/create_account_back_button"
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/edit_text_border"
+            android:background="@drawable/edit_text_border_two"
             android:gravity="center"
             android:orientation="horizontal"
             android:paddingStart="8dp"
@@ -109,7 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/edit_text_border"
+            android:background="@drawable/edit_text_border_two"
             android:gravity="center"
             android:orientation="horizontal"
             android:paddingStart="8dp"
@@ -158,7 +158,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/edit_text_border"
+            android:background="@drawable/edit_text_border_two"
             android:gravity="center"
             android:paddingStart="8dp"
             android:paddingEnd="8dp">
@@ -208,7 +208,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="32dp"
-            android:background="@drawable/edit_text_border"
+            android:background="@drawable/edit_text_border_two"
             android:gravity="center"
             android:paddingStart="8dp"
             android:paddingEnd="8dp">
@@ -249,7 +249,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_button"
-            android:backgroundTint="@color/myMainColorTwo"
             android:onClick="checkEmptyFields"
             android:text="Create Account"
             android:textAllCaps="false" />
@@ -278,7 +277,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/terms_of_use_b"
-                android:textColor="@color/myMainColorTwo"
+                android:textColor="@color/myLightRed"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -294,7 +293,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/terms_of_use_c"
-                android:textColor="@color/myMainColorTwo"
+                android:textColor="@color/myLightRed"
                 android:textStyle="bold" />
         </LinearLayout>
 

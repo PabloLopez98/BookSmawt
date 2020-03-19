@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/myRed"
     tools:context=".MainActivity">
 
-    <FrameLayout
+  <!--  <FrameLayout
         android:id="@+id/frameLayout"
         android:background="@android:color/white"
         android:layout_width="match_parent"
@@ -22,7 +23,7 @@
             android:alpha=".2"
             android:background="@drawable/background_image" />
 
-    </FrameLayout>
+    </FrameLayout>-->
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -40,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:tint="@color/myMainColor"
+            android:tint="@android:color/white"
             app:srcCompat="@drawable/ic_iconfinder_book_605510"
             tools:layout_editor_absoluteX="142dp"
             tools:layout_editor_absoluteY="302dp" />
@@ -52,7 +53,7 @@
             android:layout_gravity="center_horizontal"
             android:textStyle="bold"
             android:text="@string/booksmawt"
-            android:textColor="@color/myMainColor"
+            android:textColor="@android:color/white"
             android:textSize="30sp"
             tools:layout_editor_absoluteX="142dp"
             tools:layout_editor_absoluteY="444dp" />

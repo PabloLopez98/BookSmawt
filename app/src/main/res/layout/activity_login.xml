@@ -5,14 +5,12 @@
     android:id="@+id/login_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
     tools:context=".Login">
 
-  <!--  <FrameLayout
+    <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background_gradient"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,10 +19,10 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:alpha=".1"
-            android:background="@drawable/background_image" />
+            android:alpha="1"
+            android:background="@drawable/backgtound_png" />
 
-    </FrameLayout>-->
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout4"
@@ -134,10 +132,11 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:tint="@android:color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:padding="8dp"
+            android:tint="@android:color/white"
             app:srcCompat="@drawable/ic_iconfinder_book_605510"
             tools:layout_editor_absoluteX="142dp"
             tools:layout_editor_absoluteY="302dp" />
@@ -147,8 +146,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif"
             android:text="@string/booksmawt"
-            android:textColor="@color/myMainColorTwo"
+            android:textColor="@android:color/white"
             android:textSize="30sp"
             android:textStyle="bold"
             tools:layout_editor_absoluteX="142dp"
@@ -162,7 +163,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:text="@string/login_header"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -201,7 +202,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:background="@drawable/rounded_button"
-            android:backgroundTint="@color/myMainColorTwo"
             android:onClick="checkEmptyFields"
             android:text="@string/login_button_text"
             android:textAllCaps="false"
@@ -259,7 +259,7 @@
         android:layout_height="wrap_content"
         android:onClick="toRegister"
         android:text="@string/register"
-        android:textColor="@color/myMainColorTwo"
+        android:textColor="@color/myLightRed"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textView10"
@@ -284,7 +284,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/terms_of_use_b"
-            android:textColor="@color/myMainColorTwo"
+            android:textColor="@color/myLightRed"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -293,33 +293,36 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
+            android:textColor="@android:color/white"
             android:text="@string/and"
-            android:textColor="@android:color/white" />
+            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/terms_of_use_c"
-            android:textColor="@color/myMainColorTwo"
+            android:textColor="@color/myLightRed"
             android:textStyle="bold" />
 
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/progress_circle"
-        android:visibility="invisible"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="invisible">
 
         <FrameLayout
-            android:alpha=".5"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:alpha=".5"
             android:background="@drawable/background_gradient"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent">
+
+        </FrameLayout>
 
         <androidx.core.widget.ContentLoadingProgressBar
             style="?android:attr/progressBarStyleLarge"

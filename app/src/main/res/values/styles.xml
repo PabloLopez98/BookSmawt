@@ -20,7 +20,7 @@
     </style>
 
     <style name="LoginTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:statusBarColor">@color/myDarkColor</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
     <style name="CollapsingToolbarLayoutExpandedTextStyle" parent="AppTheme">
