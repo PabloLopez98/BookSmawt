@@ -13,7 +13,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
+        android:background="@android:color/black"
         tools:context=".profile.ProfileFragment">
 
         <LinearLayout
@@ -26,7 +26,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/myMainColor"
+                android:background="@color/myGreen"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -79,7 +79,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="24dp"
-                android:background="@color/myMainColorTwo"
+                android:background="@color/myLightGreen"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:text="Select Image"
@@ -100,7 +100,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="16dp"
                     android:src="@drawable/ic_person_outline_24px"
-                    android:tint="@color/myMainColor" />
+                     />
 
                 <TextView
                     android:id="@+id/original_name"
@@ -108,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:maxLines="2"
                     android:text="@{profileObj.name}"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -164,7 +164,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="16dp"
                     android:src="@drawable/ic_location_on_24px"
-                    android:tint="@color/myMainColor" />
+                    />
 
                 <TextView
                     android:id="@+id/original_location"
@@ -172,7 +172,7 @@
                     android:layout_height="wrap_content"
                     android:maxLines="2"
                     android:text="@{profileObj.location}"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 

@@ -19,7 +19,7 @@
             android:id="@+id/linearLayout5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/myRed"
+            android:background="@android:color/black"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -41,7 +41,8 @@
                     android:id="@+id/filter_button"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:background="@drawable/ripple"
+                    android:tint="@color/myGreen"
+                    android:background="@drawable/ripple_three"
                     android:src="@drawable/ic_tune_24px" />
 
                 <LinearLayout
@@ -73,8 +74,8 @@
                         android:imeOptions="actionSearch"
                         android:inputType="number"
                         android:singleLine="true"
-                        android:textColor="@color/myMainColor"
-                        android:textColorHint="@color/myMainColor" />
+                        android:textColor="@color/myGreen"
+                        android:textColorHint="@color/myGreen" />
 
                 </LinearLayout>
 
@@ -109,7 +110,7 @@
                     android:backgroundTint="@android:color/white"
                     android:padding="10dp"
                     android:text="$0 - $0"
-                    android:textColor="@color/myMainColor"
+                    android:textColor="@color/myGreen"
                     android:textStyle="bold" />
 
                 <TextView
@@ -121,14 +122,14 @@
                     android:backgroundTint="@android:color/white"
                     android:padding="10dp"
                     android:text="City N/A"
-                    android:textColor="@color/myMainColor"
+                    android:textColor="@color/myGreen"
                     android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@android:color/white" />
+                    android:backgroundTint="@color/myGreen" />
 
             </LinearLayout>
 

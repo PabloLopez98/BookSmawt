@@ -129,7 +129,7 @@ class SearchFragment : Fragment() {
                                 profileObj!!.url.contentEquals("empty") -> {
                                 }
                                 else -> {
-                                    Picasso.get().load(profileObj.url)
+                                    Picasso.get().load(profileObj.url).resize(50, 50).centerCrop()
                                         .into(binding.profileImageView)
                                 }
                             }

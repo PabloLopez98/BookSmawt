@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
+        android:background="@android:color/black"
         tools:context=".searchfilter.SearchFilterFragment">
 
 
@@ -21,7 +21,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
             android:text="Location"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -79,7 +79,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
             android:text="Price Range"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -93,19 +93,19 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="24dp"
             app:bar_color="@color/search_filter_input"
-            app:bar_highlight_color="@color/myMainColor"
+            app:bar_highlight_color="@color/myLightGreen"
             app:corner_radius="10"
             app:data_type="_integer"
             app:gap="0"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
-            app:left_thumb_color="@color/myMainColor"
-            app:left_thumb_color_pressed="@color/myMainColorTwo"
+            app:left_thumb_color="@color/myGreen"
+            app:left_thumb_color_pressed="@color/myLightGreen"
             app:max_value="100"
             app:min_value="50"
-            app:right_thumb_color="@color/myMainColor"
-            app:right_thumb_color_pressed="@color/myMainColorTwo" />
+            app:right_thumb_color="@color/myGreen"
+            app:right_thumb_color_pressed="@color/myLightGreen" />
 
         <Button
             android:id="@+id/apply_button"
@@ -145,7 +145,7 @@
             android:elevation="4dp"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/myMainColor"
+            android:background="@color/myGreen"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -180,7 +180,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -192,7 +192,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"

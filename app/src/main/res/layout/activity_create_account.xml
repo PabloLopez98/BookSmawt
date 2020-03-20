@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/black"
     android:id="@+id/create_account_layout"
-    android:background="@android:color/white"
     android:orientation="vertical"
     tools:context=".CreateAccount">
 
@@ -14,7 +14,7 @@
         android:elevation="4dp"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/myRed">
+        android:background="@color/myGreen">
 
         <ImageButton
             android:id="@+id/create_account_back_button"
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="Enter a username:"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -100,7 +100,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Enter a valid email address:"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -149,7 +149,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Enter a password with at least 6 characters:"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -199,7 +199,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Confirm Password:"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -263,7 +263,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/terms_of_use_a"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:textSize="14sp" />
 
         <LinearLayout
@@ -277,7 +277,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/terms_of_use_b"
-                android:textColor="@color/myLightRed"
+                android:textColor="@color/myLightGreen"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -287,13 +287,13 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
                 android:text="@string/and"
-                android:textColor="@android:color/black" />
+                android:textColor="@android:color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/terms_of_use_c"
-                android:textColor="@color/myLightRed"
+                android:textColor="@color/myLightGreen"
                 android:textStyle="bold" />
         </LinearLayout>
 

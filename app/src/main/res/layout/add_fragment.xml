@@ -25,7 +25,7 @@
                 android:id="@+id/toolbar5"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/myMainColor">
+                android:background="@android:color/black">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -48,11 +48,6 @@
                 android:text="* Will also display profile name, city, &amp; photo"
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/myMainColor" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -145,7 +140,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
-                android:backgroundTint="@color/myMainColorTwo"
+                android:backgroundTint="@color/myLightGreen"
                 android:hint="Condition of the book, etc."
                 android:inputType="textMultiLine"
                 android:maxLines="15"
@@ -171,7 +166,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
-                android:background="@drawable/edit_text_border"
+                android:background="@drawable/edit_text_border_two"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:textColor="@android:color/black" />
@@ -194,7 +189,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
-                android:background="@drawable/edit_text_border"
+                android:background="@drawable/edit_text_border_two"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:textColor="@android:color/black" />
@@ -215,7 +210,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
-                android:background="@drawable/edit_text_border"
+                android:background="@drawable/edit_text_border_two"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:textColor="@android:color/black" />
@@ -236,7 +231,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="24dp"
-                android:background="@drawable/edit_text_border"
+                android:background="@drawable/edit_text_border_two"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:textColor="@android:color/black" />

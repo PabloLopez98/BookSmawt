@@ -8,11 +8,15 @@
     <color name="myMainColor">#D50000</color>
 
     <color name="myMainColorTwo">#ff6434</color>
-    <color name="myDarkColor">#a30000</color>
+    <color name="myDarkColor">#037A11</color>
 
     <color name="search_filter_input">#E4E2E2</color>
 
-    <color name="myRed">#D50000</color>
-    <color name="myLightRed">#FF0000</color>
+<!--    <color name="myRed">#D50000</color>
+    <color name="myLightRed">#FF0000</color>-->
+
+    <color name="myGreen">#0AB71E</color>
+    <color name="myLightGreen">#0EEC28</color>
+
 
 </resources>

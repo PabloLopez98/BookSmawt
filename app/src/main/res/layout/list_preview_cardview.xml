@@ -39,7 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="The Art Of War"
-                android:textColor="@color/myMainColor"
+                android:textColor="@color/myGreen"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 />
@@ -110,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Los Angeles, CA"
-                android:textColor="@color/myMainColor"
+                android:textColor="@color/myGreen"
                 android:textSize="16sp"
                 android:textStyle="bold"
                />

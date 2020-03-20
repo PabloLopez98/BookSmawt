@@ -5,6 +5,7 @@
     android:id="@+id/login_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/black"
     tools:context=".Login">
 
     <FrameLayout
@@ -20,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="1"
-            android:background="@drawable/backgtound_png" />
+            android:background="@drawable/backgtound_pngcopy" />
 
     </FrameLayout>
 
@@ -259,7 +260,7 @@
         android:layout_height="wrap_content"
         android:onClick="toRegister"
         android:text="@string/register"
-        android:textColor="@color/myLightRed"
+        android:textColor="@color/myLightGreen"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textView10"
@@ -284,7 +285,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/terms_of_use_b"
-            android:textColor="@color/myLightRed"
+            android:textColor="@color/myLightGreen"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -301,7 +302,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/terms_of_use_c"
-            android:textColor="@color/myLightRed"
+            android:textColor="@color/myLightGreen"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -329,7 +330,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:indeterminateTint="@color/myMainColor"
+            android:indeterminateTint="@color/myGreen"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

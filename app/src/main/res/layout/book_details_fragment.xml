@@ -12,7 +12,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
+        android:background="@android:color/black"
         tools:context=".bookdetails.BookDetailsFragment">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -35,7 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
                     app:autoPlay="false"
-                    app:fillColor="@color/myMainColor"
+                    app:fillColor="@color/myGreen"
                     app:layout_collapseMode="parallax"
                     app:pageColor="@android:color/white"
                     app:radius="6dp"
@@ -67,7 +67,7 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/white"
+            android:background="@android:color/black"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
@@ -84,7 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{bookObj.title}"
-                    android:textColor="@color/myMainColor"
+                    android:textColor="@color/myGreen"
                     android:textSize="36sp"
                     android:textStyle="bold" />
 
@@ -93,7 +93,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{bookObj.author}"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -102,7 +102,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{bookObj.isbn}"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -111,7 +111,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{bookObj.price}"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -120,7 +120,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{bookObj.location}"
-                    android:textColor="@color/myMainColor"
+                    android:textColor="@color/myGreen"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -129,13 +129,13 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
-                    android:background="@android:color/darker_gray" />
+                    android:background="@android:color/white" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Details"
-                    android:textColor="@color/myMainColor"
+                    android:textColor="@color/myGreen"
                     android:textSize="18sp" />
 
                 <TextView
@@ -144,7 +144,7 @@
                     android:layout_height="wrap_content"
                     android:maxLines="15"
                     android:text="@{bookObj.details}"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:textSize="18sp" />
 
                 <View
@@ -152,7 +152,7 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
-                    android:background="@android:color/darker_gray" />
+                    android:background="@android:color/white" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -186,7 +186,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="4dp"
                             android:text="@{bookObj.nameOfOwner}"
-                            android:textColor="@android:color/black"
+                            android:textColor="@android:color/white"
                             android:textSize="20sp"
                             android:textStyle="bold" />
 

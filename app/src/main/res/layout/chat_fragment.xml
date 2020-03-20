@@ -12,14 +12,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
+        android:background="@android:color/black"
         tools:context=".chat.ChatFragment">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar3"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/myMainColor"
+            android:background="@color/myGreen"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -85,7 +85,6 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/rounded_button"
-            android:backgroundTint="@color/myMainColorTwo"
             android:text="Send"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
@@ -120,7 +119,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:background="@android:color/white"
+            android:background="@android:color/black"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -152,7 +151,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:text="@{bookObj.title}"
-                    android:textColor="@color/myMainColor"
+                    android:textColor="@color/myGreen"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -163,7 +162,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:text="@{bookObj.isbn}"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
