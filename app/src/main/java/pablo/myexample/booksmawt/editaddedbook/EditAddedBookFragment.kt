@@ -66,15 +66,15 @@ class EditAddedBookFragment : Fragment() {
             data != null && data.data != null && resultCode == Activity.RESULT_OK -> when {
                 requestCode == PICK_IMAGE_REQUEST_A -> {
                     imageUriA = data!!.data
-                    Picasso.get().load(imageUriA).into(binding.imageA)
+                    Picasso.get().load(imageUriA).fit().centerCrop().into(binding.imageA)
                 }
                 requestCode == PICK_IMAGE_REQUEST_B -> {
                     imageUriB = data!!.data
-                    Picasso.get().load(imageUriB).into(binding.imageB)
+                    Picasso.get().load(imageUriB).fit().centerCrop().into(binding.imageB)
                 }
                 requestCode == PICK_IMAGE_REQUEST_C -> {
                     imageUriC = data!!.data
-                    Picasso.get().load(imageUriC).into(binding.imageC)
+                    Picasso.get().load(imageUriC).fit().centerCrop().into(binding.imageC)
                 }
             }
         }

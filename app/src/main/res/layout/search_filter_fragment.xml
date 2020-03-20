@@ -58,7 +58,8 @@
                 android:backgroundTint="@android:color/transparent"
                 android:singleLine="true"
                 android:completionThreshold="3"
-                android:text="Los Angeles, CA"
+                android:hint="N/A"
+                android:textColorHint="@android:color/black"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 android:textStyle="bold" />

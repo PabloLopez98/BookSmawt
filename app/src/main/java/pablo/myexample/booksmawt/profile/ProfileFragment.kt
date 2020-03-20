@@ -111,8 +111,7 @@ class ProfileFragment : Fragment() {
                             url.contentEquals("empty") -> {
                             }
                             else -> {
-                                Picasso.get().load(url).resize(180, 180).centerCrop()
-                                    .into(binding.imageViewT)
+                                Picasso.get().load(url).fit().centerCrop().into(binding.imageViewT)
                             }
                         }
                     }

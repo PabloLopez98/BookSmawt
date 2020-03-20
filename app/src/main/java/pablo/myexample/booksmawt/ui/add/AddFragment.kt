@@ -235,15 +235,15 @@ class AddFragment : Fragment() {
             data != null && data.data != null && resultCode == Activity.RESULT_OK -> when {
                 requestCode == PICK_IMAGE_REQUEST_A -> {
                     imageUriA = data!!.data
-                    Picasso.get().load(imageUriA).into(binding.imageOne)
+                    Picasso.get().load(imageUriA).fit().centerCrop().into(binding.imageOne)
                 }
                 requestCode == PICK_IMAGE_REQUEST_B -> {
                     imageUriB = data!!.data
-                    Picasso.get().load(imageUriB).into(binding.imageTwo)
+                    Picasso.get().load(imageUriB).fit().centerCrop().into(binding.imageTwo)
                 }
                 requestCode == PICK_IMAGE_REQUEST_C -> {
                     imageUriC = data!!.data
-                    Picasso.get().load(imageUriC).into(binding.imageThree)
+                    Picasso.get().load(imageUriC).fit().centerCrop().into(binding.imageThree)
                 }
             }
         }

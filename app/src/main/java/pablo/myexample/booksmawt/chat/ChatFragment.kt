@@ -131,7 +131,7 @@ class ChatFragment : Fragment() {
                             "Book" -> {
                                 val bookObj = it.getValue(Book::class.java)
                                 binding.bookObj = bookObj
-                                Picasso.get().load(bookObj!!.urlList[0])
+                                Picasso.get().load(bookObj!!.urlList[0]).fit().centerCrop()
                                     .into(binding.chatFragImage)
                             }
                             "Buyer" -> {

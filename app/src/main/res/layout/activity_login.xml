@@ -5,13 +5,13 @@
     android:id="@+id/login_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
     tools:context=".Login">
 
-    <FrameLayout
+   <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/background_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,8 +20,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:alpha="1"
-            android:background="@drawable/backgtound_pngcopy" />
+            android:alpha=".6"
+            android:background="@drawable/background_gradienttwo" />
 
     </FrameLayout>
 
@@ -164,7 +164,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:text="@string/login_header"
-        android:textColor="@android:color/black"
+        android:textColor="@color/myGreen"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

@@ -79,7 +79,7 @@ class BookDetailsFragment : Fragment() {
             backArrowDetails.setOnClickListener {
                 backToSearch()
             }
-            Picasso.get().load(book.urlOfOwner).into(bookDetailsImage)
+            Picasso.get().load(book.urlOfOwner).fit().centerCrop().into(bookDetailsImage)
             when {
                 userId == book.idOfOwner -> {
                     book_details_button.text = "Edit Upload"

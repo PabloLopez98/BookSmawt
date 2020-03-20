@@ -284,7 +284,7 @@ class EditProfile : Fragment() {
                 o.url.contentEquals("empty") -> {
                 }
                 else -> {
-                    Picasso.get().load(o.url)
+                    Picasso.get().load(o.url).fit().centerCrop()
                         .into(binding.imageViewTop)
                 }
             }
@@ -386,7 +386,7 @@ class EditProfile : Fragment() {
         when {
             requestCode == PICK_IMAGE_REQUEST && data != null && data.data != null && resultCode == RESULT_OK -> {
                 imageUri = data.data
-                Picasso.get().load(imageUri).into(binding.imageViewTop);
+                Picasso.get().load(imageUri).fit().centerCrop().into(binding.imageViewTop);
             }
         }
     }
