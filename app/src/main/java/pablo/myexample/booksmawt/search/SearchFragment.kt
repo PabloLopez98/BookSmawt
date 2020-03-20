@@ -3,6 +3,7 @@ package pablo.myexample.booksmawt.search
 import android.app.Activity
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +33,7 @@ import kotlin.collections.ArrayList
 
 class SearchFragment : Fragment() {
 
+    private lateinit var options: ArrayList<String>
     private lateinit var min: String
     private lateinit var max: String
     private lateinit var loc: String
@@ -59,7 +61,7 @@ class SearchFragment : Fragment() {
             view.findNavController().navigate(R.id.action_navigation_search_to_searchFilterFragment)
         }
 
-        val options = arrayListOf("Most Expensive", "Least Expensive")
+        options = arrayListOf("Most Expensive", "Least Expensive")
         val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, options)
         binding.spinner.adapter = adapter
         binding.spinner.onItemSelectedListener = object :
@@ -67,10 +69,10 @@ class SearchFragment : Fragment() {
             override fun onItemSelected(
                 parent: AdapterView<*>,
                 view: View?,
-                position: Int,
+                pos: Int,
                 id: Long
             ) {
-                orderBy = options[position]
+                orderBy = options[pos]
                 orderBookList()
             }
 
@@ -178,7 +180,14 @@ class SearchFragment : Fragment() {
                                     )
                                 }
                             }
-                            orderBookList()
+                            //run the compareTo beforehand
+                            if(orderBy == "Most Expensive"){
+                                bookList.reverse()
+                                orderBookList()
+                            }else{
+                                bookList.sort()
+                                orderBookList()
+                            }
                         }
                     }
                 }
@@ -186,9 +195,16 @@ class SearchFragment : Fragment() {
     }
 
     private fun orderBookList() {
-        when {
-            orderBy == "Most Expensive" -> bookList.reverse()
-            else -> bookList.sort()
+        when (orderBy) {
+            //ensure sorting is not at its end, so run opposite functions together
+            "Most Expensive" -> {
+                bookList.sort()
+                bookList.reverse()
+            }
+            else -> {
+                bookList.reverse()
+                bookList.sort()
+            }
         }
         recyclerviewAdapter.notifyDataSetChanged()
     }

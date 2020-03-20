@@ -14,8 +14,8 @@ data class Book(
 ) : Comparable<Book> {
     constructor() : this(ArrayList(), "", "", "", "", "", "", "", "", "")
 
-    override fun compareTo(other: Book): Int {
-        var cT : Int = other.price.toInt()
+     override fun compareTo(other: Book): Int {
+        val cT : Int = other.price.toInt()
         return price.toInt() - cT
     }
 }
