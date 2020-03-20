@@ -67,30 +67,35 @@ class AddFragment : Fragment() {
     }
 
     private fun uploadToDatabase(ownerObj: Profile) {
-        val obj = Book(
-            urlList,
-            binding.titleEt.text.toString(),
-            binding.authorEt.text.toString(),
-            binding.isbnEt.text.toString(),
-            binding.priceEt.text.toString(),
-            binding.detailsEt.text.toString(),
-            ownerObj.location,
-            ownerObj.url,
-            ownerObj.name,
-            userId
-        )
+        if (ownerObj.url == "empty") {
+            snackBar("Cannot upload without a profile image")
+        } else {
+            val obj = Book(
+                urlList,
+                binding.titleEt.text.toString(),
+                binding.authorEt.text.toString(),
+                binding.isbnEt.text.toString(),
+                binding.priceEt.text.toString(),
+                binding.detailsEt.text.toString(),
+                ownerObj.location,
+                ownerObj.url,
+                ownerObj.name,
+                userId
+            )
 
-        //upload under 'Cities'
-        FirebaseDatabase.getInstance().reference.child("Cities").child(ownerObj.location)
-            .child(binding.isbnEt.text.toString()).child(userId).setValue(obj)
+            //upload under 'Cities'
+            FirebaseDatabase.getInstance().reference.child("Cities").child(ownerObj.location)
+                .child(binding.isbnEt.text.toString()).child(userId).setValue(obj)
 
-        //upload under unique user
-        FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("Cities")
-            .child(ownerObj.location).child(binding.isbnEt.text.toString()).setValue(obj)
+            //upload under unique user
+            FirebaseDatabase.getInstance().getReference().child("Users").child(userId)
+                .child("Cities")
+                .child(ownerObj.location).child(binding.isbnEt.text.toString()).setValue(obj)
 
-        //wait a little while showing snackbar, navigate to book details fragment(for owner) when done
-        model.passBookObj(obj)
-        toAddedBook()
+            //wait a little while showing snackbar, navigate to book details fragment(for owner) when done
+            model.passBookObj(obj)
+            toAddedBook()
+        }
     }
 
     private fun toAddedBook() {

@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -23,6 +24,7 @@ import com.synnapps.carouselview.CarouselView
 import com.synnapps.carouselview.ImageClickListener
 import com.synnapps.carouselview.ImageListener
 import kotlinx.android.synthetic.main.activity_base.*
+import kotlinx.android.synthetic.main.add_fragment.*
 import kotlinx.android.synthetic.main.book_details_fragment.*
 import pablo.myexample.booksmawt.*
 import pablo.myexample.booksmawt.chat.ChatFragment
@@ -92,7 +94,11 @@ class BookDetailsFragment : Fragment() {
                         toEditBookUpload()
                     }
                     else -> {
-                        createChatStructure()
+                        if (profile.url == "empty") {
+                            Snackbar.make(bookDetailsLayout, "Cannot chat without a profile image", Snackbar.LENGTH_LONG).show()
+                        } else {
+                            createChatStructure()
+                        }
                     }
                 }
             }
