@@ -9,7 +9,7 @@
         android:id="@+id/navigation_add"
         android:name="pablo.myexample.booksmawt.ui.add.AddFragment"
         android:label="add_fragment"
-        tools:layout="@layout/add_fragment" >
+        tools:layout="@layout/add_fragment">
         <action
             android:id="@+id/action_navigation_add_to_addedBookFragment"
             app:destination="@id/addedBookFragment"
@@ -20,56 +20,67 @@
         android:id="@+id/navigation_list"
         android:name="pablo.myexample.booksmawt.list.ListFragment"
         android:label="list_fragment"
-        tools:layout="@layout/list_fragment" >
+        tools:layout="@layout/list_fragment">
         <action
             android:id="@+id/action_navigation_list_to_addedBookFragment"
             app:destination="@id/addedBookFragment"
             app:enterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_in_right" />
+            app:exitAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/navigation_messages"
         android:name="pablo.myexample.booksmawt.messages.MessagesFragment"
         android:label="messages_fragment"
-        tools:layout="@layout/messages_fragment" >
+        tools:layout="@layout/messages_fragment">
         <action
             android:id="@+id/action_navigation_messages_to_chatFragment"
             app:destination="@id/chatFragment"
             app:enterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_in_right" />
+            app:exitAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/navigation_search"
         android:name="pablo.myexample.booksmawt.search.SearchFragment"
         android:label="search_fragment"
-        tools:layout="@layout/search_fragment" >
+        tools:layout="@layout/search_fragment">
         <action
             android:id="@+id/action_navigation_search_to_searchFilterFragment"
             app:destination="@id/searchFilterFragment"
             app:enterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_in_right" />
+            app:exitAnim="@anim/slide_in_right"
+            app:launchSingleTop="false"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_navigation_search_to_bookDetails"
             app:destination="@id/bookDetails"
             app:enterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_in_right" />
+            app:exitAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/navigation_profile"
         android:name="pablo.myexample.booksmawt.profile.ProfileFragment"
         android:label="profile_fragment"
-        tools:layout="@layout/profile_fragment" >
+        tools:layout="@layout/profile_fragment">
         <action
             android:id="@+id/action_navigation_profile_to_editProfile"
             app:destination="@id/editProfile"
             app:enterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_in_right" />
+            app:exitAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/searchFilterFragment"
         android:name="pablo.myexample.booksmawt.searchfilter.SearchFilterFragment"
         android:label="search_filter_fragment"
-        tools:layout="@layout/search_filter_fragment" >
+        tools:layout="@layout/search_filter_fragment">
         <action
             android:id="@+id/action_searchFilterFragment_to_navigation_search"
             app:destination="@id/navigation_search"
@@ -80,7 +91,7 @@
         android:id="@+id/bookDetails"
         android:name="pablo.myexample.booksmawt.bookdetails.BookDetailsFragment"
         android:label="book_details_fragment"
-        tools:layout="@layout/book_details_fragment" >
+        tools:layout="@layout/book_details_fragment">
         <action
             android:id="@+id/action_bookDetails_to_navigation_search"
             app:destination="@id/navigation_search"
@@ -101,23 +112,25 @@
         android:id="@+id/chatFragment"
         android:name="pablo.myexample.booksmawt.chat.ChatFragment"
         android:label="chat_fragment"
-        tools:layout="@layout/chat_fragment" >
+        tools:layout="@layout/chat_fragment">
         <action
             android:id="@+id/action_chatFragment_to_navigation_messages"
             app:destination="@id/navigation_messages"
             app:enterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_in_left" />
+            app:exitAnim="@anim/slide_in_left" />
         <action
             android:id="@+id/action_chatFragment_to_previewFragment"
             app:destination="@id/previewFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_in_left" />
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/addedBookFragment"
         android:name="pablo.myexample.booksmawt.addedbook.AddedBookFragment"
         android:label="added_book_fragment"
-        tools:layout="@layout/added_book_fragment" >
+        tools:layout="@layout/added_book_fragment">
         <action
             android:id="@+id/action_addedBookFragment_to_navigation_list"
             app:destination="@id/navigation_list"
@@ -127,12 +140,14 @@
             android:id="@+id/action_addedBookFragment_to_editAddedBookFragment"
             app:destination="@id/editAddedBookFragment"
             app:enterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_in_right" />
+            app:exitAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/editProfile"
         android:name="pablo.myexample.booksmawt.editprofile.EditProfile"
-        android:label="EditProfile" >
+        android:label="EditProfile">
         <action
             android:id="@+id/action_editProfile_to_navigation_profile"
             app:destination="@id/navigation_profile"
@@ -143,7 +158,7 @@
         android:id="@+id/editAddedBookFragment"
         android:name="pablo.myexample.booksmawt.editaddedbook.EditAddedBookFragment"
         android:label="fragment_edit_added_book"
-        tools:layout="@layout/fragment_edit_added_book" >
+        tools:layout="@layout/fragment_edit_added_book">
         <action
             android:id="@+id/action_editAddedBookFragment_to_addedBookFragment"
             app:destination="@id/addedBookFragment"
@@ -153,7 +168,7 @@
     <fragment
         android:id="@+id/previewFragment"
         android:name="pablo.myexample.booksmawt.preview.PreviewFragment"
-        android:label="PreviewFragment" >
+        android:label="PreviewFragment">
         <action
             android:id="@+id/action_previewFragment_to_chatFragment"
             app:destination="@id/chatFragment"
@@ -161,3 +176,10 @@
             app:popExitAnim="@anim/slide_in_left" />
     </fragment>
 </navigation>
+
+    <!--
+    app:enterAnim="@anim/slide_in_left"
+    app:exitAnim="@anim/slide_in_right"
+    app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+    app:popExitAnim="@anim/nav_default_pop_exit_anim"
+    -->

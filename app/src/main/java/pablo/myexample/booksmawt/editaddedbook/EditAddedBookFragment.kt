@@ -110,8 +110,8 @@ class EditAddedBookFragment : Fragment() {
                 selectImage(PICK_IMAGE_REQUEST_C)
             }
             backArrow.setOnClickListener {
-                view!!.findNavController()
-                    .navigate(R.id.action_editAddedBookFragment_to_addedBookFragment)
+                backToAddedBookFragment()
+                //view!!.findNavController().navigate(R.id.action_editAddedBookFragment_to_addedBookFragment)
             }
             updateButton.setOnClickListener {
                 checkIfAnyInputIsEmpty()
@@ -266,7 +266,8 @@ class EditAddedBookFragment : Fragment() {
     }
 
     private fun backToAddedBookFragment() {
-        view!!.findNavController().navigate(R.id.action_editAddedBookFragment_to_addedBookFragment)
+        activity!!.onBackPressed()
+        //view!!.findNavController().navigate(R.id.action_editAddedBookFragment_to_addedBookFragment)
     }
 
     private fun snackBar(str: String) {

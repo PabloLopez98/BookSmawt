@@ -299,11 +299,8 @@ class SearchFilterFragment : Fragment() {
     }
 
     private fun backToSearch() {
-        view!!.findNavController().navigate(R.id.action_searchFilterFragment_to_navigation_search)
+        activity!!.onBackPressed()
+        //view!!.findNavController().navigate(R.id.action_searchFilterFragment_to_navigation_search)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        activity!!.bottom_nav_view.visibility = View.VISIBLE
-    }
 }

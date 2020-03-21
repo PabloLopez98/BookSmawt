@@ -40,6 +40,9 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (activity!!.bottom_nav_view.visibility == View.INVISIBLE) {
+            activity!!.bottom_nav_view.visibility = View.VISIBLE
+        }
         userId = FirebaseAuth.getInstance().currentUser!!.uid
         loadData()
         model = ViewModelProvider(activity!!).get(Communicator::class.java)

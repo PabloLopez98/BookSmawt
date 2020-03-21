@@ -44,6 +44,9 @@ class MessagesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (activity!!.bottom_nav_view.visibility == View.INVISIBLE) {
+            activity!!.bottom_nav_view.visibility = View.VISIBLE
+        }
         model = ViewModelProvider(activity!!).get(Communicator::class.java)
         lastMessagesChatIdList = ArrayList()
         lastMessagesList = ArrayList()

@@ -115,8 +115,8 @@ class ChatFragment : Fragment() {
     }
 
     private fun toMessagesFragment() {
-        activity!!.bottom_nav_view.visibility = View.VISIBLE
-        view!!.findNavController().navigate(R.id.action_chatFragment_to_navigation_messages)
+        activity!!.onBackPressed()
+        //view!!.findNavController().navigate(R.id.action_chatFragment_to_navigation_messages)
     }
 
     private fun getData(chatId: String) {

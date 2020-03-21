@@ -160,7 +160,8 @@ class BookDetailsFragment : Fragment() {
     }
 
     private fun backToSearch() {
-        view!!.findNavController().navigate(R.id.action_bookDetails_to_navigation_search)
+        activity!!.onBackPressed()
+        //view!!.findNavController().navigate(R.id.action_bookDetails_to_navigation_search)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

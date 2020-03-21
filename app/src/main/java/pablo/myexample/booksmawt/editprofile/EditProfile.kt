@@ -392,11 +392,8 @@ class EditProfile : Fragment() {
     }
 
     private fun backToProfile() {
-        view!!.findNavController().navigate(R.id.action_editProfile_to_navigation_profile)
+        activity!!.onBackPressed()
+        //view!!.findNavController().navigate(R.id.action_editProfile_to_navigation_profile)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        activity!!.bottom_nav_view.visibility = View.VISIBLE
-    }
 }
