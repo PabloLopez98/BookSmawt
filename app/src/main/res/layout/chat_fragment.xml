@@ -71,7 +71,7 @@
             android:inputType="textMultiLine"
             android:paddingStart="18dp"
             android:paddingEnd="18dp"
-            android:text="Hello james"
+            android:text=""
             android:textColor="@android:color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/chat_frag_send"

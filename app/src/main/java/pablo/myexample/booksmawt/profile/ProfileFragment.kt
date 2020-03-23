@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -22,6 +23,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.twitter.sdk.android.core.TwitterCore
 import com.twitter.sdk.android.core.TwitterSession
@@ -29,6 +31,7 @@ import kotlinx.android.synthetic.main.activity_base.*
 import pablo.myexample.booksmawt.*
 
 import pablo.myexample.booksmawt.databinding.ProfileFragmentBinding
+import java.lang.Exception
 import kotlin.math.sign
 
 class ProfileFragment : Fragment() {
@@ -112,9 +115,17 @@ class ProfileFragment : Fragment() {
                         url = profile.url
                         when {
                             url.contentEquals("empty") -> {
+                                view!!.findViewById<ConstraintLayout>(R.id.progress_circle_profile).visibility = View.INVISIBLE
                             }
                             else -> {
-                                Picasso.get().load(url).fit().centerCrop().into(binding.imageViewT)
+                                Picasso.get().load(url).fit().centerCrop().into(binding.imageViewT, object: Callback{
+                                    override fun onSuccess() {
+                                        view!!.findViewById<ConstraintLayout>(R.id.progress_circle_profile).visibility = View.INVISIBLE
+                                    }
+
+                                    override fun onError(e: Exception?) {
+                                    }
+                                })
                             }
                         }
                     }

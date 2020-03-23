@@ -115,8 +115,8 @@ class ChatFragment : Fragment() {
     }
 
     private fun toMessagesFragment() {
-        activity!!.onBackPressed()
-        //view!!.findNavController().navigate(R.id.action_chatFragment_to_navigation_messages)
+        //activity!!.onBackPressed()
+        view!!.findNavController().navigate(R.id.action_chatFragment_to_navigation_messages)
     }
 
     private fun getData(chatId: String) {
@@ -220,6 +220,7 @@ class ChatFragment : Fragment() {
     }
 
     private fun sendMessage() {
+        binding.chatFragInput.setText("")
         val date = LocalDateTime.now()
             .format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG, FormatStyle.SHORT))
         val msg = binding.chatFragInput.text.toString()

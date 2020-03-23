@@ -3,25 +3,12 @@
     <color name="colorPrimary">#000000</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#D81B60</color>
-
     <color name="myMainColor1">#dd2c00</color>
     <color name="myMainColor">#D50000</color>
-
     <color name="myMainColorTwo">#ff6434</color>
-    <color name="myDarkColor">#9C2001</color>
-    <!--    <color name="myDarkColor">#A36E02</color>-->
-
     <color name="search_filter_input">#E4E2E2</color>
 
-    <!--    <color name="myRed">#D50000</color>
-        <color name="myLightRed">#FF0000</color>-->
-
+    <color name="myDarkColor">#9C2001</color>
     <color name="myGreen">#DD2C00</color>
     <color name="myLightGreen">#FF3503</color>
-
-    <!--
-        <color name="myGreen">#CC8903</color>
-        <color name="myLightGreen">#FFAB00</color>
-        -->
-
 </resources>

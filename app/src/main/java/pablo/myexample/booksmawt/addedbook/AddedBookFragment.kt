@@ -116,8 +116,8 @@ class AddedBookFragment : Fragment() {
     }
 
     private fun toListFragment() {
-        activity!!.onBackPressed()
-        //view!!.findNavController().navigate(R.id.action_addedBookFragment_to_navigation_list)
+        //activity!!.onBackPressed()
+        view!!.findNavController().navigate(R.id.action_addedBookFragment_to_navigation_list)
     }
 
 }
