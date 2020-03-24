@@ -2,6 +2,7 @@ package pablo.myexample.booksmawt
 
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
@@ -23,6 +24,11 @@ class CreateAccount : AppCompatActivity() {
     private lateinit var passwordET: EditText
     private lateinit var confirmPasswordET: EditText
     private lateinit var mAuth: FirebaseAuth
+
+
+    fun toPrivacyPolicy(view: View) {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.termsfeed.com/privacy-policy/847dc8d8e6ff68575fd4e059ca96a5da")))
+    }
 
     private fun snackBar(str: String) {
         Snackbar.make(

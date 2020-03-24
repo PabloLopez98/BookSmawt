@@ -1,9 +1,13 @@
 package pablo.myexample.booksmawt
 
 
+import android.Manifest
+import android.app.AlertDialog
 import android.app.PendingIntent.getActivity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
@@ -13,6 +17,8 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.annotation.NonNull
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.widget.ContentLoadingProgressBar
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -159,6 +165,73 @@ class Login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         initialize()
+        checkOrRequestPermission()
+    }
+
+    private val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
+
+    private fun checkOrRequestPermission() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Permission is not granted
+            // No explanation needed, we can request the permission.
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE
+            )
+            // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
+            // app-defined int constant. The callback method gets the
+            // result of the request.
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE -> {
+                // If request is cancelled, the result arrays are empty.
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    // permission was granted, yay! Do the
+                    // do related task you need to do.
+                } else {
+                    closeAppDialog()
+                }
+                return
+            }
+
+            // Add other 'when' lines to check for other
+            // permissions this app might request.
+            else -> {
+                // Ignore all other requests.
+            }
+        }
+    }
+
+    fun toTermsOfUse(view: View) {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/booksmawttoc/home")))
+    }
+
+    fun toPrivacyPolicy(view: View) {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.termsfeed.com/privacy-policy/847dc8d8e6ff68575fd4e059ca96a5da")))
+    }
+
+    private fun closeAppDialog() {
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder.setMessage("BookSmawt cannot function properly without reading external storage.")
+            .setPositiveButton("Exit App", { dialog, id -> finish() })
+            .setOnDismissListener {
+                finish()
+            }
+        val alert = dialogBuilder.create()
+        alert.setTitle("Permission Denied")
+        alert.show()
     }
 
     private fun initialize() {

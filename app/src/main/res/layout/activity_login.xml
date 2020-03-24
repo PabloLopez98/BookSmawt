@@ -282,6 +282,7 @@
 
         <TextView
             android:id="@+id/textView11"
+            android:onClick="toTermsOfUse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/terms_of_use_b"
@@ -299,6 +300,7 @@
             />
 
         <TextView
+            android:onClick="toPrivacyPolicy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/terms_of_use_c"
