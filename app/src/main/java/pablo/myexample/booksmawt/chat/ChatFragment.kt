@@ -220,7 +220,6 @@ class ChatFragment : Fragment() {
     }
 
     private fun sendMessage() {
-        binding.chatFragInput.setText("")
         val date = LocalDateTime.now()
             .format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG, FormatStyle.SHORT))
         val msg = binding.chatFragInput.text.toString()
@@ -233,12 +232,19 @@ class ChatFragment : Fragment() {
             msg
         )
 
-        //update database
-        baseRef.child(thisUserObject.chatId).child("Messages").push().setValue(message)
+        //update database conversation
+        if(userId == owner.id){
+            message.imageUrl = owner.url
+            baseRef.child(thisUserObject.chatId).child("Messages").push().setValue(message)
+        }else {
+            message.imageUrl = buyer.url
+            baseRef.child(thisUserObject.chatId).child("Messages").push().setValue(message)
+        }
         val baseRefJr = FirebaseDatabase.getInstance().reference.child("Users")
 
-        //send push notification if there are two people in conversation
+        //send push notification only if there are two people in conversation
         if (onePersonLeft == false) {
+            //decide which id user is and send push notification to correct recipient
             when (userId) {
                 owner.id -> {
                     SendPush().sendFCMPush(
@@ -257,21 +263,30 @@ class ChatFragment : Fragment() {
                     )
                 }
             }
-            baseRefJr.child(owner.id).child("Chats").child(thisUserObject.chatId)
-                .setValue(message)
-            baseRefJr.child(buyer.id).child("Chats").child(thisUserObject.chatId)
-                .setValue(message)
+            //Change the name to match opposite end user, and not have same name as profile name
+            message.name = buyer.name
+            message.imageUrl = buyer.url
+            baseRefJr.child(owner.id).child("Chats").child(thisUserObject.chatId).setValue(message)
+            message.name = owner.name
+            message.imageUrl = owner.url
+            baseRefJr.child(buyer.id).child("Chats").child(thisUserObject.chatId).setValue(message)
         } else {
+            //setting last msg under 'Users'
             when (userId) {
                 owner.id -> {
-                    baseRefJr.child(owner.id).child("Chats").child(thisUserObject.chatId)
-                        .setValue(message)
+                    //dont forget to replace name with other persons name and url
+                    message.name = owner.name
+                    message.imageUrl = owner.url
+                    baseRefJr.child(owner.id).child("Chats").child(thisUserObject.chatId).setValue(message)
                 }
                 else -> {
-                    baseRefJr.child(buyer.id).child("Chats").child(thisUserObject.chatId)
-                        .setValue(message)
+                    //dont forget to replace name with other persons name and url
+                    message.name = buyer.name
+                    message.imageUrl = buyer.url
+                    baseRefJr.child(buyer.id).child("Chats").child(thisUserObject.chatId).setValue(message)
                 }
             }
         }
+        binding.chatFragInput.setText("")
     }
 }
