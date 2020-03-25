@@ -141,8 +141,8 @@
                 android:maxLines="15"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/black" />
+                android:textColor="@android:color/white"
+                />
 
             <TextView
                 android:layout_width="wrap_content"

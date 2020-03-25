@@ -215,11 +215,21 @@ class Login : AppCompatActivity() {
     }
 
     fun toTermsOfUse(view: View) {
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/booksmawttoc/home")))
+        startActivity(
+            Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://sites.google.com/view/booksmawttoc/home")
+            )
+        )
     }
 
     fun toPrivacyPolicy(view: View) {
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.termsfeed.com/privacy-policy/847dc8d8e6ff68575fd4e059ca96a5da")))
+        startActivity(
+            Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://www.termsfeed.com/privacy-policy/847dc8d8e6ff68575fd4e059ca96a5da")
+            )
+        )
     }
 
     private fun closeAppDialog() {

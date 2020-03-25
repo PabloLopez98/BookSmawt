@@ -169,6 +169,16 @@ class EditAddedBookFragment : Fragment() {
     }
 
     private fun uploadImagesAndGetUrl(cb: MyCallBack) {
+
+        //test and see if this is where this goes!!!
+        //either way we always delete old posting
+        val len = oldBookObj.urlList.size + 1
+        for (i in 1 until len) {
+            var endNode = "$i.jpg"
+            FirebaseStorage.getInstance().reference.child("Users").child(userId)
+                .child(oldBookObj.isbn).child(endNode).delete()
+        }
+
         var i = 0
         var theLength = 3//number of imageUri
         arrayOf(imageUriA, imageUriB, imageUriC).forEach { item ->
@@ -177,7 +187,7 @@ class EditAddedBookFragment : Fragment() {
                     i++
                     val endNode: String = i.toString() + "." + getExtension(item)
                     val storageRef =
-                        FirebaseStorage.getInstance().getReference().child("Users").child(userId)
+                        FirebaseStorage.getInstance().reference.child("Users").child(userId)
                             .child(binding.isbnEdit.text.toString()).child(endNode)
                     storageRef.putFile(item).continueWithTask { task ->
                         when {
@@ -189,7 +199,8 @@ class EditAddedBookFragment : Fragment() {
                     }.addOnCompleteListener { task ->
                         when {
                             task.isSuccessful -> {
-                                cb.onCallBack(task.result.toString(), theLength)
+                                val urlString = task.result.toString()
+                                cb.onCallBack(urlString, theLength)
                             }
                             else -> {
                                 snackBar("Upload Failed!. Try again.")
@@ -236,13 +247,13 @@ class EditAddedBookFragment : Fragment() {
             userId
         )
 
-        //either way we always delete old posting
+       /* //either way we always delete old posting
         val len = oldBookObj.urlList.size + 1
         for (i in 1 until len) {
             var endNode = "$i.jpg"
             FirebaseStorage.getInstance().reference.child("Users").child(userId)
                 .child(oldBookObj.isbn).child(endNode).delete()
-        }
+        }*/
 
         //remove old under 'Cities'
         FirebaseDatabase.getInstance().reference.child("Cities").child(oldBookObj.location)

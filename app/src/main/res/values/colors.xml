@@ -8,7 +8,13 @@
     <color name="myMainColorTwo">#ff6434</color>
     <color name="search_filter_input">#E4E2E2</color>
 
+    <color name="myDarkColor">#C55401</color>
+    <color name="myGreen">#FF6D00</color>
+    <color name="myLightGreen">#FB8832</color>
+
+<!--
     <color name="myDarkColor">#9C2001</color>
     <color name="myGreen">#DD2C00</color>
-    <color name="myLightGreen">#FF3503</color>
+    <color name="myLightGreen">#FF3503</color>-->
+
 </resources>

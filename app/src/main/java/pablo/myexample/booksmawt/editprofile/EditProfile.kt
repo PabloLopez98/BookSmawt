@@ -337,7 +337,7 @@ class EditProfile : Fragment() {
 
     private fun uploadImageAndGetUrl() {
         val endNode = "Profile." + getExtension()
-        val storageRef = FirebaseStorage.getInstance().getReference().child("Users").child(userId).child(endNode)
+        val storageRef = FirebaseStorage.getInstance().reference.child("Users").child(userId).child(endNode)
         storageRef.putFile(imageUri).continueWithTask { task ->
             when {
                 !task.isSuccessful -> {
@@ -363,7 +363,7 @@ class EditProfile : Fragment() {
     }
 
     private fun uploadToDatabase(location: String, name: String, url: String) {
-        FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("Profile")
+        FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Profile")
             .setValue(Profile(name, location, url))
         backToProfile()
     }

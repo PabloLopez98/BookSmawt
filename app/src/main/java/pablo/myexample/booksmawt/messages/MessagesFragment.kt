@@ -89,6 +89,7 @@ class MessagesFragment : Fragment() {
                 override fun onChildRemoved(p0: DataSnapshot) {
                 }
             })
+        view!!.findViewById<ConstraintLayout>(R.id.progress_circle_messages).visibility = View.INVISIBLE
     }
 
     private fun setUpRecyclerView() {
