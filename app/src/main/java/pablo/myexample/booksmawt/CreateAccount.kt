@@ -5,8 +5,10 @@ import android.graphics.Color
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.text.TextUtils
 import android.view.InputDevice
+import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -27,11 +29,21 @@ class CreateAccount : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
 
     fun toTermsOfUse(view: View) {
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/booksmawttoc/home")))
+        startActivity(
+            Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://sites.google.com/view/booksmawttoc/home")
+            )
+        )
     }
 
     fun toPrivacyPolicy(view: View) {
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.termsfeed.com/privacy-policy/847dc8d8e6ff68575fd4e059ca96a5da")))
+        startActivity(
+            Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://www.termsfeed.com/privacy-policy/847dc8d8e6ff68575fd4e059ca96a5da")
+            )
+        )
     }
 
     private fun snackBar(str: String) {
@@ -51,6 +63,18 @@ class CreateAccount : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_account)
+        window.decorView.apply {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE
+            setOnSystemUiVisibilityChangeListener { visibility ->
+                if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {
+                    Handler().postDelayed(
+                        {
+                            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE
+                        }, 5000
+                    )
+                }
+            }
+        }
         initialize()
     }
 
@@ -103,7 +127,8 @@ class CreateAccount : AppCompatActivity() {
                 when {
                     task.isSuccessful -> updateDatabase(view)
                     else -> {
-                        findViewById<ConstraintLayout>(R.id.progress_circle_ca).visibility = View.INVISIBLE
+                        findViewById<ConstraintLayout>(R.id.progress_circle_ca).visibility =
+                            View.INVISIBLE
                         snackBar(task.exception.toString())
                     }
                 }
