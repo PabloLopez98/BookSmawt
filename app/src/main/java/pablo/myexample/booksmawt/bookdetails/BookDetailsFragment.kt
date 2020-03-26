@@ -83,27 +83,33 @@ class BookDetailsFragment : Fragment() {
                 backToSearch()
             }
             Picasso.get().load(book.urlOfOwner).fit().centerCrop().into(bookDetailsImage)
-            when {
-                userId == book.idOfOwner -> {
+            when (userId) {
+                book.idOfOwner -> {
                     book_details_button.text = "Edit Upload"
                 }
             }
 
             bookDetailsButton.setOnClickListener {
-                when {
-                    bookDetailsButton.text == "Edit Upload" -> {
+                when (bookDetailsButton.text) {
+                    "Edit Upload" -> {
                         toEditBookUpload()
                     }
                     else -> {
                         if (profile.url == "empty") {
-                            Snackbar.make(bookDetailsLayout, "Cannot chat without a profile image", Snackbar.LENGTH_LONG).show()
+                            Snackbar.make(
+                                bookDetailsLayout,
+                                "Cannot chat without a profile image",
+                                Snackbar.LENGTH_LONG
+                            ).show()
                         } else {
+                            binding.progressCircleBd.visibility = View.VISIBLE
                             createChatStructure()
                         }
                     }
                 }
             }
         }
+
     }
 
     private fun getProfile() {
@@ -132,7 +138,8 @@ class BookDetailsFragment : Fragment() {
         val buyer = ChatProfile(chatId, profile.name, profile.url, userId)
         try {//Under Users
             val lastMessageObjRef = FirebaseDatabase.getInstance().reference.child("Users")
-            lastMessageObj = LastMessage(userId, chatId, book.urlOfOwner, book.nameOfOwner, "N/A", "N/A")
+            lastMessageObj =
+                LastMessage(userId, chatId, book.urlOfOwner, book.nameOfOwner, "N/A", "N/A")
             lastMessageObjRef.child(buyer.id).child("Chats").child(lastMessageObj.chatId)
                 .setValue(lastMessageObj)
             //change for other guys name since he is the owner
@@ -149,6 +156,7 @@ class BookDetailsFragment : Fragment() {
             Log.i("BOOKDETAILSERROR", e.localizedMessage.toString())
         }
         //then go to chat frag
+        binding.progressCircleBd.visibility = View.INVISIBLE
         toChatFragment()
     }
 

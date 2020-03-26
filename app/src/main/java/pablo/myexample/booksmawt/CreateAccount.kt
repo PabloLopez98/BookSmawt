@@ -9,6 +9,7 @@ import android.text.TextUtils
 import android.view.InputDevice
 import android.view.View
 import android.widget.EditText
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -96,11 +97,13 @@ class CreateAccount : AppCompatActivity() {
     }
 
     private fun createAccount(view: View) {
+        findViewById<ConstraintLayout>(R.id.progress_circle_ca).visibility = View.VISIBLE
         mAuth.createUserWithEmailAndPassword(emailET.text.toString(), passwordET.text.toString())
             .addOnCompleteListener(this) { task ->
                 when {
                     task.isSuccessful -> updateDatabase(view)
                     else -> {
+                        findViewById<ConstraintLayout>(R.id.progress_circle_ca).visibility = View.INVISIBLE
                         snackBar(task.exception.toString())
                     }
                 }
@@ -113,7 +116,6 @@ class CreateAccount : AppCompatActivity() {
         val mRef =
             FirebaseDatabase.getInstance().reference.child("Users").child(id).child("Profile")
         mRef.setValue(profile)
-        snackBar("Account Created! Redirecting to Login Screen.")
         Timer().schedule(3000) {
             backToLogin(view)
         }

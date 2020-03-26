@@ -94,6 +94,7 @@ class AddFragment : Fragment() {
 
             //wait a little while showing snackbar, navigate to book details fragment(for owner) when done
             model.passBookObj(obj)
+            binding.progressCircleAb.visibility = View.INVISIBLE
             toAddedBook()
         }
     }
@@ -219,6 +220,7 @@ class AddFragment : Fragment() {
                 snackBar("Author input is empty")
             }
             else -> {
+                binding.progressCircleAb.visibility = View.VISIBLE
                 uploadImagesAndGetUrl(object : MyCallBack {
                     override fun onCallBack(str: String, int: Int) {
                         urlList.add(str)

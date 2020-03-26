@@ -3,6 +3,7 @@ package pablo.myexample.booksmawt
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -13,7 +14,7 @@ import androidx.navigation.ui.setupWithNavController
 
 class Base : AppCompatActivity() {
 
-        override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base)
         val bottomNavView: BottomNavigationView = findViewById(R.id.bottom_nav_view)

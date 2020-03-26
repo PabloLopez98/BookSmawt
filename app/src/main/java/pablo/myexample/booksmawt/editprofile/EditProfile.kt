@@ -330,6 +330,7 @@ class EditProfile : Fragment() {
         when {
             image_view_top.drawable == null -> snackBar("Image input is empty")
             else -> {
+                binding.progressCircleEp.visibility = View.VISIBLE
                 uploadImageAndGetUrl()
             }
         }
@@ -341,6 +342,7 @@ class EditProfile : Fragment() {
         storageRef.putFile(imageUri).continueWithTask { task ->
             when {
                 !task.isSuccessful -> {
+                    binding.progressCircleEp.visibility = View.INVISIBLE
                     snackBar("Edit Failed!. Try again.")
                 }
             }
@@ -356,6 +358,7 @@ class EditProfile : Fragment() {
                     )
                 }
                 else -> {
+                    binding.progressCircleEp.visibility = View.INVISIBLE
                     snackBar("Edit Failed!. Try again.")
                 }
             }
@@ -365,6 +368,7 @@ class EditProfile : Fragment() {
     private fun uploadToDatabase(location: String, name: String, url: String) {
         FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Profile")
             .setValue(Profile(name, location, url))
+        binding.progressCircleEp.visibility = View.INVISIBLE
         backToProfile()
     }
 

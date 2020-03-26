@@ -282,7 +282,7 @@ class Login : AppCompatActivity() {
                     }
                     else -> {
                         layout.visibility = View.INVISIBLE
-                        snackBar(task.exception.toString())
+                        snackBar(task.exception!!.localizedMessage.toString())
                     }
                 }
             }
