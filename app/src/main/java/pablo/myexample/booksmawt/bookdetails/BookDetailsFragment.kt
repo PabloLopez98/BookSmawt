@@ -2,6 +2,7 @@ package pablo.myexample.booksmawt.bookdetails
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -131,19 +132,21 @@ class BookDetailsFragment : Fragment() {
         val buyer = ChatProfile(chatId, profile.name, profile.url, userId)
         try {//Under Users
             val lastMessageObjRef = FirebaseDatabase.getInstance().reference.child("Users")
-            lastMessageObj =
-                LastMessage(userId, chatId, book.urlOfOwner, book.nameOfOwner, "N/A", "N/A")
-            lastMessageObjRef.child(owner.id).child("Chats").child(lastMessageObj.chatId)
-                .setValue(lastMessageObj)
+            lastMessageObj = LastMessage(userId, chatId, book.urlOfOwner, book.nameOfOwner, "N/A", "N/A")
             lastMessageObjRef.child(buyer.id).child("Chats").child(lastMessageObj.chatId)
                 .setValue(lastMessageObj)
+            //change for other guys name since he is the owner
+            lastMessageObj.name = buyer.name
+            lastMessageObjRef.child(owner.id).child("Chats").child(lastMessageObj.chatId)
+                .setValue(lastMessageObj)
+
             //Under Chats
             chatRef.child("Owner").setValue(owner)
             chatRef.child("Buyer").setValue(buyer)
             chatRef.child("Book").setValue(book)
             chatRef.child("Messages").push().setValue(lastMessageObj)
         } catch (e: Exception) {
-            //do nothing
+            Log.i("BOOKDETAILSERROR", e.localizedMessage.toString())
         }
         //then go to chat frag
         toChatFragment()

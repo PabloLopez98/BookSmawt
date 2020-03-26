@@ -64,6 +64,7 @@ class ChatFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         messagesList = ArrayList()
         model = ViewModelProvider(activity!!).get(Communicator::class.java)
         model.lastMessageObj.observe(activity!!, Observer<LastMessage> { o ->

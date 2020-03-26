@@ -83,13 +83,20 @@ class MessagesFragment : Fragment() {
                         }
                     }
                     adapter.notifyDataSetChanged()
-                    view!!.findViewById<ConstraintLayout>(R.id.progress_circle_messages).visibility = View.INVISIBLE
+
+                    try {
+                        view!!.findViewById<ConstraintLayout>(R.id.progress_circle_messages).visibility = View.INVISIBLE
+                    } catch (e: Exception) {
+                    }
                 }
 
                 override fun onChildRemoved(p0: DataSnapshot) {
                 }
             })
-        view!!.findViewById<ConstraintLayout>(R.id.progress_circle_messages).visibility = View.INVISIBLE
+        try {
+            view!!.findViewById<ConstraintLayout>(R.id.progress_circle_messages).visibility = View.INVISIBLE
+        } catch (e: Exception) {
+        }
     }
 
     private fun setUpRecyclerView() {
