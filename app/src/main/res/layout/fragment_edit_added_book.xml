@@ -216,6 +216,7 @@
                 android:background="@drawable/edit_text_border"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
+                android:singleLine="true"
                 android:textColor="@android:color/black" />
 
             <TextView
@@ -229,6 +230,7 @@
 
             <EditText
                 android:id="@+id/author_edit"
+                android:singleLine="true"
                 android:text="@{bookObj.author}"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"

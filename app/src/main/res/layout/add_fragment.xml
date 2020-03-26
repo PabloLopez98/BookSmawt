@@ -167,6 +167,7 @@
             <EditText
                 android:id="@+id/isbn_et"
                 android:inputType="number"
+                android:singleLine="true"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
@@ -189,6 +190,7 @@
 
             <EditText
                 android:id="@+id/price_et"
+                android:singleLine="true"
                 android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -210,6 +212,7 @@
                 android:textSize="18sp" />
 
             <EditText
+                android:singleLine="true"
                 android:id="@+id/title_et"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -231,6 +234,7 @@
                 android:textSize="18sp" />
 
             <EditText
+                android:singleLine="true"
                 android:id="@+id/author_et"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"

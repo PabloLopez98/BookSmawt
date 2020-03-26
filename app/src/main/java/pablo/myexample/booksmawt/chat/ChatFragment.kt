@@ -1,5 +1,6 @@
 package pablo.myexample.booksmawt.chat
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -10,6 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -73,6 +75,8 @@ class ChatFragment : Fragment() {
         })
 
         binding.chatFragSend.setOnClickListener {
+            //hide keyboard first
+            hideKeyboard()
             checkInput()
         }
         binding.chatFragBackArrow.setOnClickListener {
@@ -84,6 +88,11 @@ class ChatFragment : Fragment() {
         binding.chatFragDelete.setOnClickListener {
             deleteDialog()
         }
+    }
+
+    private fun hideKeyboard() {
+        val imm = context!!.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view!!.windowToken, 0);
     }
 
     private fun deleteDialog() {
@@ -235,10 +244,10 @@ class ChatFragment : Fragment() {
         )
 
         //update database conversation
-        if(userId == owner.id){
+        if (userId == owner.id) {
             message.imageUrl = owner.url
             baseRef.child(thisUserObject.chatId).child("Messages").push().setValue(message)
-        }else {
+        } else {
             message.imageUrl = buyer.url
             baseRef.child(thisUserObject.chatId).child("Messages").push().setValue(message)
         }
@@ -279,13 +288,15 @@ class ChatFragment : Fragment() {
                     //dont forget to replace name with other persons name and url
                     message.name = owner.name
                     message.imageUrl = owner.url
-                    baseRefJr.child(owner.id).child("Chats").child(thisUserObject.chatId).setValue(message)
+                    baseRefJr.child(owner.id).child("Chats").child(thisUserObject.chatId)
+                        .setValue(message)
                 }
                 else -> {
                     //dont forget to replace name with other persons name and url
                     message.name = buyer.name
                     message.imageUrl = buyer.url
-                    baseRefJr.child(buyer.id).child("Chats").child(thisUserObject.chatId).setValue(message)
+                    baseRefJr.child(buyer.id).child("Chats").child(thisUserObject.chatId)
+                        .setValue(message)
                 }
             }
         }

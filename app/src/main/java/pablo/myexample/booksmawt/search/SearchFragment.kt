@@ -216,9 +216,11 @@ class SearchFragment : Fragment() {
     private fun checkISBN() {
         when {
             TextUtils.isEmpty(binding.searchEt.text.toString()) -> {
+                hideKeyboard()
                 Toast.makeText(context, "Search is empty", Toast.LENGTH_SHORT).show()
             }
             binding.searchEt.text.toString().length != 13 -> {
+                hideKeyboard()
                 Toast.makeText(context, "ISBN has to be 13 digits", Toast.LENGTH_LONG).show()
             }
             else -> {
