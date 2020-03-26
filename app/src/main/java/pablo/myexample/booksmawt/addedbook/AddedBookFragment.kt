@@ -17,18 +17,18 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import com.synnapps.carouselview.CarouselView
 import com.synnapps.carouselview.ImageClickListener
 import com.synnapps.carouselview.ImageListener
 import kotlinx.android.synthetic.main.activity_base.*
-import pablo.myexample.booksmawt.Book
-import pablo.myexample.booksmawt.Communicator
-import pablo.myexample.booksmawt.Profile
+import pablo.myexample.booksmawt.*
 
-import pablo.myexample.booksmawt.R
 import pablo.myexample.booksmawt.databinding.AddedBookFragmentBinding
 
 class AddedBookFragment : Fragment() {
@@ -36,6 +36,7 @@ class AddedBookFragment : Fragment() {
     private lateinit var userId: String
     private lateinit var binding: AddedBookFragmentBinding
     private lateinit var model: Communicator
+    private var bookInUse: Boolean = false
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -83,6 +84,30 @@ class AddedBookFragment : Fragment() {
         binding.addedBookEditButton.setOnClickListener {
             editBook()
         }
+        checkIfBookInUse()
+    }
+
+    private fun checkIfBookInUse(){
+        FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Chats").addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onCancelled(snapshotError: DatabaseError) {
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                when {
+                    snapshot.exists() -> {
+                        snapshot.children.forEach {
+                            val lastMsg = it.getValue(LastMessage::class.java)
+                            val theisbn = lastMsg!!.theisbn
+                            val thebisbn = binding.bookObj!!.isbn
+                            if(theisbn == thebisbn){
+                                bookInUse = true
+                            }
+                        }
+                    }
+                }
+            }
+        })
     }
 
     private fun editBook() {
@@ -91,7 +116,23 @@ class AddedBookFragment : Fragment() {
     }
 
     private fun toEditAddedBookFragment(){
-        view!!.findNavController().navigate(R.id.action_addedBookFragment_to_editAddedBookFragment)
+        when (bookInUse) {
+            false -> {
+                view!!.findNavController().navigate(R.id.action_addedBookFragment_to_editAddedBookFragment)
+            }
+            else -> {
+                okDialog()
+            }
+        }
+    }
+
+    private fun okDialog() {
+        val dialogBuilder = AlertDialog.Builder(activity!!)
+        dialogBuilder.setMessage("Cannot edit while buyers are communicating with you about the book.")
+            .setPositiveButton("Ok") { dialog, _ -> dialog.dismiss()}
+        val alert = dialogBuilder.create()
+        alert.setTitle("Sorry")
+        alert.show()
     }
 
     private fun dialogToDelete() {

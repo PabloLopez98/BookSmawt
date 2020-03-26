@@ -1,5 +1,6 @@
 package pablo.myexample.booksmawt.bookdetails
 
+import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
@@ -40,6 +41,7 @@ class BookDetailsFragment : Fragment() {
     private lateinit var userId: String
     private lateinit var binding: BookDetailsFragmentBinding
     private lateinit var model: Communicator
+    private var alreadyChatting: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -89,6 +91,8 @@ class BookDetailsFragment : Fragment() {
                 }
             }
 
+            checkIfChattingAlready()
+
             bookDetailsButton.setOnClickListener {
                 when (bookDetailsButton.text) {
                     "Edit Upload" -> {
@@ -109,7 +113,28 @@ class BookDetailsFragment : Fragment() {
                 }
             }
         }
+    }
 
+    private fun checkIfChattingAlready(){
+        FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Chats").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(snapshotError: DatabaseError) {
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                when {
+                    snapshot.exists() -> {
+                        snapshot.children.forEach {
+                            val lastMsg = it.getValue(LastMessage::class.java)
+                            val theisbn = lastMsg!!.theisbn
+                            val thebisbn = binding.bookDetailsIsbn.text.toString()
+                            if(theisbn == thebisbn){
+                                alreadyChatting = true
+                            }
+                        }
+                    }
+                }
+            }
+        })
     }
 
     private fun getProfile() {
@@ -130,34 +155,56 @@ class BookDetailsFragment : Fragment() {
     }
 
     private fun createChatStructure() {
-        //chat room id and base reference
-        val chatId = System.currentTimeMillis().toString()
-        val chatRef = FirebaseDatabase.getInstance().reference.child("Chats").child(chatId)
-        //ChatProfile Objects
-        val owner = ChatProfile(chatId, book.nameOfOwner, book.urlOfOwner, book.idOfOwner)
-        val buyer = ChatProfile(chatId, profile.name, profile.url, userId)
-        try {//Under Users
-            val lastMessageObjRef = FirebaseDatabase.getInstance().reference.child("Users")
-            lastMessageObj =
-                LastMessage(userId, chatId, book.urlOfOwner, book.nameOfOwner, "N/A", "N/A")
-            lastMessageObjRef.child(buyer.id).child("Chats").child(lastMessageObj.chatId)
-                .setValue(lastMessageObj)
-            //change for other guys name since he is the owner
-            lastMessageObj.name = buyer.name
-            lastMessageObjRef.child(owner.id).child("Chats").child(lastMessageObj.chatId)
-                .setValue(lastMessageObj)
+        if(alreadyChatting == false) {
+            //chat room id and base reference
+            val chatId = System.currentTimeMillis().toString()
+            val chatRef = FirebaseDatabase.getInstance().reference.child("Chats").child(chatId)
+            //ChatProfile Objects
+            val owner = ChatProfile(chatId, book.nameOfOwner, book.urlOfOwner, book.idOfOwner)
+            val buyer = ChatProfile(chatId, profile.name, profile.url, userId)
+            try {//Under Users
+                val lastMessageObjRef = FirebaseDatabase.getInstance().reference.child("Users")
+                lastMessageObj =
+                    LastMessage(
+                        userId,
+                        chatId,
+                        book.urlOfOwner,
+                        book.nameOfOwner,
+                        "N/A",
+                        "N/A",
+                        binding.bookDetailsIsbn.text.toString()
+                    )
+                lastMessageObjRef.child(buyer.id).child("Chats").child(lastMessageObj.chatId)
+                    .setValue(lastMessageObj)
+                //change for other guys name since he is the owner
+                lastMessageObj.name = buyer.name
+                lastMessageObjRef.child(owner.id).child("Chats").child(lastMessageObj.chatId)
+                    .setValue(lastMessageObj)
 
-            //Under Chats
-            chatRef.child("Owner").setValue(owner)
-            chatRef.child("Buyer").setValue(buyer)
-            chatRef.child("Book").setValue(book)
-            chatRef.child("Messages").push().setValue(lastMessageObj)
-        } catch (e: Exception) {
-            Log.i("BOOKDETAILSERROR", e.localizedMessage.toString())
+                //Under Chats
+                chatRef.child("Owner").setValue(owner)
+                chatRef.child("Buyer").setValue(buyer)
+                chatRef.child("Book").setValue(book)
+                chatRef.child("Messages").push().setValue(lastMessageObj)
+            } catch (e: Exception) {
+                Log.i("BOOKDETAILSERROR", e.localizedMessage.toString())
+            }
+            //then go to chat frag
+            binding.progressCircleBd.visibility = View.INVISIBLE
+            toChatFragment()
+        }else{
+            binding.progressCircleBd.visibility = View.INVISIBLE
+            okDialog()
         }
-        //then go to chat frag
-        binding.progressCircleBd.visibility = View.INVISIBLE
-        toChatFragment()
+    }
+
+    private fun okDialog() {
+        val dialogBuilder = AlertDialog.Builder(activity!!)
+        dialogBuilder.setMessage("Already chatting with this person.")
+            .setPositiveButton("Ok") { dialog, _ -> dialog.dismiss()}
+        val alert = dialogBuilder.create()
+        alert.setTitle("Heads Up")
+        alert.show()
     }
 
     private fun toChatFragment() {

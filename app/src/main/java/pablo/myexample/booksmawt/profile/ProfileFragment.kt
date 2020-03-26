@@ -1,5 +1,6 @@
 package pablo.myexample.booksmawt.profile
 
+import android.app.AlertDialog
 import android.content.Intent
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -40,6 +41,7 @@ class ProfileFragment : Fragment() {
     private lateinit var userId: String
     private lateinit var binding: ProfileFragmentBinding
     private lateinit var model: Communicator
+    private var uploadedBook: Boolean = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -57,6 +59,22 @@ class ProfileFragment : Fragment() {
                 Logout()
             }
         }
+        checkForBookUploads()
+    }
+
+    private fun checkForBookUploads(){
+        FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Cities").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(snapshotError: DatabaseError) {
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                when {
+                    snapshot.exists() -> {
+                       uploadedBook = true
+                    }
+                }
+            }
+        })
     }
 
     override fun onCreateView(
@@ -68,15 +86,31 @@ class ProfileFragment : Fragment() {
         return binding.root
     }
 
+    private fun okDialog() {
+        val dialogBuilder = AlertDialog.Builder(activity!!)
+        dialogBuilder.setMessage("Cannot edit profile when book uploads have been made.")
+            .setPositiveButton("Ok") { dialog, _ -> dialog.dismiss()}
+        val alert = dialogBuilder.create()
+        alert.setTitle("Sorry")
+        alert.show()
+    }
+
     private fun toEditProfile() {
-        val profile = Profile(
-            binding.profileName.text.toString(),
-            binding.profileLocation.text.toString(),
-            url
-        )
-        model.passProfileObj(profile as Profile)
-        activity!!.bottom_nav_view.visibility = View.INVISIBLE
-        view!!.findNavController().navigate(R.id.action_navigation_profile_to_editProfile)
+        when (uploadedBook) {
+            false -> {
+                val profile = Profile(
+                    binding.profileName.text.toString(),
+                    binding.profileLocation.text.toString(),
+                    url
+                )
+                model.passProfileObj(profile as Profile)
+                activity!!.bottom_nav_view.visibility = View.INVISIBLE
+                view!!.findNavController().navigate(R.id.action_navigation_profile_to_editProfile)
+            }
+            else -> {
+                okDialog()
+            }
+        }
     }
 
     private fun Logout() {
@@ -101,7 +135,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun loadData() {
-        val mRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId)
+        val mRef = FirebaseDatabase.getInstance().reference.child("Users").child(userId)
             .child("Profile")
         mRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(snapshotError: DatabaseError) {

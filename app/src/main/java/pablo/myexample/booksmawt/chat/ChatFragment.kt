@@ -148,7 +148,7 @@ class ChatFragment : Fragment() {
                     }
                     displayNameOnTop()
                 }
-                else -> {/* NOTHING */
+                else -> {
                 }
             }
         })
@@ -230,7 +230,8 @@ class ChatFragment : Fragment() {
             thisUserObject.url,
             thisUserObject.name,
             date,
-            msg
+            msg,
+            binding.chatFragIsbn.text.toString()
         )
 
         //update database conversation
