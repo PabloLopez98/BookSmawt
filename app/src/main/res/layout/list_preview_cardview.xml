@@ -36,9 +36,11 @@
 
             <TextView
                 android:id="@+id/title"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="The Art Of War"
+                android:text="The Art Of War was noe to e seen"
                 android:textColor="@color/myGreen"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -51,6 +53,8 @@
 
             <TextView
                 android:id="@+id/author"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="J.D. Sellinger"

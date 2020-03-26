@@ -286,15 +286,15 @@ class ChatFragment : Fragment() {
             when (userId) {
                 owner.id -> {
                     //dont forget to replace name with other persons name and url
-                    message.name = owner.name
-                    message.imageUrl = owner.url
+                    message.name = buyer.name
+                    message.imageUrl = buyer.url
                     baseRefJr.child(owner.id).child("Chats").child(thisUserObject.chatId)
                         .setValue(message)
                 }
                 else -> {
                     //dont forget to replace name with other persons name and url
-                    message.name = buyer.name
-                    message.imageUrl = buyer.url
+                    message.name = owner.name
+                    message.imageUrl = owner.url
                     baseRefJr.child(buyer.id).child("Chats").child(thisUserObject.chatId)
                         .setValue(message)
                 }
