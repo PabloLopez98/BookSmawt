@@ -14,10 +14,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_base.*
 import pablo.myexample.booksmawt.Book
 import pablo.myexample.booksmawt.Communicator
@@ -30,11 +27,18 @@ import java.lang.Exception
 
 class MessagesFragment : Fragment() {
 
+    private lateinit var listener: ChildEventListener
+    private lateinit var getMsgRef: DatabaseReference
     private lateinit var lastMessagesChatIdList: ArrayList<String>
     private lateinit var model: Communicator
     private lateinit var adapter: MessagesFragmentAdapter
     private lateinit var lastMessagesList: ArrayList<LastMessage>
     private val userId = FirebaseAuth.getInstance().currentUser!!.uid
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        getMsgRef.removeEventListener(listener)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,41 +64,44 @@ class MessagesFragment : Fragment() {
     }
 
     private fun getLastMessages() {
-        FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Chats")
-            .addChildEventListener(object : ChildEventListener {
-                override fun onCancelled(p0: DatabaseError) {
-                }
+        getMsgRef =
+            FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Chats")
+        listener = getMsgRef.addChildEventListener(object : ChildEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+            }
 
-                override fun onChildMoved(p0: DataSnapshot, p1: String?) {
-                }
+            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+            }
 
-                override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-                    val chatId = p0.key.toString()
-                    val position: Int = lastMessagesChatIdList.indexOf(chatId)
-                    lastMessagesList[position] = p0.getValue(LastMessage::class.java)!!
-                    adapter.notifyItemChanged(position)
-                }
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                val chatId = p0.key.toString()
+                val position: Int = lastMessagesChatIdList.indexOf(chatId)
+                lastMessagesList[position] = p0.getValue(LastMessage::class.java)!!
+                adapter.notifyItemChanged(position)
+            }
 
-                override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                    when {
-                        p0.exists() -> {
-                            lastMessagesList.add(p0.getValue(LastMessage::class.java)!!)
-                            lastMessagesChatIdList.add(p0.key.toString())
-                        }
-                    }
-                    adapter.notifyDataSetChanged()
-
-                    try {
-                        view!!.findViewById<ConstraintLayout>(R.id.progress_circle_messages).visibility = View.INVISIBLE
-                    } catch (e: Exception) {
+            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                when {
+                    p0.exists() -> {
+                        lastMessagesList.add(p0.getValue(LastMessage::class.java)!!)
+                        lastMessagesChatIdList.add(p0.key.toString())
                     }
                 }
+                adapter.notifyDataSetChanged()
 
-                override fun onChildRemoved(p0: DataSnapshot) {
+                try {
+                    view!!.findViewById<ConstraintLayout>(R.id.progress_circle_messages)
+                        .visibility = View.INVISIBLE
+                } catch (e: Exception) {
                 }
-            })
+            }
+
+            override fun onChildRemoved(p0: DataSnapshot) {
+            }
+        })
         try {
-            view!!.findViewById<ConstraintLayout>(R.id.progress_circle_messages).visibility = View.INVISIBLE
+            view!!.findViewById<ConstraintLayout>(R.id.progress_circle_messages).visibility =
+                View.INVISIBLE
         } catch (e: Exception) {
         }
     }

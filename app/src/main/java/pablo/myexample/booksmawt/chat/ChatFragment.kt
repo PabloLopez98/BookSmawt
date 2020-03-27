@@ -40,8 +40,10 @@ import kotlin.properties.Delegates
 
 class ChatFragment : Fragment() {
 
+    private lateinit var listener: ChildEventListener
+    private lateinit var getMsgRef: DatabaseReference
     private var onePersonLeft: Boolean = false
-    private lateinit var lastMsg: LastMessage
+    //private lateinit var lastMsg: LastMessage
     private lateinit var thisUserObject: ChatProfile
     private lateinit var messagesList: ArrayList<LastMessage>
     private val baseRef = FirebaseDatabase.getInstance().reference.child("Chats")
@@ -70,7 +72,7 @@ class ChatFragment : Fragment() {
         messagesList = ArrayList()
         model = ViewModelProvider(activity!!).get(Communicator::class.java)
         model.lastMessageObj.observe(activity!!, Observer<LastMessage> { o ->
-            lastMsg = o
+            //lastMsg = o
             getData(o.chatId)
         })
 
@@ -118,8 +120,15 @@ class ChatFragment : Fragment() {
     }
 
     private fun toPreviewFragment() {
+
         model.passBookObj(binding.bookObj!!)
-        model.passLastMessageObj(lastMsg)
+
+        getMsgRef.removeEventListener(listener)
+
+        //model.passLastMessageObj(lastMsg)
+        //messagesList.clear()
+        //adapter.notifyDataSetChanged()
+
         activity!!.bottom_nav_view.visibility = View.INVISIBLE
         view!!.findNavController().navigate(R.id.action_chatFragment_to_previewFragment)
     }
@@ -158,6 +167,7 @@ class ChatFragment : Fragment() {
                     displayNameOnTop()
                 }
                 else -> {
+                    onePersonLeft = true
                 }
             }
         })
@@ -179,36 +189,36 @@ class ChatFragment : Fragment() {
     }
 
     private fun getMessages() {
-        baseRef.child(buyer.chatId).child("Messages")
-            .addChildEventListener(object : ChildEventListener {
-                override fun onCancelled(p0: DatabaseError) {
-                }
+        getMsgRef = baseRef.child(buyer.chatId).child("Messages")
+        listener = getMsgRef.addChildEventListener(object : ChildEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+            }
 
-                override fun onChildMoved(p0: DataSnapshot, p1: String?) {
-                }
+            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+            }
 
-                override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-                }
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+            }
 
-                override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                    when {
-                        p0.exists() -> {
-                            when {
-                                p0.getValue(LastMessage::class.java)!!.date != "N/A" -> messagesList.add(
-                                    p0.getValue(LastMessage::class.java)!!
-                                )
+            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                when {
+                    p0.exists() -> {
+                        when {
+                            p0.getValue(LastMessage::class.java)!!.date != "N/A" -> {
+                                messagesList.add(p0.getValue(LastMessage::class.java)!!)
                             }
                         }
-                        else -> {
-                        }
                     }
-                    adapter.notifyDataSetChanged()
+                    else -> {
+                        //do nothing
+                    }
                 }
+                adapter.notifyDataSetChanged()
+            }
 
-                override fun onChildRemoved(p0: DataSnapshot) {
-                }
-
-            })
+            override fun onChildRemoved(p0: DataSnapshot) {
+            }
+        })
     }
 
     private fun setUpRecyclerView() {
@@ -301,5 +311,10 @@ class ChatFragment : Fragment() {
             }
         }
         binding.chatFragInput.setText("")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        getMsgRef.removeEventListener(listener)
     }
 }

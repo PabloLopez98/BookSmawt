@@ -16,10 +16,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_base.*
 import pablo.myexample.booksmawt.Book
@@ -74,8 +71,7 @@ class ListFragment : Fragment() {
     }
 
     private fun getData() {
-        FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Cities")
-            .addListenerForSingleValueEvent(object :
+        FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Cities").addListenerForSingleValueEvent(object :
                 ValueEventListener {
                 override fun onCancelled(snapshotError: DatabaseError) {
                 }
@@ -96,4 +92,5 @@ class ListFragment : Fragment() {
                 }
             })
     }
+
 }
