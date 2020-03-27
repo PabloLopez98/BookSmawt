@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="bookObj"
             type="pablo.myexample.booksmawt.Book" />
@@ -32,6 +31,7 @@
 
                 <com.synnapps.carouselview.CarouselView
                     android:id="@+id/added_book_carousel"
+                    android:foreground="@drawable/image_overlay"
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
                     app:autoPlay="false"

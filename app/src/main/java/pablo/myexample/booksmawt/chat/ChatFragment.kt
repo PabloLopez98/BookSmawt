@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
@@ -40,6 +41,8 @@ import kotlin.properties.Delegates
 
 class ChatFragment : Fragment() {
 
+    private lateinit var lister: ValueEventListener
+    private lateinit var ref: DatabaseReference
     private lateinit var listener: ChildEventListener
     private lateinit var getMsgRef: DatabaseReference
     private var onePersonLeft: Boolean = false
@@ -54,6 +57,7 @@ class ChatFragment : Fragment() {
     private lateinit var binding: ChatFragmentBinding
     private lateinit var model: Communicator
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -66,6 +70,29 @@ class ChatFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
     }
 
+    private fun setUpPersonLeftListener(chatId: String) {
+        ref = baseRef.child(chatId)
+        lister = ref.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                when {
+                    snapshot.exists() -> {
+                        snapshot.children.forEach {
+                            when (it.key) {
+                                "OnePersonLeft" -> {
+                                    onePersonLeft = true
+                                    Log.i("ONEPERSONLEFT", onePersonLeft.toString())
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        })
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -74,6 +101,7 @@ class ChatFragment : Fragment() {
         model.lastMessageObj.observe(activity!!, Observer<LastMessage> { o ->
             //lastMsg = o
             getData(o.chatId)
+            setUpPersonLeftListener(o.chatId)
         })
 
         binding.chatFragSend.setOnClickListener {
@@ -124,7 +152,7 @@ class ChatFragment : Fragment() {
         model.passBookObj(binding.bookObj!!)
 
         getMsgRef.removeEventListener(listener)
-
+        ref.removeEventListener(lister)
         //model.passLastMessageObj(lastMsg)
         //messagesList.clear()
         //adapter.notifyDataSetChanged()
@@ -316,5 +344,6 @@ class ChatFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         getMsgRef.removeEventListener(listener)
+        ref.removeEventListener(lister)
     }
 }

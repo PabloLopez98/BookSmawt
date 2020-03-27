@@ -112,7 +112,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout7"
-            tools:listitem="@layout/chat_item_two" />
+            tools:listitem="@layout/chat_item" />
 
         <LinearLayout
             android:id="@+id/linearLayout7"
