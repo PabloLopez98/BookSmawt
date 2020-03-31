@@ -286,7 +286,7 @@ class SearchFilterFragment : Fragment() {
         when {
             location.isNotEmpty() -> {
                 val url =
-                    "https://maps.googleapis.com/maps/api/geocode/json?address=" + location + "&key=" + R.string.api_key
+                    "https://maps.googleapis.com/maps/api/geocode/json?address=" + location + "&key=AIzaSyCIdCaG2CZmkG0yezN3RSGc-eNFpnUireM"
                 val queue = Volley.newRequestQueue(context)
                 val stringRequest = JsonObjectRequest(
                     Request.Method.GET,

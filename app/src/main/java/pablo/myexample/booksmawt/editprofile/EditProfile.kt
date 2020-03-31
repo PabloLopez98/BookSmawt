@@ -6,6 +6,8 @@ import android.net.Uri
 import android.content.ContentResolver
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -40,6 +42,7 @@ import pablo.myexample.booksmawt.Profile
 
 import pablo.myexample.booksmawt.R
 import pablo.myexample.booksmawt.databinding.EditProfileFragmentBinding
+import java.io.File
 
 class EditProfile : Fragment() {
 
@@ -323,7 +326,7 @@ class EditProfile : Fragment() {
         when {
             location.isNotEmpty() -> {
                 val url =
-                    "https://maps.googleapis.com/maps/api/geocode/json?address=" + location + "&key=" + R.string.api_key
+                    "https://maps.googleapis.com/maps/api/geocode/json?address=" + location + "&key=AIzaSyCIdCaG2CZmkG0yezN3RSGc-eNFpnUireM"
                 val queue = Volley.newRequestQueue(context)
                 val stringRequest = JsonObjectRequest(
                     Request.Method.GET,
@@ -392,7 +395,7 @@ class EditProfile : Fragment() {
     }
 
     private fun uploadImageAndGetUrl() {
-        if(imageUri != null) {
+        if (imageUri != null) {
             //leave that uri
             val endNode = "Profile." + getExtension()
             val storageRef =
@@ -421,8 +424,12 @@ class EditProfile : Fragment() {
                     }
                 }
             }
-        }else{
-            uploadToDatabase(binding.newLocationEt.text.toString(), binding.newNameEt.text.toString(), binding.profileObj!!.url)
+        } else {
+            uploadToDatabase(
+                binding.newLocationEt.text.toString(),
+                binding.newNameEt.text.toString(),
+                binding.profileObj!!.url
+            )
         }
     }
 
