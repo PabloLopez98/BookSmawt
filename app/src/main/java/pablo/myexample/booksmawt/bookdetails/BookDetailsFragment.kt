@@ -177,6 +177,7 @@ class BookDetailsFragment : Fragment() {
                 lastMessageObjRef.child(buyer.id).child("Chats").child(lastMessageObj.chatId)
                     .setValue(lastMessageObj)
                 //change for other guys name since he is the owner
+                lastMessageObj.imageUrl = buyer.url
                 lastMessageObj.name = buyer.name
                 lastMessageObjRef.child(owner.id).child("Chats").child(lastMessageObj.chatId)
                     .setValue(lastMessageObj)

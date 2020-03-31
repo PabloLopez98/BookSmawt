@@ -20,6 +20,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -30,6 +34,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.activity_create_account.*
 import kotlinx.android.synthetic.main.edit_profile_fragment.*
+import org.json.JSONObject
 import pablo.myexample.booksmawt.Communicator
 import pablo.myexample.booksmawt.Profile
 
@@ -38,12 +43,14 @@ import pablo.myexample.booksmawt.databinding.EditProfileFragmentBinding
 
 class EditProfile : Fragment() {
 
+    private lateinit var formalAddress: String
     private lateinit var userId: String
     private val PICK_IMAGE_REQUEST = 1
     private lateinit var binding: EditProfileFragmentBinding
     private lateinit var model: Communicator
-    private lateinit var imageUri: Uri
+    private var imageUri: Uri? = null
     private val cityArray = arrayListOf(
+        "Santa Fe Springs",
         "Los Angeles",
         "San Diego",
         "San Jose",
@@ -271,12 +278,14 @@ class EditProfile : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.edit_profile_fragment, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.edit_profile_fragment, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        formalAddress = ""
         model = ViewModelProvider(activity!!).get(Communicator::class.java)
         model.profileObj.observe(activity!!, Observer<Profile> { o ->
             binding.profileObj = o
@@ -302,7 +311,53 @@ class EditProfile : Fragment() {
         apply_button.setOnClickListener {
             checkEmptyFields()
         }
+        verify_location_button.setOnClickListener {
+            verifyLocation()
+        }
         userId = FirebaseAuth.getInstance().currentUser!!.uid
+    }
+
+    private fun verifyLocation() {
+        val location = binding.newLocationEt.text.toString()
+        binding.newLocationEt.setText("verifying...")
+        when {
+            location.isNotEmpty() -> {
+                val url =
+                    "https://maps.googleapis.com/maps/api/geocode/json?address=" + location + "&key=" + R.string.api_key
+                val queue = Volley.newRequestQueue(context)
+                val stringRequest = JsonObjectRequest(
+                    Request.Method.GET,
+                    url,
+                    null,
+                    Response.Listener<JSONObject?> { response ->
+                        try {
+                            val jsonArray = response!!.getJSONArray("results")
+                            val jsonObject = jsonArray.getJSONObject(0)
+                            formalAddress = jsonObject.getString("formatted_address")
+                            val newFA = formalAddress.replace(",", "").split(" ")
+                            val theLength: Int = newFA.size
+                            if (newFA[theLength - 1] == "USA" && newFA[theLength - 2].length == 2) {
+                                binding.newLocationEt.setText(formalAddress)
+                                binding.okFlag.visibility = View.VISIBLE
+                            } else {
+                                binding.newLocationEt.setText("Cannot Verify")
+                                binding.okFlag.visibility = View.INVISIBLE
+                                formalAddress = ""
+                            }
+                        } catch (e: Exception) {
+                            binding.newLocationEt.setText("Cannot Verify")
+                            binding.okFlag.visibility = View.INVISIBLE
+                            formalAddress = ""
+                        }
+                    },
+                    Response.ErrorListener {
+                        binding.newLocationEt.setText("Cannot Verify")
+                        binding.okFlag.visibility = View.INVISIBLE
+                        formalAddress = ""
+                    })
+                queue.add(stringRequest)
+            }
+        }
     }
 
     private fun checkEmptyFields() {
@@ -317,7 +372,7 @@ class EditProfile : Fragment() {
 
     private fun verifyAddress() {
         when {
-            binding.newLocationEt.text.toString() in cityArray -> {
+            formalAddress != "" -> {
                 inspectImageView()
             }
             else -> {
@@ -327,8 +382,8 @@ class EditProfile : Fragment() {
     }
 
     private fun inspectImageView() {
-        when {
-            image_view_top.drawable == null -> snackBar("Image input is empty")
+        when (image_view_top.drawable) {
+            null -> snackBar("Image input is empty")
             else -> {
                 binding.progressCircleEp.visibility = View.VISIBLE
                 uploadImageAndGetUrl()
@@ -337,31 +392,37 @@ class EditProfile : Fragment() {
     }
 
     private fun uploadImageAndGetUrl() {
-        val endNode = "Profile." + getExtension()
-        val storageRef = FirebaseStorage.getInstance().reference.child("Users").child(userId).child(endNode)
-        storageRef.putFile(imageUri).continueWithTask { task ->
-            when {
-                !task.isSuccessful -> {
-                    binding.progressCircleEp.visibility = View.INVISIBLE
-                    snackBar("Edit Failed!. Try again.")
+        if(imageUri != null) {
+            //leave that uri
+            val endNode = "Profile." + getExtension()
+            val storageRef =
+                FirebaseStorage.getInstance().reference.child("Users").child(userId).child(endNode)
+            storageRef.putFile(imageUri!!).continueWithTask { task ->
+                when {
+                    !task.isSuccessful -> {
+                        binding.progressCircleEp.visibility = View.INVISIBLE
+                        snackBar("Edit Failed!. Try again.")
+                    }
+                }
+                storageRef.downloadUrl
+            }.addOnCompleteListener { task ->
+                when {
+                    task.isSuccessful -> {
+                        val downloadUrl = task.result.toString()
+                        uploadToDatabase(
+                            binding.newLocationEt.text.toString(),
+                            binding.newNameEt.text.toString(),
+                            downloadUrl
+                        )
+                    }
+                    else -> {
+                        binding.progressCircleEp.visibility = View.INVISIBLE
+                        snackBar("Edit Failed!. Try again.")
+                    }
                 }
             }
-            storageRef.downloadUrl
-        }.addOnCompleteListener { task ->
-            when {
-                task.isSuccessful -> {
-                    val downloadUrl = task.result.toString()
-                    uploadToDatabase(
-                        binding.newLocationEt.text.toString(),
-                        binding.newNameEt.text.toString(),
-                        downloadUrl
-                    )
-                }
-                else -> {
-                    binding.progressCircleEp.visibility = View.INVISIBLE
-                    snackBar("Edit Failed!. Try again.")
-                }
-            }
+        }else{
+            uploadToDatabase(binding.newLocationEt.text.toString(), binding.newNameEt.text.toString(), binding.profileObj!!.url)
         }
     }
 

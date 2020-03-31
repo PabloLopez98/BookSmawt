@@ -56,23 +56,44 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:backgroundTint="@android:color/transparent"
-                android:singleLine="true"
                 android:completionThreshold="3"
-                android:hint="Location"
+                android:hint="City, CA"
                 android:imeOptions="actionDone"
-                android:textColorHint="@android:color/black"
+                android:singleLine="true"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
+                android:textColorHint="@android:color/black"
                 android:textStyle="bold" />
 
             <ImageView
+                android:id="@+id/ok_flag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_arrow_back_24px"
+                android:visibility="invisible"
+                android:background="@android:drawable/checkbox_on_background"
                 android:tint="@color/search_filter_input" />
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/verify_location_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:background="@color/myLightGreen"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="Verify Location"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText" />
 
         <TextView
             android:id="@+id/textView3"
@@ -85,7 +106,7 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText" />
+            app:layout_constraintTop_toBottomOf="@+id/verify_location_button" />
 
         <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
             android:id="@+id/search_filter_seekbar"
@@ -144,10 +165,10 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/search_filter_toolbar"
-            android:elevation="4dp"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/myGreen"
+            android:elevation="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -159,20 +180,20 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="start"
-                android:tint="@android:color/white"
                 android:background="@drawable/ripple"
                 android:contentDescription="@null"
-                android:src="@drawable/ic_arrow_back_24px" />
+                android:src="@drawable/ic_arrow_back_24px"
+                android:tint="@android:color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center"
                 android:layout_gravity="center"
+                android:gravity="center"
                 android:text="Search Filter"
-                android:textStyle="bold"
                 android:textColor="@android:color/white"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
         </androidx.appcompat.widget.Toolbar>
 

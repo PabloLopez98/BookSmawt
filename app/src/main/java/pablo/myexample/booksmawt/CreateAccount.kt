@@ -136,7 +136,7 @@ class CreateAccount : AppCompatActivity() {
     }
 
     private fun updateDatabase(view: View) {
-        val profile = Profile(usernameET.text.toString(), "Los Angeles, CA", "empty")
+        val profile = Profile(usernameET.text.toString(), "Los Angeles, CA, USA", "empty")
         val id: String = mAuth.currentUser?.uid.toString()
         val mRef =
             FirebaseDatabase.getInstance().reference.child("Users").child(id).child("Profile")

@@ -1,38 +1,35 @@
 package pablo.myexample.booksmawt.searchfilter
 
-import android.location.Geocoder
-import android.location.Location
-import androidx.lifecycle.ViewModelProviders
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.TextView
 import android.widget.Toast
-import android.widget.Toolbar
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
-import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
-import kotlinx.android.synthetic.main.activity_base.*
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.VolleyError
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
+import org.json.JSONObject
 import pablo.myexample.booksmawt.Communicator
 import pablo.myexample.booksmawt.Filter
-
 import pablo.myexample.booksmawt.R
 import pablo.myexample.booksmawt.databinding.SearchFilterFragmentBinding
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.math.min
+
 
 class SearchFilterFragment : Fragment() {
 
+    private lateinit var formalAddress: String
     private lateinit var model: Communicator
     private lateinit var binding: SearchFilterFragmentBinding
     private val cityArray = arrayListOf(
+        "Santa Fe Springs",
         "Los Angeles",
         "San Diego",
         "San Jose",
@@ -252,12 +249,14 @@ class SearchFilterFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.search_filter_fragment, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.search_filter_fragment, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        formalAddress = ""
         model = ViewModelProvider(activity!!).get(Communicator::class.java)
         binding.apply {
             searchFilterSeekbar.setOnRangeSeekbarChangeListener { minValue, maxValue ->
@@ -273,27 +272,72 @@ class SearchFilterFragment : Fragment() {
             applyButton.setOnClickListener {
                 checkLocation()
             }
+            verifyLocationButton.setOnClickListener {
+                verifyLocation()
+            }
             val adapter = ArrayAdapter(context, android.R.layout.select_dialog_item, cityArray)
             locationEt.setAdapter(adapter)
         }
     }
 
+    private fun verifyLocation() {
+        val location = binding.locationEt.text.toString()
+        binding.locationEt.setText("verifying...")
+        when {
+            location.isNotEmpty() -> {
+                val url =
+                    "https://maps.googleapis.com/maps/api/geocode/json?address=" + location + "&key=" + R.string.api_key
+                val queue = Volley.newRequestQueue(context)
+                val stringRequest = JsonObjectRequest(
+                    Request.Method.GET,
+                    url,
+                    null,
+                    Response.Listener<JSONObject?> { response ->
+                        try {
+                            val jsonArray = response!!.getJSONArray("results")
+                            val jsonObject = jsonArray.getJSONObject(0)
+                            formalAddress = jsonObject.getString("formatted_address")
+                            val newFA = formalAddress.replace(",", "").split(" ")
+                            val theLength: Int = newFA.size
+                            if (newFA[theLength - 1] == "USA" && newFA[theLength - 2].length == 2) {
+                                binding.locationEt.setText(formalAddress)
+                                binding.okFlag.visibility = View.VISIBLE
+                            } else {
+                                binding.locationEt.setText("Cannot Verify")
+                                binding.okFlag.visibility = View.INVISIBLE
+                                formalAddress = ""
+                            }
+                        } catch (e: Exception) {
+                            binding.locationEt.setText("Cannot Verify")
+                            binding.okFlag.visibility = View.INVISIBLE
+                            formalAddress = ""
+                        }
+                    },
+                    Response.ErrorListener {
+                        binding.locationEt.setText("Cannot Verify")
+                        binding.okFlag.visibility = View.INVISIBLE
+                        formalAddress = ""
+                    })
+                queue.add(stringRequest)
+            }
+        }
+    }
+
     private fun checkLocation() {
         when {
-            binding.locationEt.text.toString() in cityArray -> {
+            formalAddress != "" -> {
                 collectDataAndPassObj()
             }
             else -> {
-                Toast.makeText(context, "Location cannot be verified", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Cannot Verify Location", Toast.LENGTH_LONG).show()
             }
         }
     }
 
     private fun collectDataAndPassObj() {
-        val loc : String = binding.locationEt.text.toString()
-        val min : String = binding.minimum.text.toString()
-        val max : String = binding.maximum.text.toString()
-        val filterObj = Filter(loc, min, max)
+        val min: String = binding.minimum.text.toString()
+        val max: String = binding.maximum.text.toString()
+        val filterObj = Filter(formalAddress, min, max)
         model.passFilterObj(filterObj)
         backToSearch()
     }
