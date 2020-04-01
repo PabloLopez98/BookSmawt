@@ -5,7 +5,7 @@ BookSmawt is an app on the google playstore which allows one to buy or sell used
 There are 4 activities:
 - Before Signing In
 1) MainActivity (Splash screen activity)
-2) Login (Sign in activity)
+2) Login (Activity where users sign in with valid email/password, google, or twitter)
 3) CreateAccount (register via email and password activity)
 - After Signing In
 4) Base (activity which holds every fragment)
