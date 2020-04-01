@@ -42,7 +42,7 @@ There are 4 activities:
 <img align="left" src="https://user-images.githubusercontent.com/51018556/78112358-f92bed80-73b2-11ea-9ee1-2cd254cd793d.png" width="200">
 <img align="left" src="https://user-images.githubusercontent.com/51018556/78112362-fa5d1a80-73b2-11ea-8265-5bac7e593bca.png" width="200">
 <img align="left" src="https://user-images.githubusercontent.com/51018556/78112365-faf5b100-73b2-11ea-8084-d8dd4b6f769a.png" width="200">
-<img src="https://user-images.githubusercontent.com/51018556/78112367-fb8e4780-73b2-11ea-9dc8-56fc7c27eba0.png
+<img src="https://user-images.githubusercontent.com/51018556/78112367-fb8e4780-73b2-11ea-9dc8-56fc7c27eba0.png"
 width="200">
 <img align="left" src="https://user-images.githubusercontent.com/51018556/78112371-fcbf7480-73b2-11ea-9a65-042798294c68.png" width="200">
 <img align="left" src="https://user-images.githubusercontent.com/51018556/78112378-fdf0a180-73b2-11ea-9183-06b1f5bc0131.png" width="200">
