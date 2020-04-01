@@ -20,9 +20,24 @@ There are 4 activities:
 8) PreviewFragment (User sees a preview of the uploaded book once inside the ChatFragment)
 9) ProfileFragment (User sees his/her profile info)
 10) SearchFragment (User searches for a book via 13 digit ISBN number)
-11) AddFragment (User uploads a book to sell)
-
-
+11) SearchFilterFragment (filter search by city and price)
+12) AddFragment (User uploads a book to sell)
+## Data Classes
+1) Book
+2) ChatProfile
+3) Filter
+4) LastMessage
+5) Message
+6) Profile
+## RecyclerView Adapters
+1) ListFragmentAdapter (to display books uploaded)
+2) MessagesFragmentAdapter (to display users current user is chatting with)
+## ViewModel
+1) Communicator (holds different methods to transfer live data)
+## Service
+1) Service (pushes local notification to user if a text message arrives)
+## Other
+1) SendPush (class holds method to send a push notification to user in opposite end of chat)
 
 
 
