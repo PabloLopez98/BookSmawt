@@ -1,7 +1,6 @@
 # BookSmawt
 ## Purpose Of The App
 BookSmawt is an app on the google playstore which allows one to buy or sell used books by searching or posting in a specific city. Books are identified by their 13 digit ISBN number.
-Users sign in with google, twitter, or valid email & password.
 ## Activities
 There are 4 activities:
 - Before Signing In
