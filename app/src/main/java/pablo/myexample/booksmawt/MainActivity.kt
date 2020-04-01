@@ -10,11 +10,14 @@ import com.google.firebase.auth.FirebaseAuth
 import java.util.*
 import kotlin.concurrent.schedule
 
-
+/*
+This serves as the splash screen.
+*/
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        //Hide the bottom navigation keys of the phone
         window.decorView.apply {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE
             setOnSystemUiVisibilityChangeListener { visibility ->
@@ -30,6 +33,11 @@ class MainActivity : AppCompatActivity() {
         check()
     }
 
+    /*
+    check if the user is logged in
+    logged in, then send user to Base activity
+    else, send user to Login activity
+    */
     private fun check() {
         when {
             FirebaseAuth.getInstance().currentUser != null -> toBase()
