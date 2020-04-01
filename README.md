@@ -39,7 +39,7 @@ There are 4 activities:
 ## Other
 1) SendPush (class holds method to send a push notification to user in opposite end of chat)
 ## Screenshots
-<img align="left" src="https://user-images.githubusercontent.com/51018556/72857012-3ec09180-3c71-11ea-945d-541dc8a81936.png" width="200">
+<img align="left" src="https://user-images.githubusercontent.com/51018556/78112358-f92bed80-73b2-11ea-9ee1-2cd254cd793d.png" width="200">
 <img align="left" src="https://user-images.githubusercontent.com/51018556/72857457-809e0780-3c72-11ea-82f4-867028f15935.png" width="200">
 <img align="left" src="https://user-images.githubusercontent.com/51018556/72857577-e7bbbc00-3c72-11ea-9a23-ebe6c77b5959.png" width="200">
 <img src="https://user-images.githubusercontent.com/51018556/72857583-ebe7d980-3c72-11ea-91a3-da671691a653.png" width="200">
