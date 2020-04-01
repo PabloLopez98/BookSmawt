@@ -67,7 +67,7 @@ class BookDetailsFragment : Fragment() {
         binding.apply {
             val images = book.urlList
             val imageListener = ImageListener { position, imageView ->
-                Picasso.get().load(images[position]).into(imageView)
+                Picasso.get().load(images[position]).rotate(90F).into(imageView)
             }
             bookDetailsCarousel.setImageListener(imageListener)
             bookDetailsCarousel.pageCount = images.size
@@ -78,7 +78,7 @@ class BookDetailsFragment : Fragment() {
                 dialog.setContentView(theView)
                 val imageViewDisplayArea = theView.findViewById<ImageView>(R.id.image_display)
                 val imageClicked = images[position]
-                Picasso.get().load(imageClicked).into(imageViewDisplayArea)
+                Picasso.get().load(imageClicked).rotate(90F).into(imageViewDisplayArea)
                 dialog.show()
             })
             backArrowDetails.setOnClickListener {

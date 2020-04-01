@@ -179,7 +179,7 @@ class ChatFragment : Fragment() {
                                 val bookObj = it.getValue(Book::class.java)
                                 binding.bookObj = bookObj
                                 Picasso.get().load(bookObj!!.urlList[0]).fit().centerCrop()
-                                    .into(binding.chatFragImage)
+                                    .rotate(90F).into(binding.chatFragImage)
                             }
                             "Buyer" -> {
                                 buyer = it.getValue(ChatProfile::class.java)!!

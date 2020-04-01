@@ -36,7 +36,7 @@ class ListFragmentAdapter(val bookList: ArrayList<Book>, private val clickListen
     //the class is hodling the list view
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindItems(obj: Book, clickListener: (Book) -> Unit) {
-            Picasso.get().load(obj.urlList[0]).fit().centerCrop().into(itemView.image)
+            Picasso.get().load(obj.urlList[0]).fit().centerCrop().rotate(90F).into(itemView.image)
             itemView.title.text = obj.title
             itemView.author.text = obj.author
             itemView.isbn.text = obj.isbn
